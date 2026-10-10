@@ -1,0 +1,25 @@
+type,word,period,snippet
+false_positive,motiv,1880-1883,"Hwilka [[motiv]] som hänvid leda wal männen synes nära nog ofattligt , och dessa röja "
+false_positive,fröken,2014-2015,"” Hedebyborna ” , eller från filmer som ” Raskenstam ” , ” Swing it , [[fröken]] ” eller Lasse Åbergs ” Den ofrivillige golfaren ” ."
+false_positive,kvinna,1880-1883,"ch himmel som vittnen , att fion känt , mycket mindre behandlat någon [[kvinna]] , boende i det hus inom Johannes ’ församling , hvars nummer inför rä"
+false_positive,motiv,1912-1915,"med en utvikande mening , utveckla [[motiven]] därtill och tå dem ; r I kollförda utan att behöfva riskera att bliua"
+false_positive,motiv,2018-2019,sitt stöd till att utveckla koncept för testbanan Jörn-Arvidsjaur och [[motivet]] för detta är enligt regionen flera .
+false_positive,kvinna,1896-1899," , 2,391 kvinnor ech 2,711 barn , däraf å landsbygden 949 män , 2,148 [[kvinnor]] och 2,476 barn samt i städerna 83 män , 243 kvinnor och 235 barn ."
+false_positive,motiv,2010-2011,an Jerzy Buzek kritiserade på fredagen Ukraina för att ha ” politiska [[motiv]] ” till häktningen och uppmanade till en rättvis rättegång .
+false_positive,motiv,2018-2019,"När det inte finns någon gärningsperson , offer eller [[motiv]] för händelsen finns det inte mycket att gå på , utöver de tekniska be"
+false_positive,herre,2010-2011,Men det var inte bara socialdemokrater som ville ha en ändring – ” [[herrar]] Romanus ( fp ) och Molin ( fp ) ” ville också ha en översyn av de akt
+false_positive,herre,1912-1915,K:s yttrande öfver [[Herrar]] E. Svänssons och K. Danielssons motion om anslag för anordnande af ba
+false_positive,dumpa,2014-2015,moment utgör den iranska råoljan som väntas komma ut på marknaden och [[dumpa]] priserna i och med att USA hävt sina sanktioner mot landet .
+false_positive,suga,2022-2023,"– Det [[suger]] , de har några chanser och sådant där , men det är för dåligt bara , "
+false_negative,exportera,2018-2019,"erar man att odla tio gånger fler bananer i år och överväger även att [[exportera]] bananer i framtiden , skriver the Guardian ."
+false_negative,exportera,2018-2019,"Om det införs höga tullar kommer det att bli dyrare att [[exportera]] och då slå mot Sveriges företag , jobb och tillväxt , menar hon"
+false_negative,fru,2010-2011,"nt och trots många försök finns det inga nyheter om Karroubi och hans [[fru]] ” , skrev Sahamnews på tisdagen ."
+false_negative,fru,2006-2007,"gsson dömdes till tre månaders fängelse för att ha misshandlat sin fd [[fru]] , hittades ” kva- lificerat hemliga ” handlingar utsprid- da i hans h"
+false_negative,exportera,2006-2007,"Förra året [[exporterade]] Hägglunds för drygt 1,2 miljarder kronor , varav 671 miljoner räknas "
+false_negative,motiv,1880-1883,"imvib , ja till och meb bet bekanta apotekshuset , lika , font öfriga [[motiv]] , äro fatttlabe på platsen ."
+false_negative,fru,1880-1883,", Dam- och Baraskodon Allt försäljes till de bi ilig ' ste priser oti [[Fru]] Jonssons Gkohandet ."
+false_negative,exportera,2018-2019,"– Sverige har så vitt vi kan se [[exporterat]] mindre om man jämför två femårsperioder , säger Pieter Wezeman vid St"
+false_negative,förort,2022-2023,Enligt Mohamed har ” alla hört många historier från [[förorten]] ” om att socialtjänsten ” tar barn för väldigt små anledningar ” .
+false_negative,fru,1880-1883,"rligtvis ytterligt förargad , och hänsköt ärendet till stadsfiskalens [[fru]] , hvilken var ott literärt bildadt fruntimmer , enär hon i tre år för"
+false_negative,förort,2010-2011,"Och upprustningen blev det inte mycket av i [[förorten]] , i Rinkeby galleria till exempel var säkerheten så dålig förra året "
+false_negative,dumpa,2006-2007,orrland har beslutat om nya undersökningar av de tusentals tunnor som [[dumpats]] i havet utanför Åstön i Sundsvallsbukten .
