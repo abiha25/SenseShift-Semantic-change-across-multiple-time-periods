@@ -90,34 +90,45 @@ Report: Section 6.2 (Baseline B), Section 8 (Results), Section 9 (Error Analysis
 
 | File | What it does |
 |---|---|
-| `src/<embedding_script>.py` / `notebooks/<colab_notebook>.ipynb` | Extracts frozen usage embeddings (XL-LEXEME `pierluigic/xl-lexeme`, XLM-R `xlm-roberta-base` layer 8) on Colab and saves them to disk |
-| `src/<pretrained_baseline>.py` | Clusters the saved vectors (agglomerative with per-encoder distance-percentile thresholds, and K-means + silhouette), LOWO selection, shuffle control, writes official-format predictions |
-| `src/error_analysis.py` | Reads any system's official prediction file and produces the error-analysis tables (by word, sense rarity, period/era, period pair; Subtask 2 false positives/negatives) |
-| `results/pretrained/` | Saved embeddings (or their location), predictions (official format), result tables (CSV) |
-| `results/error_analysis/` | CSV tables used in Section 9 of the report |
+| `src/pretrained_baseline.py` | Baseline B end to end: extracts frozen XL-LEXEME and XLM-R (layer 8) usage vectors, clusters them (agglomerative with per-encoder distance-percentile thresholds, and K-means + silhouette), LOWO selection, shuffle control, Subtask 2 zero-shot scoring, writes official-format predictions. `--reuse-vectors <dir>` redoes the clustering from saved vectors without any model |
+| `src/error_analysis.py` | Reads any system's official prediction files and writes the error-analysis tables (by word, sense rarity, period/era, period pair; Subtask 2 false positives/negatives) |
+| `results/pretrained/` | Baseline B predictions (official format), `summary.json` (final grid), `summary_v1_original_grid.json` (first run with the Baseline A threshold grid, kept to document why the grid was changed), saved `*_vectors.npy` |
+| `results/error_analysis/` | CSV tables used in Section 9 of the report (`A_*` = Baseline A, `B_*` = Baseline B) |
 
 ### How to run (reproduction order)
 
+Run everything from the repo root.
+
 ```bash
-pip install -r requirements.txt            # must include torch and transformers
+pip install -r requirements.txt            # includes torch and transformers
 
-# 1. Data and shared loader (see "Data and EDA" above): unzip dev.zip into DATA_DIR
-python src/sanity_check.py                 # trivial baselines: one cluster = 0.756, all-1 = 0.472
+# 1. Check the scoring setup (trivial baselines: one cluster = 0.756, all-1 = 0.472)
+python src/sanity_check.py
 
-# 2. Baseline A
-python run_person3.py
+# 2. Baseline A: run notebooks/classical_baselineA.ipynb (writes results/classical/)
 
-# 3. Embeddings (GPU recommended): run the Colab notebook or the embedding script
-#    notebooks/<colab_notebook>.ipynb   or   python src/<embedding_script>.py
+# 3. Baseline B: extracts the embeddings and runs clustering + scoring (GPU recommended, ~10-20 min)
+python -m src.pretrained_baseline --data data --out results/pretrained
 
-# 4. Baseline B clustering and scoring (uses the saved embeddings)
-python src/<pretrained_baseline>.py
+#    Clustering only, from the saved vectors (no model download, a few minutes):
+python -m src.pretrained_baseline --data data --out results/pretrained --reuse-vectors results/pretrained
 
-# 5. Error analysis (works on any official prediction file)
-python src/error_analysis.py
+# 4. Error analysis (one call per system)
+python -m src.error_analysis --data data --system B_xllex \
+    --s1 results/pretrained/SV_subtask1_xllex_combined.jsonl \
+    --s2 results/pretrained/SV_subtask2_xllex_cos_rankthr.jsonl --out results/error_analysis
+python -m src.error_analysis --data data --system B_xllex_kmeans \
+    --s1 results/pretrained/SV_subtask1_xllex_kmeans.jsonl --out results/error_analysis
+python -m src.error_analysis --data data --system A_combined \
+    --s1 results/classical/SV_subtask1_combined.jsonl \
+    --s2 results/classical/SV_subtask2_LR_rank_thr_0.5.jsonl --out results/error_analysis
+python -m src.error_analysis --data data --system A_kmeans \
+    --s1 results/classical/SV_subtask1_kmeans.jsonl --out results/error_analysis
+python -m src.error_analysis --data data --system A_tfidf \
+    --s2 results/classical/SV_subtask2_tfidf_LR.jsonl --out results/error_analysis
 ```
 
-Seed 42 everywhere. Embeddings were extracted once on Google Colab (**T4 GPU**) with PyTorch 2.11.0 and Transformers 5.18.0. All clustering runs from the saved vectors.
+Seed 42 everywhere. The embeddings were extracted once on Google Colab (T4 GPU) with PyTorch 2.11.0 and Transformers 5.18.0.
 
 ### Method in short
 
