@@ -129,9 +129,29 @@ def DenseWrap(X):
     return sp.csr_matrix(X / np.linalg.norm(X, axis=1, keepdims=True))
 
 
-def cluster_all_words(df, V, thresholds=cb.THRESHOLDS, min_sizes=cb.MIN_SIZES):
+QUANTILES = (5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90)
+
+
+def quantile_thresholds(df, V, qs=QUANTILES):
+    """Distance thresholds t = q-th percentile of the POOLED within-word pairwise
+    cosine distances of this encoder. Label-free. Needed because Baseline A's
+    grid (0.80-0.99) is meant for sparse TF-IDF; all dense-embedding distances
+    are < 0.3, so that grid merges every word into one cluster."""
+    d = []
+    for _, g in df.groupby('word'):
+        X = V[g.index.values]
+        X = X / np.linalg.norm(X, axis=1, keepdims=True)
+        D = 1 - X @ X.T
+        d.append(D[np.triu_indices(len(X), 1)])
+    d = np.concatenate(d)
+    return [round(float(np.percentile(d, q)), 4) for q in qs]
+
+
+def cluster_all_words(df, V, thresholds=None, min_sizes=cb.MIN_SIZES):
     """{(t, m): {word: labels}} on dense vectors V (rows aligned with df)."""
     grid = {}
+    if thresholds is None:
+        thresholds = quantile_thresholds(df, V)
     for w, g in df.groupby('word'):
         Xw = DenseWrap(V[g.index.values])
         for key, lab in cb.agglomerative_labels(Xw, thresholds, min_sizes).items():
@@ -264,12 +284,26 @@ def main():
     ap.add_argument('--out', default='results/pretrained')
     ap.add_argument('--llm', default=None, help='HF id of an instruction-tuned LLM (optional)')
     ap.add_argument('--skip-xlmr', action='store_true')
+    ap.add_argument('--reuse-vectors', default=None, help='dir with saved *_vectors.npy: redo Subtask 1 clustering only, no model needed')
     a = ap.parse_args()
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     df = load_language(a.data, 'SV').reset_index(drop=True)
     gold1, gold2 = f'{a.data}/SV/subtask1.jsonl', f'{a.data}/SV/subtask2.jsonl'
     summary, s2_scores = {}, {}
+
+    if a.reuse_vectors:                      # clustering only, from saved vectors
+        for tag in ['xllex', 'xllex_rawspelling', 'xlmr8']:
+            f = Path(a.reuse_vectors) / f'{tag}_vectors.npy'
+            if f.exists():
+                V = np.load(f)
+                print(tag, 'thresholds', quantile_thresholds(df, V))
+                summary.update(run_subtask1(df, V, tag, gold1, out))
+        with open(out / 'summary.json', 'w', encoding='utf-8') as fh:
+            json.dump(summary, fh, indent=2, ensure_ascii=False, default=float)
+        for k, v in summary.items():
+            print(k, {m: round(v[m], 3) for m in ('precision', 'recall', 'f1', 'rho', 'rho_within_era', 'shuffled_mean', 'shuffled_sd') if m in v})
+        return
 
     # ---- XL-LEXEME (main pretrained system), raw and spelling-normalised
     for norm in [True, False]:
