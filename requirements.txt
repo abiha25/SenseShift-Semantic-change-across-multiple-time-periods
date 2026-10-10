@@ -1,0 +1,12 @@
+# SenseShift - SemEval-2027 Task 3
+# Python 3.12 (64-bit) 
+# pip install -r requirements.txt
+
+
+bcubed>=1.5
+numpy>=1.26
+scipy>=1.11
+scikit-learn>=1.4
+pandas>=2.0
+matplotlib>=3.8
+nltk>=3.8          # Person 3: Snowball Swedish stemmer (no download needed)
