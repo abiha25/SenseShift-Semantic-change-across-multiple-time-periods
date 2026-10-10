@@ -1,0 +1,11 @@
+,1a,combined,1b
+dumpa,char-pm3|t=0.8|m=15,both-pm5|t=0.93|m=30,char-pm10|t=0.93|m=15
+exportera,char-pm3|t=0.8|m=15,both-pm5|t=0.93|m=30,char-pm10|t=0.93|m=15
+fru,word-all|t=0.85|m=10,both-pm5|t=0.85|m=10,both-pm5|t=0.85|m=10
+fröken,char-pm3|t=0.8|m=15,both-pm5|t=0.93|m=30,char-pm10|t=0.93|m=15
+förort,char-pm3|t=0.8|m=10,both-pm5|t=0.93|m=30,char-pm10|t=0.93|m=10
+herre,char-pm3|t=0.8|m=15,both-pm5|t=0.93|m=30,char-pm10|t=0.93|m=15
+kvinna,char-pm3|t=0.8|m=15,both-pm5|t=0.93|m=30,char-pm3|t=0.95|m=10
+motiv,char-pm3|t=0.8|m=15,both-pm5|t=0.93|m=30,char-pm10|t=0.93|m=10
+skär,char-pm3|t=0.8|m=15,both-pm5|t=0.93|m=30,char-pm5|t=0.9|m=10
+suga,char-pm3|t=0.8|m=15,both-pm10|t=0.97|m=10,both-pm10|t=0.97|m=10

@@ -1,0 +1,8 @@
+,B3 F1,rho,rho within-era
+char n-grams only (all windows),0.756,,
+word n-grams only (all windows),0.716,-0.101,-0.156
+both n-grams only (all windows),0.697,0.001,-0.061
+whole sentence only,0.729,-0.027,-0.095
+both-pm5 (reference),0.697,0.001,-0.061
+  - spelling normalisation,0.702,-0.002,-0.065
+  + target form,0.756,,

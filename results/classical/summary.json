@@ -1,0 +1,98 @@
+{
+  "one_cluster": {
+    "f1": 0.7563415432223628
+  },
+  "agglo_1a": {
+    "precision": 0.6480242021772655,
+    "recall": 0.8898071412663539,
+    "f1": 0.7054298989160133,
+    "rho": -0.1357582470100402,
+    "n_pairs": 60,
+    "n_cross_era": 4,
+    "rho_within_era": -0.19658267941861057,
+    "rho_pred_vs_cross_era_flag": 0.05353224965425315,
+    "mean_pred_jsd_cross": 0.10590712747491549,
+    "mean_pred_jsd_within": 0.021578175598427497
+  },
+  "agglo_combined": {
+    "precision": 0.6471595443689585,
+    "recall": 0.9030723743221134,
+    "f1": 0.697015307749275,
+    "rho": 0.0012971738666144104,
+    "n_pairs": 60,
+    "n_cross_era": 4,
+    "rho_within_era": -0.060912980828442195,
+    "rho_pred_vs_cross_era_flag": 0.09936546600614797,
+    "mean_pred_jsd_cross": 0.1328032436421724,
+    "mean_pred_jsd_within": 0.04083896276722852
+  },
+  "agglo_1b": {
+    "precision": 0.6585364369466826,
+    "recall": 0.5293886758472911,
+    "f1": 0.47379574307080585,
+    "rho": -0.36102688389253385,
+    "n_pairs": 60,
+    "n_cross_era": 4,
+    "rho_within_era": -0.4506396523540769,
+    "rho_pred_vs_cross_era_flag": 0.1192894899759071,
+    "mean_pred_jsd_cross": 0.26091410301185153,
+    "mean_pred_jsd_within": 0.1701050405882578
+  },
+  "kmeans_sil": {
+    "precision": 0.7022012326401473,
+    "recall": 0.17037810641880363,
+    "f1": 0.26425385701882653,
+    "rho": 0.24153502121934387,
+    "features": "both-pm5",
+    "n_pairs": 60,
+    "n_cross_era": 4,
+    "rho_within_era": 0.20351033249383704,
+    "rho_pred_vs_cross_era_flag": 0.1388923069038748,
+    "mean_pred_jsd_cross": 0.412750393256796,
+    "mean_pred_jsd_within": 0.3469620146059249,
+    "shuffled_mean": 0.16783794002102106,
+    "shuffled_sd": 0.12374957707757543,
+    "p": 0.27
+  },
+  "in_sample_best_rho_with_f1_floor": 0.3463856067265854,
+  "subtask2": {
+    "LR raw, thr 0.5": 0.32545326307610817,
+    "LR raw, tuned thr": 0.4694586431086002,
+    "LR rank, thr 0.5": 0.36726297306263433,
+    "LR rank, tuned thr": 0.4716295998837337
+  },
+  "subtask2_all1": 0.4716295998837337,
+  "subtask2_tfidf_lr": {
+    "f1": 0.2438179183351968,
+    "auc": 0.46606596415532053
+  },
+  "subtask2_tfidf_lr_within_word_diag": {
+    "f1": 0.5160795433617597,
+    "auc": 0.724694647880501
+  },
+  "subtask2_shortcut": {
+    "definition ranks (baseline)": {
+      "macro F1 (LOWO)": 0.4716295998837337,
+      "mean AUC (LOWO)": 0.565932469516626,
+      "coef is_modern": NaN
+    },
+    "definition ranks + era proxies": {
+      "macro F1 (LOWO)": 0.47014197599109914,
+      "mean AUC (LOWO)": 0.49871860768956466,
+      "coef is_modern": 0.23701503989847197
+    },
+    "era proxies only": {
+      "macro F1 (LOWO)": 0.4717194364828252,
+      "mean AUC (LOWO)": 0.4185362789539292,
+      "coef is_modern": 0.22618425749088827
+    }
+  },
+  "era_alone_within_word_auc": {
+    "fru": 0.2517241379310345,
+    "fr\u00f6ken": 0.6432926829268293,
+    "herre": 0.7832699619771863,
+    "kvinna": 0.5994318181818181,
+    "motiv": 0.6683050578722055
+  },
+  "seed": 42
+}
