@@ -4,7 +4,7 @@ FOR DATA LOADING:
 ## Data and EDA 
 
 1. Download `dev.zip` from Codabench and unzip it so you have `<DATA_DIR>/SV/usages.jsonl` etc.
-   The data is not stored in this repo.
+   The dev data (data/SV) is included in this repo for convenience; the official source is Codabench.
 2. Load it with the shared loader:
 
 ```python
