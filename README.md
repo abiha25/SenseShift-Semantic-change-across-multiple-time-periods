@@ -80,3 +80,68 @@ For error analysis: `results/classical/subtask1b_jsd_per_pair.csv` (gold vs pred
 ### Change to a shared file
 
 `src/scoring.py`: scoring a subset of words (`words=` / `--only-predicted-words`) now filters the predictions as well as gold. Before, the official loader rejected the other words' predictions. Full-file scores are unchanged.
+
+## Pretrained Baseline, Results and Error Analysis (Person 1: Moteba)
+
+Baseline B: frozen multilingual encoders with the same clustering, LOWO protocol and official scorer as Baseline A.
+Report: Section 6.2 (Baseline B), Section 8 (Results), Section 9 (Error Analysis), Sections 10–11.
+
+### Files
+
+| File | What it does |
+|---|---|
+| `src/<embedding_script>.py` / `notebooks/<colab_notebook>.ipynb` | Extracts frozen usage embeddings (XL-LEXEME `pierluigic/xl-lexeme`, XLM-R `xlm-roberta-base` layer 8) on Colab and saves them to disk |
+| `src/<pretrained_baseline>.py` | Clusters the saved vectors (agglomerative with per-encoder distance-percentile thresholds, and K-means + silhouette), LOWO selection, shuffle control, writes official-format predictions |
+| `src/error_analysis.py` | Reads any system's official prediction file and produces the error-analysis tables (by word, sense rarity, period/era, period pair; Subtask 2 false positives/negatives) |
+| `results/pretrained/` | Saved embeddings (or their location), predictions (official format), result tables (CSV) |
+| `results/error_analysis/` | CSV tables used in Section 9 of the report |
+
+### How to run (reproduction order)
+
+```bash
+pip install -r requirements.txt            # must include torch and transformers
+
+# 1. Data and shared loader (see "Data and EDA" above): unzip dev.zip into DATA_DIR
+python src/sanity_check.py                 # trivial baselines: one cluster = 0.756, all-1 = 0.472
+
+# 2. Baseline A
+python run_person3.py
+
+# 3. Embeddings (GPU recommended): run the Colab notebook or the embedding script
+#    notebooks/<colab_notebook>.ipynb   or   python src/<embedding_script>.py
+
+# 4. Baseline B clustering and scoring (uses the saved embeddings)
+python src/<pretrained_baseline>.py
+
+# 5. Error analysis (works on any official prediction file)
+python src/error_analysis.py
+```
+
+Seed 42 everywhere. Embeddings were extracted once on Google Colab (**T4 GPU**) with PyTorch 2.11.0 and Transformers 5.18.0. All clustering runs from the saved vectors.
+
+### Method in short
+
+- **Encoders (frozen, nothing fine-tuned):** XL-LEXEME and XLM-R base (layer 8). The whole sentence is encoded with the target span marked (repaired offsets `start_fixed` / `end_fixed`), pre-1906 spelling is normalised, the sub-word vectors of the target are averaged, and sentences are truncated at 256 sub-words.
+- **Subtask 1:** average-linkage agglomerative clustering on cosine distance. Thresholds are percentiles (5th … 90th) of the pooled within-word distances of each encoder, because the Baseline A grid (0.80–0.99) puts every word into one cluster for dense vectors. Also K-means with K in 2..10 chosen by silhouette. LOWO selection with three objectives (1a, 1b, combined).
+- **Subtask 2:** zero-shot. The definition is encoded as the pseudo-usage "word: definition", each usage is scored by cosine similarity, the score is converted to a within-word percentile rank, and a rank threshold is fitted on nine words (LOWO).
+- **Reported with every 1b ρ:** ρ on the 56 within-era pairs and the shuffle control (200 random reassignments that keep cluster sizes).
+
+### Results (Swedish dev, LOWO)
+
+| | Trivial baseline | Baseline A (selected) | Baseline B (XL-LEXEME) |
+|---|---|---|---|
+| 1a BCubed F1 | 0.756 (one cluster per word) | 0.697 | 0.760 |
+| 1b Spearman ρ | undefined | 0.001 (K-means 0.242, shuffle control 0.168) | 0.492 (shuffle control 0.387 ± 0.042) |
+| 2 macro F1 | 0.472 (predict all 1) | 0.472 | 0.468 |
+
+Key findings:
+- No classical system beats the trivial references. The only result above its control is the Baseline B ranking on Subtask 1b.
+- Subtask 1a scores follow the share of the dominant sense; rare and minor senses are hidden by the macro average.
+- XL-LEXEME splits *motiv* by sense but *herre* by era, and BCubed F1 cannot tell the two apart.
+- Subtask 2 needs per-word calibration: a shared rank threshold gives about the same positive rate on every word.
+
+### Notes and limitations
+
+- XL-LEXEME was loaded with plain `transformers` because the official wrapper package did not work with the installed versions, so the pooling may differ slightly from the official one.
+- No LLM prompting or cross-encoder was run for Subtask 2 (future work, Section 11 of the report).
+- Only ten labelled Swedish words exist, so differences of a few hundredths are within noise.
