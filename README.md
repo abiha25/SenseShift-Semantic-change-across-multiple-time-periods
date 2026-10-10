@@ -1,7 +1,7 @@
 # semeval2027-task3
 Semantic change across multiple time period
 FOR DATA LOADING:
-## Data and EDA (Person 2)
+## Data and EDA (Person 2: Zohaa)
 
 1. Download `dev.zip` from Codabench and unzip it so you have `<DATA_DIR>/SV/usages.jsonl` etc.
    The data is not stored in this repo.
@@ -22,7 +22,7 @@ check_integrity(df)                    # prints all data checks
    Key finding for the baselines: frozen XLM-R vectors group usages by word form and era
    more than by sense (Section 4, F8).
 
-## Features and Classical Baseline (Person 3)
+## Features and Classical Baseline (Person 3: Abiha)
 
 Baseline A: interpretable features + clustering (Subtask 1) and logistic regression (Subtask 2).
 Report: Section 5 (Feature Engineering) and Section 6A (Classical Baseline).
@@ -81,7 +81,7 @@ For error analysis: `results/classical/subtask1b_jsd_per_pair.csv` (gold vs pred
 
 `src/scoring.py`: scoring a subset of words (`words=` / `--only-predicted-words`) now filters the predictions as well as gold. Before, the official loader rejected the other words' predictions. Full-file scores are unchanged.
 
-## Pretrained Baseline, Results and Error Analysis (Person 1: Moteba)
+## Pretrained Baseline, Results and Error Analysis (Person 4: Moteba)
 
 Baseline B: frozen multilingual encoders with the same clustering, LOWO protocol and official scorer as Baseline A.
 Report: Section 6.2 (Baseline B), Section 8 (Results), Section 9 (Error Analysis), Sections 10–11.
