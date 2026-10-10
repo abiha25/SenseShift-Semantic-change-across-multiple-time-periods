@@ -1,7 +1,7 @@
 # semeval2027-task3
 Semantic change across multiple time period
 FOR DATA LOADING:
-## Data and EDA (Person 2: Zohaa)
+## Data and EDA 
 
 1. Download `dev.zip` from Codabench and unzip it so you have `<DATA_DIR>/SV/usages.jsonl` etc.
    The data is not stored in this repo.
