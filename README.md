@@ -18,9 +18,22 @@ check_integrity(df)                    # prints all data checks
 - Tune with `leave_one_word_out(df)` (no separate training set exists).
 - Write predictions with `write_subtask1` / `write_subtask2` (official format).
 
-3. EDA: `eda.py` builds all figures (`results/eda/EDA.pdf`); the notebook is in `notebooks/`.
+3. EDA files are in the `EDA/` folder:
+   - `EDA/eda.py`: builds all EDA figures (needs `data_loader.py` importable, see below)
+   - `EDA/eda_8_features_groups.pdf`: the final EDA figures (8 plots)
+   - `EDA/person2_data_eda.ipynb`: the notebook that produced every number and figure
+
    Key finding for the baselines: frozen XLM-R vectors group usages by word form and era
    more than by sense (Section 4, F8).
+
+To use `eda.py`, Python must be able to find both files. In Colab, after cloning the repo:
+
+```python
+import sys
+sys.path.insert(0, '/content/<repo-folder>')        # folder containing data_loader.py
+sys.path.insert(0, '/content/<repo-folder>/EDA')    # folder containing eda.py
+from eda import add_features, make_eda_pdf, eda_numbers
+```
 
 ## Features and Classical Baseline 
 
