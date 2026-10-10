@@ -22,7 +22,7 @@ check_integrity(df)                    # prints all data checks
    Key finding for the baselines: frozen XLM-R vectors group usages by word form and era
    more than by sense (Section 4, F8).
 
-   ## Features and Classical Baseline (Person 3)
+## Features and Classical Baseline (Person 3)
 
 Baseline A: interpretable features + clustering (Subtask 1) and logistic regression (Subtask 2).
 Report: Section 5 (Feature Engineering) and Section 6A (Classical Baseline).
