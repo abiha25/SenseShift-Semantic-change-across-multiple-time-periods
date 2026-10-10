@@ -1,0 +1,25 @@
+type,word,period,snippet
+false_positive,fröken,1912-1915,Sedan ordföranden [[fröken]] Sandberg aftackat publiken atslutades den trefliga lilla festen med g
+false_positive,kvinna,1880-1883,"med några äldre kvinnor loke litet gripande var synan af ett pär unga [[kvinnor]] , hvilkas ungdomliga fägring gjerde ett skärande intryck mot deras va"
+false_positive,skär,1888-1891,"Stort lager af Vadstena patentstickade Yllekoftor och Yästar , [[skära]] och hvita Ylletröjor , Hnfvor och Bukar , Muddar och Strumpor , Yllef"
+false_positive,fröken,2018-2019,"ill en av Sveriges internationellt mest kända kvinnor Ellen Key , och [[Fröknarna]] Wirén är exempel på två av porträtten ."
+false_positive,motiv,2014-2015,"Ett beslut som han då överklagade , bland annat med [[motivet]] att domkapitlet inte väntat på utgången av den pågående rättsprocesse"
+false_positive,dumpa,2022-2023,"– Snälla sluta [[dumpa]] era fläckiga och trasiga kläder till oss , säger Jennifer Bampoe , or"
+false_positive,herre,2010-2011,I [[herrarnas]] 470 är Anton Dahlberg / Sebastian Östling bara på 15:e plats efter tv
+false_positive,herre,2006-2007," tas beslut av Svensk elitinnebandy att det ska spelas fler matcher i [[herrarnas]] elitserie , skriver Västerbottens-Kuriren ."
+false_positive,skär,1904-1907,"arbete har försiggått , och vestibulen med sin gröna , höga panel och [[skära]] väggar gifver ett gladt och behagligt intryck ."
+false_positive,fröken,1896-1899,hr Birger Svensson fru Aura Svensson hr Carl Bräutigam hr A Cederberg [[fröken]] Anna Thorell fröken Hertha Giöbel agronomen Carl Wettergren hr och fr
+false_positive,dumpa,2010-2011,tag på ön har erkänt att de på uppdrag av sin chef under drygt ett år [[dumpat]] stora mängder giftigt avfall i ett grustag på norra Gotland .
+false_positive,skär,1912-1915,"ade han från sig penseln , torkade af de färgsolkiga fingrarna på den [[skära]] kretengardinen och gick några steg från taflan , för att se hur det t"
+false_negative,exportera,2006-2007,sa flodmynningar i Sydeuropa användas för utsättning istället för att [[exporteras]] ut ur Europa eller ätas upp .
+false_negative,fru,2006-2007,ån klubben och fansen är höga och intresset var stort när Beckham och [[frun]] Victoria landade i USA .
+false_negative,exportera,2022-2023,nderna och från Norge till Storbritannien har gett ökat kapacitet att [[exportera]] el från Norden söderut .
+false_negative,fru,2022-2023,Kraschar rakt in i sin egen [[fru]] : ” Varför flyttade hon sig inte ? ”
+false_negative,fru,1880-1883,"at har m begått mot min heder , och jag anklagar derför hr Baruch och [[fru]] Rosa Feigelstock ."
+false_negative,fru,1880-1883,"accination hvarje tisdags e. m . kl , ' 4 i Jtä 45 drottninggatan hos [[Fru]] Pettersson ."
+false_negative,fru,1880-1883,ern å Kongl Djurgården I morgon Onsdag den 23 Aug Ctastuppträdande af [[Fru]] Sophie Cysch För JS : te gången liili komedi-operett i 3 akter ( Vj8 
+false_negative,kvinna,2006-2007,"na gäller att unga är mer missnöjda än äldre , män är mer kritiska än [[kvinnor]] och att storstadsbor är mer missnöjda än de som bor i andra delar av "
+false_negative,exportera,2018-2019,"6 miljoner ton stål om året – men bara en liten andel , 250 000 ton , [[exporteras]] till USA ."
+false_negative,förort,2014-2015," för att det ska öppnas nya redaktioner , bland annat i storstädernas [[förorter]] ."
+false_negative,fru,1912-1915," lämpliga leda.innor har föreningen också lyckats anskaffa , nämligen [[fru]] Anna Björklund fur kursen i Holen , fröknarna Karin Andersson för Han"
+false_negative,fru,2022-2023,En iransk man som halshögg sin 17-åriga [[fru]] och därefter leende promenerade omkring med hennes huvud har dömts ti
