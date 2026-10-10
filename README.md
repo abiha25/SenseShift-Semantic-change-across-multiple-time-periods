@@ -22,7 +22,7 @@ check_integrity(df)                    # prints all data checks
    Key finding for the baselines: frozen XLM-R vectors group usages by word form and era
    more than by sense (Section 4, F8).
 
-## Features and Classical Baseline (Person 3: Abiha)
+## Features and Classical Baseline 
 
 Baseline A: interpretable features + clustering (Subtask 1) and logistic regression (Subtask 2).
 Report: Section 5 (Feature Engineering) and Section 6A (Classical Baseline).
@@ -34,15 +34,17 @@ Report: Section 5 (Feature Engineering) and Section 6A (Classical Baseline).
 | `src/features.py` | Spelling normalisation (pre-1906 → modern), ±k-word context windows (target removed), TF-IDF matrices, Subtask 2 usage–definition similarity features, era proxies (shortcut test only) |
 | `src/classical_baseline.py` | Agglomerative clustering, leave-one-word-out (LOWO) selection, 1b diagnostics (within-era ρ, shuffle control, era tracking), Subtask 2 logistic regression, TF-IDF + LR, JSD export |
 | `notebooks/classical_baselineA.ipynb` | Runs everything step by step (Colab, about 8–10 min) |
-| `run_person3.py` | Same steps as the notebook, from the command line (about 2–3 min) |
 | `results/classical/` | Predictions (official format), all tables (CSV), figure, `summary.json` |
 
 ### How to run
 
+Open `notebooks/classical_baselineA.ipynb` in Colab, set `REPO` in Cell 1 to the repo folder on your Drive, and run all cells. Results are written to `results/classical/`.
+
+To check the scoring setup first:
+
 ```bash
 pip install -r requirements.txt
-python src/sanity_check.py        # scoring setup still OK (one cluster = 0.756)
-python run_person3.py             # or run notebooks/classical_baselineA.ipynb in Colab
+python src/sanity_check.py        # one cluster per word should give 0.756
 ```
 
 In Colab, set `REPO` in Cell 1 to the repo folder on your Drive.
