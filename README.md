@@ -107,7 +107,7 @@ Report: Section 6.2 (Baseline B), Section 8 (Results), Section 9 (Error Analysis
 |---|---|
 | `src/pretrained_baseline.py` | Baseline B end to end: extracts frozen XL-LEXEME and XLM-R (layer 8) usage vectors, clusters them (agglomerative with per-encoder distance-percentile thresholds, and K-means + silhouette), LOWO selection, shuffle control, Subtask 2 zero-shot scoring, writes official-format predictions. |
 | `src/error_analysis.py` | Reads any system's official prediction files and writes the error-analysis tables (by word, sense rarity, period/era, period pair; Subtask 2 false positives/negatives) |
-| `results/pretrained/` | Baseline B predictions (official format), `summary.json` (final grid), `summary_v1_original_grid.json` regenerate with the command above |
+| `results/pretrained/` | Baseline B predictions (official format), `summary.json` (final threshold grid), `summary_v1_original_grid.json` (first run with the Baseline A grid, kept to document why the grid was changed). The `*_vectors.npy` embedding files are not stored; regenerate them with the command in step 3 |
 | `results/error_analysis/` | CSV tables used in Section 9 of the report (`A_*` = Baseline A, `B_*` = Baseline B) |
 
 ### How to run (reproduction order)
@@ -125,8 +125,8 @@ python src/sanity_check.py
 # 3. Baseline B: extracts the embeddings and runs clustering + scoring (GPU recommended, ~10-20 min)
 python -m src.pretrained_baseline --data data --out results/pretrained
 
-#    Clustering only, from the saved vectors (no model download, a few minutes):
-  python -m src.pretrained_baseline --data data --out results/pretrained --reuse-vectors results/pretrained
+#    Clustering only (needs the *_vectors.npy files written by the command above):
+python -m src.pretrained_baseline --data data --out results/pretrained --reuse-vectors results/pretrained
 
 # 4. Error analysis (one call per system)
 python -m src.error_analysis --data data --system B_xllex \
