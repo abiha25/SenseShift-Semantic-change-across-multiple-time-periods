@@ -90,7 +90,7 @@ Report: Section 6.2 (Baseline B), Section 8 (Results), Section 9 (Error Analysis
 
 | File | What it does |
 |---|---|
-| `src/pretrained_baseline.py` | Baseline B end to end: extracts frozen XL-LEXEME and XLM-R (layer 8) usage vectors, clusters them (agglomerative with per-encoder distance-percentile thresholds, and K-means + silhouette), LOWO selection, shuffle control, Subtask 2 zero-shot scoring, writes official-format predictions. `--reuse-vectors <dir>` redoes the clustering from saved vectors without any model |
+| `src/pretrained_baseline.py` | Baseline B end to end: extracts frozen XL-LEXEME and XLM-R (layer 8) usage vectors, clusters them (agglomerative with per-encoder distance-percentile thresholds, and K-means + silhouette), LOWO selection, shuffle control, Subtask 2 zero-shot scoring, writes official-format predictions.
 | `src/error_analysis.py` | Reads any system's official prediction files and writes the error-analysis tables (by word, sense rarity, period/era, period pair; Subtask 2 false positives/negatives) |
 | `results/pretrained/` | Baseline B predictions (official format), `summary.json` (final grid), `summary_v1_original_grid.json` (first run with the Baseline A threshold grid, kept to document why the grid was changed), saved `*_vectors.npy` |
 | `results/error_analysis/` | CSV tables used in Section 9 of the report (`A_*` = Baseline A, `B_*` = Baseline B) |
@@ -111,7 +111,7 @@ python src/sanity_check.py
 python -m src.pretrained_baseline --data data --out results/pretrained
 
 #    Clustering only, from the saved vectors (no model download, a few minutes):
-python -m src.pretrained_baseline --data data --out results/pretrained --reuse-vectors results/pretrained
+python -m src.pretrained_baseline --data data --out results/pretrained results/pretrained
 
 # 4. Error analysis (one call per system)
 python -m src.error_analysis --data data --system B_xllex \
