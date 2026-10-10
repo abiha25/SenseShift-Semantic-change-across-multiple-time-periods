@@ -25,16 +25,15 @@ Subtask 2
     EDA F7), then a rank threshold is chosen on the nine training words
     (macro per-word F1) and applied to the held-out word.
 
-Run (Colab, GPU recommended, ~10-20 min):
-    !pip install -r requirements.txt sentence-transformers transformers torch
-    !pip install git+https://github.com/pierluigic/xl-lexeme.git
-    !python -m src.pretrained_baseline --data data --out results/pretrained
-    # optional LLM prompting:
-    !python -m src.pretrained_baseline --data data --out results/pretrained --llm Qwen/Qwen2.5-7B-Instruct
+   Run (Colab, GPU recommended, ~10-20 min):
+       !pip install -r requirements.txt
+       !python -m src.pretrained_baseline --data data --out results/pretrained
+       # clustering only, from saved vectors:
+       !python -m src.pretrained_baseline --data data --out results/pretrained --reuse-vectors results/pretrained
 
-NOTE: written against the public XL-LEXEME / transformers APIs but not executed
-by the author's environment (no model download there). If the first run fails,
-send the traceback.
+   NOTE: XL-LEXEME is loaded with plain transformers (AutoModel); the official wrapper
+   package did not work with the installed versions. The optional --llm prompting path
+   was not run for the report.
 """
 from __future__ import annotations
 
