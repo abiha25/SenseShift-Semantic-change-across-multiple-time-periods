@@ -25,7 +25,7 @@ check_integrity(df)                    # prints all data checks
 ## Features and Classical Baseline 
 
 Baseline A: interpretable features + clustering (Subtask 1) and logistic regression (Subtask 2).
-Report: Section 5 (Feature Engineering) and Section 6A (Classical Baseline).
+Report: Section 5 (Feature Engineering) and Section 6.1 (Classical Baseline).
 
 ### Files
 
