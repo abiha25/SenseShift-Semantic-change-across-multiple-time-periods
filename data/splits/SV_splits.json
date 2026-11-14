@@ -1,0 +1,275 @@
+{
+  "strategy": "nested_lowo_rotating_validation",
+  "language": "SV",
+  "seed": 42,
+  "validation_offset": 1,
+  "created_utc": "2026-11-14T11:06:31Z",
+  "data_fingerprint": "ac3c4874234f570e227bb9879c18db3c27da4cd7d40474b7b93dd5bd3eb109c8",
+  "n_usages_total": 1983,
+  "words": [
+    "dumpa",
+    "exportera",
+    "fru",
+    "fröken",
+    "förort",
+    "herre",
+    "kvinna",
+    "motiv",
+    "skär",
+    "suga"
+  ],
+  "usages_per_word": {
+    "dumpa": 145,
+    "exportera": 149,
+    "fru": 274,
+    "fröken": 174,
+    "förort": 150,
+    "herre": 283,
+    "kvinna": 290,
+    "motiv": 291,
+    "skär": 98,
+    "suga": 129
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "test": [
+        "dumpa"
+      ],
+      "validation": [
+        "exportera"
+      ],
+      "train": [
+        "fru",
+        "fröken",
+        "förort",
+        "herre",
+        "kvinna",
+        "motiv",
+        "skär",
+        "suga"
+      ],
+      "n_usages": {
+        "train": 1689,
+        "validation": 149,
+        "test": 145
+      }
+    },
+    {
+      "fold": 1,
+      "test": [
+        "exportera"
+      ],
+      "validation": [
+        "fru"
+      ],
+      "train": [
+        "dumpa",
+        "fröken",
+        "förort",
+        "herre",
+        "kvinna",
+        "motiv",
+        "skär",
+        "suga"
+      ],
+      "n_usages": {
+        "train": 1560,
+        "validation": 274,
+        "test": 149
+      }
+    },
+    {
+      "fold": 2,
+      "test": [
+        "fru"
+      ],
+      "validation": [
+        "fröken"
+      ],
+      "train": [
+        "dumpa",
+        "exportera",
+        "förort",
+        "herre",
+        "kvinna",
+        "motiv",
+        "skär",
+        "suga"
+      ],
+      "n_usages": {
+        "train": 1535,
+        "validation": 174,
+        "test": 274
+      }
+    },
+    {
+      "fold": 3,
+      "test": [
+        "fröken"
+      ],
+      "validation": [
+        "förort"
+      ],
+      "train": [
+        "dumpa",
+        "exportera",
+        "fru",
+        "herre",
+        "kvinna",
+        "motiv",
+        "skär",
+        "suga"
+      ],
+      "n_usages": {
+        "train": 1659,
+        "validation": 150,
+        "test": 174
+      }
+    },
+    {
+      "fold": 4,
+      "test": [
+        "förort"
+      ],
+      "validation": [
+        "herre"
+      ],
+      "train": [
+        "dumpa",
+        "exportera",
+        "fru",
+        "fröken",
+        "kvinna",
+        "motiv",
+        "skär",
+        "suga"
+      ],
+      "n_usages": {
+        "train": 1550,
+        "validation": 283,
+        "test": 150
+      }
+    },
+    {
+      "fold": 5,
+      "test": [
+        "herre"
+      ],
+      "validation": [
+        "kvinna"
+      ],
+      "train": [
+        "dumpa",
+        "exportera",
+        "fru",
+        "fröken",
+        "förort",
+        "motiv",
+        "skär",
+        "suga"
+      ],
+      "n_usages": {
+        "train": 1410,
+        "validation": 290,
+        "test": 283
+      }
+    },
+    {
+      "fold": 6,
+      "test": [
+        "kvinna"
+      ],
+      "validation": [
+        "motiv"
+      ],
+      "train": [
+        "dumpa",
+        "exportera",
+        "fru",
+        "fröken",
+        "förort",
+        "herre",
+        "skär",
+        "suga"
+      ],
+      "n_usages": {
+        "train": 1402,
+        "validation": 291,
+        "test": 290
+      }
+    },
+    {
+      "fold": 7,
+      "test": [
+        "motiv"
+      ],
+      "validation": [
+        "skär"
+      ],
+      "train": [
+        "dumpa",
+        "exportera",
+        "fru",
+        "fröken",
+        "förort",
+        "herre",
+        "kvinna",
+        "suga"
+      ],
+      "n_usages": {
+        "train": 1594,
+        "validation": 98,
+        "test": 291
+      }
+    },
+    {
+      "fold": 8,
+      "test": [
+        "skär"
+      ],
+      "validation": [
+        "suga"
+      ],
+      "train": [
+        "dumpa",
+        "exportera",
+        "fru",
+        "fröken",
+        "förort",
+        "herre",
+        "kvinna",
+        "motiv"
+      ],
+      "n_usages": {
+        "train": 1756,
+        "validation": 129,
+        "test": 98
+      }
+    },
+    {
+      "fold": 9,
+      "test": [
+        "suga"
+      ],
+      "validation": [
+        "dumpa"
+      ],
+      "train": [
+        "exportera",
+        "fru",
+        "fröken",
+        "förort",
+        "herre",
+        "kvinna",
+        "motiv",
+        "skär"
+      ],
+      "n_usages": {
+        "train": 1709,
+        "validation": 145,
+        "test": 129
+      }
+    }
+  ]
+}
