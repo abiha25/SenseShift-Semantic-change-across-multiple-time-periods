@@ -298,3 +298,232 @@ def write_subtask2(df, pred_column, out_path):
         for _, r in df.iterrows():
             fh.write(json.dumps({'word': r['word'], 'sentence_id': r['sentence_id'],
                                  'label': int(r[pred_column])}, ensure_ascii=False) + '\n')
+
+
+# ===========================================================================
+# ASSIGNMENT 2 ADDITIONS (Person 3: data pipeline)
+#
+# Everything above this line is unchanged from Assignment 1, so Baseline A
+# and Baseline B load the data exactly as before. The functions below add:
+#
+#   load_and_prepare()      one call: load + model inputs + duplicate flags
+#   add_model_inputs()      config-driven preprocessing that keeps the target
+#                           offsets valid (window, spelling, lower-casing)
+#   flag_duplicates()       marks repeated sentences and conflicting labels
+#   cap_usages_per_period() optional, seeded sampling cap (training only)
+#   group_usages()          {word: {period: usages}} in time order
+#
+# Splits live in src/splits.py, settings in configs/default.yaml.
+# ===========================================================================
+
+# Default preprocessing. The real values come from configs/default.yaml
+# (section "preprocessing"); these defaults mean "change nothing".
+DEFAULT_PREPROCESSING = {
+    'spelling_normalisation': False,   # pre-1906 Swedish spelling -> modern (EDA F4)
+    'lowercase': False,                # separate switch (A1 mixed it with spelling)
+    'context_window': None,            # k words each side of the target; None = whole sentence
+}
+
+# The same five pre-1906 rules as src/features.py (EDA F4), but matched
+# case-insensitively and with the original capitalisation kept, so that
+# spelling normalisation no longer forces lower-casing. On lower-cased text
+# they give exactly the same result as src/features.normalise().
+SWEDISH_SPELLING_RULES = [
+    (re.compile(r'\bhv', re.IGNORECASE), 'v'),     # hvad  -> vad
+    (re.compile(r'fv', re.IGNORECASE), 'v'),       # öfver -> över
+    (re.compile(r'dt\b', re.IGNORECASE), 'tt'),    # godt  -> gott
+    (re.compile(r'\baf\b', re.IGNORECASE), 'av'),  # af    -> av
+    (re.compile(r'\bqv', re.IGNORECASE), 'kv'),    # qvinna -> kvinna
+]
+SPELLING_RULES_BY_LANGUAGE = {'SV': SWEDISH_SPELLING_RULES}
+
+# A token "counts" for the context window if it contains a letter or digit,
+# so punctuation such as "," or "—" does not use up the window (as in A1).
+_TOKEN_RE = re.compile(r'\S+')
+_WORDLIKE_RE = re.compile(r'\w')
+
+
+def _match_case(original, replacement):
+    """'Hv' -> 'V', 'HV' -> 'V', 'hv' -> 'v': keep the capitalisation."""
+    if original.isupper() and len(original) > 1:
+        return replacement.upper()
+    if original[:1].isupper():
+        return replacement[:1].upper() + replacement[1:]
+    return replacement
+
+
+def _move(pos, m_start, m_end, new_len):
+    """Where does character position `pos` end up after text[m_start:m_end]
+    is replaced by a string of length new_len?"""
+    if pos <= m_start:
+        return pos
+    if pos >= m_end:
+        return pos + new_len - (m_end - m_start)
+    return m_start + min(pos - m_start, new_len)
+
+
+def normalise_spelling(text, start, end, language='SV'):
+    """
+    Rewrite old spellings and return (new_text, new_start, new_end).
+
+    Rules are applied to the WHOLE sentence (not to left/target/right chunks
+    separately, as A1 did), so a word boundary is never invented at the edge
+    of the target. Every replacement shifts the offsets by its change in
+    length, so new_text[new_start:new_end] is still the target.
+    Languages without rules are returned unchanged.
+    """
+    for pattern, repl in SPELLING_RULES_BY_LANGUAGE.get(language, []):
+        pieces, last = [], 0
+        shift_start = shift_end = 0          # how far the offsets have moved so far
+        for m in pattern.finditer(text):     # positions refer to the text BEFORE this rule
+            new = _match_case(m.group(), repl)
+            pieces += [text[last:m.start()], new]
+            last = m.end()
+            shift_start += _move(start, m.start(), m.end(), len(new)) - start
+            shift_end += _move(end, m.start(), m.end(), len(new)) - end
+        pieces.append(text[last:])
+        text, start, end = ''.join(pieces), start + shift_start, end + shift_end
+    return text, start, end
+
+
+def lowercase_keep_offsets(text, start, end):
+    """
+    Lower-case without moving any character. str.lower() can change the
+    length for a few characters (e.g. 'İ' -> 'i̇'); those are left as they are
+    so that the offsets stay exact in every language.
+    """
+    out = ''.join(c.lower() if len(c.lower()) == 1 else c for c in text)
+    return out, start, end
+
+
+def window_around_target(text, start, end, k):
+    """
+    Keep at most k word-like tokens on each side of the target and return
+    (cut_text, new_start, new_end). k=None keeps the whole sentence.
+
+    Why (EDA F3): historical sentences are ~40% longer than modern ones, so
+    a whole-sentence input gives the two eras different amounts of context.
+    """
+    if k is None:
+        return text, start, end
+    left = [m for m in _TOKEN_RE.finditer(text, 0, start) if _WORDLIKE_RE.search(m.group())]
+    right = [m for m in _TOKEN_RE.finditer(text, end) if _WORDLIKE_RE.search(m.group())]
+    cut_from = left[-k].start() if k > 0 and len(left) > k else (start if k == 0 else 0)
+    if k == 0:
+        cut_to = end
+    else:
+        cut_to = right[k - 1].end() if len(right) > k else len(text)
+    return text[cut_from:cut_to], start - cut_from, end - cut_from
+
+
+def prepare_usage(text, start, end, language='SV', spelling_normalisation=False,
+                  lowercase=False, context_window=None):
+    """
+    The single place where one usage is turned into model input.
+    Order: window (on the original tokens) -> spelling -> lower-case.
+    Returns (text, start, end) with text[start:end] = the (normalised) target.
+    """
+    text, start, end = window_around_target(text, int(start), int(end), context_window)
+    if spelling_normalisation:
+        text, start, end = normalise_spelling(text, start, end, language)
+    if lowercase:
+        text, start, end = lowercase_keep_offsets(text, start, end)
+    return text, start, end
+
+
+def add_model_inputs(df, preprocessing=None):
+    """
+    Add the columns every model should read:
+        model_text, model_start, model_end, model_target
+    built from the REPAIRED offsets (start_fixed / end_fixed) with the
+    preprocessing settings from the config. The original columns are kept.
+    """
+    settings = dict(DEFAULT_PREPROCESSING)
+    settings.update({k: v for k, v in (preprocessing or {}).items() if k in DEFAULT_PREPROCESSING})
+    unknown = set(preprocessing or {}) - set(DEFAULT_PREPROCESSING) - {'max_usages_per_period'}
+    if unknown:
+        raise ValueError(f'Unknown preprocessing setting(s): {sorted(unknown)}')
+    df = df.copy()
+    rows = [prepare_usage(t, s, e, lang, **settings)
+            for t, s, e, lang in zip(df['text'], df['start_fixed'], df['end_fixed'], df['language'])]
+    df['model_text'] = [r[0] for r in rows]
+    df['model_start'] = [r[1] for r in rows]
+    df['model_end'] = [r[2] for r in rows]
+    df['model_target'] = [t[s:e] for t, s, e in rows]
+    df.attrs['preprocessing'] = settings
+    return df
+
+
+def flag_duplicates(df):
+    """
+    Add three columns (nothing is removed, because the scorer expects every
+    sentence_id):
+        is_duplicate_text   same word + same sentence occurs more than once
+        dup_group           id shared by the copies (-1 = not duplicated)
+        dup_label_conflict  the copies received different gold labels
+    Use dup_label_conflict to keep contradictory pairs out of fine-tuning.
+    """
+    df = df.copy()
+    dup = df.duplicated(['word', 'text'], keep=False)
+    df['is_duplicate_text'] = dup
+    df['dup_group'] = -1
+    df.loc[dup, 'dup_group'] = df[dup].groupby(['word', 'text'], sort=True).ngroup()
+    label_cols = [c for c in ['senses', 'target_sense'] if c in df.columns]
+    df['dup_label_conflict'] = False
+    if label_cols and dup.any():
+        labels = df.loc[dup, label_cols].astype(str).agg('|'.join, axis=1)
+        n_distinct = labels.groupby(df.loc[dup, 'dup_group']).transform('nunique')
+        df.loc[dup, 'dup_label_conflict'] = (n_distinct > 1).values
+    return df
+
+
+def cap_usages_per_period(df, max_n, seed=42):
+    """
+    Keep at most max_n usages per (word, period), sampled with a fixed seed.
+
+    For TRAINING / embedding budgets only. Never cap the usages you write
+    predictions for: the official scorer rejects a file with missing ids.
+    (The organisers already capped the dev data at 30, so on dev this is
+    a no-op for max_n >= 30.)
+    """
+    if max_n is None:
+        return df
+    parts = [g if len(g) <= max_n else g.sample(n=max_n, random_state=seed)
+             for _, g in df.groupby(['word', 'period_label'], sort=True)]
+    return pd.concat(parts).sort_index()
+
+
+def group_usages(df):
+    """
+    The structure the work plan asks for: usages grouped by word and period.
+
+        groups = group_usages(df)
+        groups['herre']['1880-1883']   -> DataFrame of those usages
+
+    Words are sorted alphabetically, periods by start year (the same order
+    the official 1b scorer uses), so iterating gives consecutive periods.
+    Row indices are kept, so results can be written back into df.
+    """
+    out = {}
+    for word, g in df.groupby('word', sort=True):
+        periods = sorted(g['period_label'].unique(), key=period_start_year)
+        out[word] = {p: g[g['period_label'] == p] for p in periods}
+    return out
+
+
+def load_and_prepare(data_dir, language='SV', preprocessing=None, check=False, verbose=False):
+    """
+    The one call experiments should use:
+
+        df = load_and_prepare('data', 'SV', cfg['preprocessing'])
+
+    = load_language() (unchanged A1 loader) + optional integrity report
+      + model input columns + duplicate flags.
+    Works on test data without gold labels as well.
+    """
+    df = load_language(data_dir, language)
+    if check:
+        check_integrity(df, verbose=verbose)
+    df = add_model_inputs(df, preprocessing)
+    df = flag_duplicates(df)
+    return df
