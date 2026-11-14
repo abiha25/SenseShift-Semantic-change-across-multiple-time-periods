@@ -1,48 +1,6 @@
 # semeval2027-task3
 Semantic change across multiple time period
 
-## Assignment 2: shared pipeline (Person 3) — start here
-
-Everyone loads data, splits, settings and seeds through these files, so all
-systems (baselines and the proposed method) use identical inputs.
-
-| File | What it gives you |
-|---|---|
-| `data_loader.py` (bottom section) | `load_and_prepare()`: A1 loader + model inputs (`model_text`, `model_start`, `model_end`, `model_target`) + duplicate flags; `group_usages()`: `{word: {period: usages}}` in time order. Old A1 functions are unchanged. |
-| `src/splits.py` → `data/splits/SV_splits.json` | Nested leave-one-word-out: per fold 1 test word, 1 validation word (early stopping / checkpoint choice), 8 training words. No word in two parts. Verified against a data fingerprint. |
-| `configs/default.yaml` + `src/config.py` | Every setting in one file; `--set key=value` overrides; `save_run_config()` writes `config.yaml` + `run_info.json` (versions, GPU, git commit, data hash) next to each result. |
-| `src/reproducibility.py` | `set_seed()` (Python, NumPy, PyTorch, deterministic GPU), DataLoader seeding, `save_checkpoint` / `load_checkpoint`, `CheckpointKeeper` (best-on-validation + last, early stopping). |
-| `tests/test_data_pipeline.py` | 23 checks: counts, A1 compatibility, offsets, splits, config, seeds, checkpoints. |
-
-```python
-from data_loader import load_and_prepare, group_usages
-from src.config import load_config
-from src.splits import load_splits, fold_frames
-from src.reproducibility import set_seed
-
-cfg = load_config('configs/default.yaml')              # or overrides=['training.epochs=1']
-set_seed(cfg['seed'], cfg['training']['deterministic'])
-df = load_and_prepare(cfg['data']['data_dir'], cfg['data']['language'], cfg['preprocessing'])
-splits = load_splits(cfg['split']['file'], df, cfg['data']['data_dir'])
-for fold in splits['folds']:
-    train, val, test = fold_frames(df, fold)   # fine-tune on train, select on val, predict test
-```
-
-Rules:
-- Models read `model_text` / `model_start` / `model_end` (repaired offsets + preprocessing), never `start` / `end`.
-- Never tune or pick checkpoints on the test word. Write the 10 test-word predictions into one file and score it once with `src/scoring.py`.
-- Never cap the usages you predict for (`max_usages_per_period` is for training only): the scorer needs every `sentence_id`.
-- Split, preprocessing and evaluation are FIXED. Tell the team before changing them.
-
-```bash
-pip install -r requirements.txt
-python -m src.splits            # (re)checks / writes data/splits/SV_splits.json
-python -m pytest tests -q       # all checks should pass
-python src/sanity_check.py      # one cluster per word = 0.756, all-1 = 0.472
-```
-
----
-
 FOR DATA LOADING:
 ## Data and EDA 
 
@@ -214,3 +172,45 @@ Key findings:
 - XL-LEXEME was loaded with plain `transformers` because the official wrapper package did not work with the installed versions, so the pooling may differ slightly from the official one.
 - No LLM prompting or cross-encoder was run for Subtask 2 (future work, Section 11 of the report).
 - Only ten labelled Swedish words exist, so differences of a few hundredths are within noise.
+
+---
+
+## Assignment 2:
+
+Everyone loads data, splits, settings and seeds through these files, so all
+systems (baselines and the proposed method) use identical inputs.
+
+| File | What it gives you |
+|---|---|
+| `data_loader.py` (bottom section) | `load_and_prepare()`: A1 loader + model inputs (`model_text`, `model_start`, `model_end`, `model_target`) + duplicate flags; `group_usages()`: `{word: {period: usages}}` in time order. Old A1 functions are unchanged. |
+| `src/splits.py` → `data/splits/SV_splits.json` | Nested leave-one-word-out: per fold 1 test word, 1 validation word (early stopping / checkpoint choice), 8 training words. No word in two parts. Verified against a data fingerprint. |
+| `configs/default.yaml` + `src/config.py` | Every setting in one file; `--set key=value` overrides; `save_run_config()` writes `config.yaml` + `run_info.json` (versions, GPU, git commit, data hash) next to each result. |
+| `src/reproducibility.py` | `set_seed()` (Python, NumPy, PyTorch, deterministic GPU), DataLoader seeding, `save_checkpoint` / `load_checkpoint`, `CheckpointKeeper` (best-on-validation + last, early stopping). |
+| `tests/test_data_pipeline.py` | 23 checks: counts, A1 compatibility, offsets, splits, config, seeds, checkpoints. |
+
+```python
+from data_loader import load_and_prepare, group_usages
+from src.config import load_config
+from src.splits import load_splits, fold_frames
+from src.reproducibility import set_seed
+
+cfg = load_config('configs/default.yaml')              # or overrides=['training.epochs=1']
+set_seed(cfg['seed'], cfg['training']['deterministic'])
+df = load_and_prepare(cfg['data']['data_dir'], cfg['data']['language'], cfg['preprocessing'])
+splits = load_splits(cfg['split']['file'], df, cfg['data']['data_dir'])
+for fold in splits['folds']:
+    train, val, test = fold_frames(df, fold)   # fine-tune on train, select on val, predict test
+```
+
+Rules:
+- Models read `model_text` / `model_start` / `model_end` (repaired offsets + preprocessing), never `start` / `end`.
+- Never tune or pick checkpoints on the test word. Write the 10 test-word predictions into one file and score it once with `src/scoring.py`.
+- Never cap the usages you predict for (`max_usages_per_period` is for training only): the scorer needs every `sentence_id`.
+- Split, preprocessing and evaluation are FIXED. Tell the team before changing them.
+
+```bash
+pip install -r requirements.txt
+python -m src.splits            # (re)checks / writes data/splits/SV_splits.json
+python -m pytest tests -q       # all checks should pass
+python src/sanity_check.py      # one cluster per word = 0.756, all-1 = 0.472
+```
