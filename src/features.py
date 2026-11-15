@@ -1,5 +1,5 @@
 """
-Feature engineering for the classical baseline (Baseline A).   Owner: Person 3.
+Feature engineering for the classical baseline (Baseline A).
 
 Every feature here is motivated by an EDA finding (Section 4, F1-F8):
 

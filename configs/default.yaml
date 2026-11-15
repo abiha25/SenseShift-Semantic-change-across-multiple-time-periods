@@ -9,7 +9,7 @@
 #
 # Team rule: the sections marked FIXED (data, split, preprocessing,
 # evaluation) are shared by ALL systems. Do not change them without telling
-# the whole team. Values marked "P1: confirm" are placeholders for Person 1.
+# the whole team.
 # Relative paths are resolved against the repo root.
 # =============================================================================
 
@@ -36,22 +36,35 @@ preprocessing:
   context_window: null         # k words each side of the target; null = whole sentence
   max_usages_per_period: null  # training-only cap; never applied to the prediction set
 
-# --- Person 1: usage encoder ------------------------------------------------
+# --- Proposed system: usage encoder (src/usage_encoder.py, src/proposed.py) 
 model:
-  frozen_encoder: xlm-roberta-base          # comparison encoder (frozen)
-  base_encoder: xlm-roberta-base            # P1: confirm - starting point for fine-tuning
-  layer: 8                                  # P1: confirm - hidden layer used (A1: 8 for XLM-R)
+  frozen_encoder: xlm-roberta-base          # comparison encoder (frozen; the pretrained baseline)
+  base_encoder: xlm-roberta-base            # starting point for fine-tuning (same backbone -> clean frozen vs fine-tuned ablation)
+  layer: 8                                  # hidden layer of the FROZEN encoder (A1: middle layers are best frozen)
+  finetuned_layer: -1                       # fine-tuned encoder: last layer (the layer the loss is applied to)
+  target_markers: true                      # wrap the target in <t> ... </t> (XL-LEXEME); ablation: false
   pooling: target_mean                      # mean of the sub-word vectors of the target span
-  max_length: 256                           # sub-words; same truncation as A1
+  max_length: 256                           # sub-words; same truncation as A1 (no dev sentence is longer)
   embedding_batch_size: 32
 
-# --- Person 1: fine-tuning (XL-LEXEME style, same-sense vs different-sense pairs)
+# --- Proposed system: fine-tuning (XL-LEXEME style, same-sense vs different-sense pairs)
+# Stage A: synthetic English (once per seed, shared by all folds; no Swedish data).
+# Stage B: the 8 training words of each fold, early stopping on the validation word.
 training:
-  enabled: true
-  objective: contrastive                    # P1: confirm
-  learning_rate: 1.0e-5                     # P1: confirm
-  batch_size: 16                            # P1: confirm
-  epochs: 5                                 # P1: confirm
+  enabled: true                             # false = frozen encoder with the same downstream steps
+  objective: contrastive                    # contrastive loss on cosine distance (Hadsell et al. 2006; XL-LEXEME)
+  margin: 0.5                               # different-sense pairs pushed >= 0.5 apart (cosine distance)
+  soft_labels: true                         # pair label = Jaccard overlap of the sense sets (13.2% multi-sense usages)
+  era_aware_sampling: true                  # positives across eras, negatives within an era (EDA F4/F8)
+  p_cross_era_positive: 0.7
+  p_same_era_negative: 0.7
+  positive_fraction: 0.5
+  freeze_embeddings: true                   # keep the multilingual word-piece embeddings (6 test languages)
+  swedish_stage: true                       # Stage B on; false = Stage A only (same encoder for all folds)
+  learning_rate: 1.0e-5                     # Stage B
+  batch_size: 16                            # pairs per step (= 32 sentences)
+  epochs: 4                                 # Stage B maximum; early stopping usually ends sooner
+  pairs_per_epoch: 4000                     # Stage B, freshly sampled every epoch
   warmup_ratio: 0.1
   weight_decay: 0.01
   dropout: 0.1
@@ -59,22 +72,37 @@ training:
   optimizer: adamw
   scheduler: linear
   early_stopping_patience: 2                # epochs without improvement on the VALIDATION word
-  selection_metric: val_bcubed_f1           # P1: confirm - "best dev score" (Section 7)
-  selection_mode: max
-  exclude_conflicting_duplicates: true      # drop pairs from sentences with conflicting gold labels
+  selection_metric: val_pair_auc            # AUC of cosine similarity for same/different-sense pairs of the validation word
+  selection_mode: max                       # (one word's B3 F1 is too coarse to select checkpoints; B3 F1 stays the reported metric)
+  exclude_conflicting_duplicates: true      # drop sentences whose copies have conflicting gold labels
   deterministic: true                       # slower but repeatable GPU kernels
+  synthetic:                                # Stage A
+    enabled: true
+    data_dir: data/external/synthetic_en    # see data/external/README.md
+    max_per_sense: 20                       # sentences kept per sense (seeded sample)
+    holdout_fraction: 0.03                  # synthetic words held out to monitor Stage A (pair AUC)
+    max_words: null                         # null = all ~2,300 multi-sense words; a number = quick test
+    n_pairs: 50000
+    epochs: 1
+    learning_rate: 2.0e-5
 
-# --- Person 1: sense clustering and change scoring ---------------------------
+# --- Proposed system: sense clustering and change scoring --------------------
 clustering:
   method: agglomerative                     # agglomerative | kmeans
   linkage: average
   distance: cosine
-  threshold_percentiles: [5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90]   # A1 Baseline B grid
+  threshold_selection: validation_pairs     # proposed: cut where same/different-sense pairs of the VALIDATION word separate best
+                                            # alternatives: validation_bcubed | nine_words (baseline procedure) | fixed (= margin / 2)
+  fixed_min_cluster_size: 10                # only for threshold_selection = fixed
+  threshold_percentiles: [5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90]   # A1 Baseline B grid (nine_words)
   min_cluster_sizes: [5, 10, 15, 20, 30]
   kmeans_k_range: [2, 10]
-  selection_objective: combined             # 1a | 1b | combined (A1 Section 6.1)
+  selection_objective: combined             # 1a | 1b | combined (A1 Section 6.1; nine_words only)
 
-# --- Person 2: baselines ----------------------------------------------------
+subtask2:
+  mode: absolute                            # absolute cosine threshold (per-word positive rate can differ) | rank | cluster
+
+# --- Baselines --------------------------------------------------------------
 baselines:
   random_seed: 42
   run: [majority, random, classical, pretrained_frozen]

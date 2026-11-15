@@ -1,0 +1,245 @@
+% ============================================================================
+% Section 1 - Proposed Approach
+% Packages used: amsmath, booktabs, tabularx, url (for \path), natbib (for \citet)
+% ============================================================================
+\section{Proposed Approach}
+\label{sec:approach}
+
+\subsection{Task input and output}
+\label{sec:approach-io}
+
+For each target word $w$ the input is the set of its usages
+$U_w=\{u_1,\dots,u_n\}$. A usage $u_i=(s_i,a_i,b_i,\pi_i)$ is a sentence $s_i$,
+the character span $[a_i,b_i)$ of the target in it, and its period
+$\pi_i\in\{\pi_1,\dots,\pi_{10}\}$. The ten periods are five four-year windows
+between 1880 and 1915 and five two-year windows between 2006 and 2023. For
+Subtask~2 the input also includes one sense definition $\delta_w$. The system
+produces three outputs, matching what the task scores:
+\begin{itemize}
+  \item \textbf{Subtask 1a:} a sense label $c_i$ for every usage. The labels are
+        induced cluster identifiers, not dictionary senses.
+  \item \textbf{Subtask 1b:} a change score for every pair of consecutive periods.
+        The official scorer computes the Jensen--Shannon divergence (JSD)
+        between the sense distributions of two periods directly from the 1a
+        labels, so the 1b prediction is fully determined by the clustering. We
+        also write a clustering-free graded score, the average pairwise distance
+        (APD), as a local diagnostic.
+  \item \textbf{Subtask 2:} a label $\hat y_i\in\{0,1\}$ for every usage that says
+        whether $u_i$ expresses the sense $\delta_w$.
+\end{itemize}
+
+\subsection{Pipeline}
+\label{sec:approach-pipeline}
+
+The system follows the four-step sense-based pipeline described by
+\citet{periti2024towards}: extract usages, embed them, cluster them, and compare
+periods. What sets it apart from the pretrained baseline is a
+\emph{fine-tuned usage encoder} in place of a frozen one
+(Section~\ref{sec:architecture}, Figure~\ref{fig:architecture}).
+
+\paragraph{1. Preprocessing.} Every system reads the data through the shared
+loader. It repairs five misaligned target offsets, maps the five pre-1906
+Swedish spelling patterns (\textit{hv-}, \textit{-fv-}, \textit{-dt},
+\textit{af}, \textit{qv-}) to their modern forms while keeping the target offsets
+valid, and keeps the original case. The target is then wrapped in two special
+tokens, \texttt{<t>}~target~\texttt{</t>}, so that the encoder knows which word
+to represent \citep{cassotti2023xllexeme}.
+
+\paragraph{2. Embedding extraction.} An XLM-R base encoder
+\citep{conneau2020xlmr} encodes each usage independently, as a bi-encoder
+\citep{reimers2019sbert}. The usage vector $\mathbf{v}_i\in\mathbb{R}^{768}$ is
+the mean of the last-layer hidden states of the sub-words that overlap the
+target span. The definition $\delta_w$ is encoded the same way as a
+pseudo-usage ``$w$: $\delta_w$'', with $w$ as the target.
+
+\paragraph{3. Sense clustering.} The usages of a word from \emph{all} periods are
+clustered together with average-linkage agglomerative clustering on cosine
+distance. Clustering every period separately would give cluster identifiers that
+cannot be compared across periods, the alignment problem described by
+\citet{periti2024towards}. The dendrogram is cut at distance $t$. Clusters with
+fewer than $m$ usages are dissolved, and each of their usages joins the large
+cluster with the most similar centroid. A word can therefore end up with a single
+sense. The cut $t$ and the minimum size $m$ are chosen per fold on the validation
+word (Section~\ref{sec:approach-selection}).
+
+\paragraph{4. Sense distribution per period.} For period $\pi$, the sense
+distribution $P_\pi$ is the share of the period's usages in each cluster.
+
+\paragraph{5. Change scoring.} For consecutive periods $\pi_k,\pi_{k+1}$:
+\begin{align}
+  \mathrm{JSD}(P_{\pi_k},P_{\pi_{k+1}}) &= \tfrac12 D_{\mathrm{KL}}(P_{\pi_k}\,\|\,M)
+     + \tfrac12 D_{\mathrm{KL}}(P_{\pi_{k+1}}\,\|\,M),\quad M=\tfrac12(P_{\pi_k}+P_{\pi_{k+1}}),
+     \label{eq:jsd}\\
+  \mathrm{APD}(\pi_k,\pi_{k+1}) &= \frac{1}{|U_{\pi_k}|\,|U_{\pi_{k+1}}|}
+     \sum_{u\in U_{\pi_k}}\sum_{u'\in U_{\pi_{k+1}}}\bigl(1-\cos(\mathbf v_u,\mathbf v_{u'})\bigr).
+     \label{eq:apd}
+\end{align}
+JSD (base~2) is the quantity the official 1b scorer ranks
+\citep{lin1991divergence,giulianelli2020analysing}. APD needs no clustering
+\citep{kutuzov2020uio}. Comparing the two shows whether a 1b error comes from the
+representation or from the clustering step.
+
+\paragraph{6. Subtask 2.} A usage is labelled positive if
+$\cos(\mathbf v_i,\mathbf v_{\delta_w})\ge\tau$. The threshold $\tau$ is a single
+absolute value tuned on the nine non-test words of the fold to maximise the
+official macro F1. It is not a within-word rank, so the share of positive
+predictions can differ between words.
+
+\paragraph{7. Prediction.} The labels are written in the official file format and
+scored with the shared evaluation script.
+
+\subsection{Training objective}
+\label{sec:approach-training}
+
+The encoder is trained as a bi-encoder on usage pairs of the same word, following
+XL-LEXEME \citep{cassotti2023xllexeme}, which learns from Word-in-Context
+pairs \citep{pilehvar2019wic}. For a pair $(u,u')$ with gold sense sets $S_u$ and
+$S_{u'}$ we use a \emph{soft} pair label and the contrastive loss of
+\citet{hadsell2006contrastive} on cosine distance:
+\begin{equation}
+  y=\frac{|S_u\cap S_{u'}|}{|S_u\cup S_{u'}|},\qquad
+  d=1-\cos(\mathbf v_u,\mathbf v_{u'}),\qquad
+  \mathcal L = y\,d^{2} + (1-y)\,\max(0,\,m_c-d)^{2},
+  \label{eq:loss}
+\end{equation}
+with margin $m_c=0.5$. Usages that share a sense are pulled together, and usages
+with no shared sense are pushed at least $m_c$ apart. Of the development usages,
+13.2\% carry two or three senses. For these, $y$ lies between 0 and 1, so such a
+pair is neither forced together nor apart. With hard labels ($y\in\{0,1\}$),
+Eq.~\eqref{eq:loss} is the loss used by XL-LEXEME.
+
+Training has two stages.
+\begin{itemize}
+  \item \textbf{Stage A (synthetic English).} The organisers' optional synthetic
+        English set \citep{tahmasebi2026semeval} contains 672{,}420 generated
+        sentences with a sense identifier for every sentence. We drop the 5.3\%
+        of lines whose marked span is not the target word (e.g.\ \textit{asked}
+        marked for \textit{question}), keep words with at least two senses, and
+        keep at most 20 sentences per sense. This leaves 2{,}193 training words
+        (172{,}132 sentences), plus 68 held-out words that are only used to
+        monitor this stage. We train on 50{,}000 sampled pairs for one epoch.
+        Stage A uses no Swedish data, so it is run once per seed and shared by
+        all folds.
+  \item \textbf{Stage B (Swedish, per fold).} Starting from the Stage A weights,
+        the encoder is fine-tuned on pairs from the fold's eight training words
+        only, with 4{,}000 freshly sampled pairs per epoch and at most four
+        epochs. After every epoch, and once before the first, we compute the AUC
+        with which cosine similarity separates same-sense from different-sense
+        pairs of the \emph{validation} word. Training stops after two epochs
+        without improvement, and the best weights are kept. If no epoch improves
+        on the Stage A weights, those weights are kept.
+\end{itemize}
+Pairs are drawn within one word: the word is chosen uniformly, then an anchor
+usage, then a partner, with half of the pairs positive. Two usages with the same
+sentence are never paired, and sentences whose duplicate copies received
+conflicting gold labels are excluded. We use AdamW
+\citep{loshchilov2019adamw}, batches of 16 pairs, linear warm-up over 10\% of the
+steps, gradient clipping at 1.0 and mixed precision. The 192M-parameter word-piece
+embedding matrix stays frozen, and the transformer layers (about 86M parameters)
+are updated. Freezing the embeddings keeps the representation of the vocabulary
+of the other five test languages unchanged and reduces memory use.
+
+\paragraph{Era-aware sampling.} To stop the encoder from using era as a cue for
+``same sense'' (EDA F4, F8), a positive partner is drawn from the other era with
+probability 0.7 when one exists, and a negative partner from the same era with
+probability 0.7. The eras are before and after 1950 for Swedish and before and
+after 1900 for the synthetic set.
+
+\subsection{Choices made without the test word}
+\label{sec:approach-selection}
+
+Each fold has one test word, one validation word and eight training words
+(Section~7). The cut $t$ is the distance at which the pairwise decision
+``same sense iff $d\le t$'' has the highest balanced accuracy on the validation
+word's usage pairs. It is taken from the 2nd to the 98th percentile of the
+observed distances. The minimum cluster size $m\in\{5,10,15,20,30\}$ is then
+chosen by the validation word's BCubed F1, with ties going to the larger $m$.
+The Subtask~2 threshold $\tau$ is tuned on the nine non-test words. The test word
+is used only once, for scoring. Three alternative selection rules are
+implemented for the ablations: the baseline procedure on the nine non-test words,
+selection by validation BCubed F1, and a fixed cut $t=m_c/2$.
+
+\subsection{Handling the challenges of the data}
+\label{sec:approach-challenges}
+
+\paragraph{Class and sense imbalance.} Most words have one dominant sense: one
+cluster per word already scores 0.756 BCubed F1 (EDA F6). The minimum cluster
+size lets the method return a single sense when no well-separated second sense
+exists, and the cut is chosen per word rather than fixed. For Subtask~2 the
+target-sense share ranges from 5.7\% to 94.6\% across words (EDA F7). The absolute
+threshold $\tau$ lets the predicted positive rate follow the word. It is tuned on
+the official macro F1 over both classes, which no longer rewards predicting
+everything positive (that now scores 0.236). During training, words are sampled
+uniformly and pairs are balanced 50/50, so large words and dominant senses do
+not dominate the loss.
+
+\paragraph{Old spellings and noisy historical text.} Pre-1906 spellings are
+normalised before encoding (EDA F4). Sub-word tokenisation keeps OCR-damaged
+words usable, since an unseen form is split into known pieces instead of becoming
+an unknown token. Era-aware sampling removes era as a shortcut during training.
+
+\paragraph{Long contexts.} We encode the whole sentence, because the encoder is
+trained on full sentences, and truncate at 256 sub-words. No development sentence
+is truncated: the longest has 571 characters. Texts longer than 1{,}000
+characters are cropped around the target before tokenisation, so the target can
+never be cut off. A fixed $\pm k$-word window is available in the configuration
+(\texttt{context\_window}) for the ablation of EDA F3, where historical sentences
+are 39\% longer than modern ones.
+
+\paragraph{Different numbers of usages per period.} The organisers capped the
+development data at 30 usages per word and period, and some periods have fewer
+than 10 (EDA F1). Clustering all periods together uses every usage to estimate
+the senses, so a small period does not get its own unstable clustering. JSD
+compares relative frequencies, so period sizes do not enter the score directly.
+The official scorer ignores periods with fewer than 10 usages. A training-only
+cap (\texttt{max\_usages\_per\_period}) exists but is not needed at 30. It is never
+applied to the prediction set, because the scorer requires a label for every
+usage.
+
+\subsection{Preprocessing decisions}
+\label{sec:approach-preprocessing}
+
+Table~\ref{tab:preprocessing} lists the preprocessing settings. All of them are
+in the shared configuration file (\path{configs/default.yaml}) and are the same
+for every system.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabularx}{\linewidth}{@{}lXl@{}}
+\toprule
+\textbf{Decision} & \textbf{Setting and reason} & \textbf{Config key}\\
+\midrule
+Lowercasing & No. Assignment~1 lower-cased together with spelling normalisation and could not separate the two effects; case also marks proper nouns (\textit{Fröken Johanna}). & \texttt{lowercase}\\
+Spelling normalisation & Yes, five pre-1906 patterns (EDA F4: archaic spellings occur in 71.5\% of historical usages and 0.8\% of modern ones). & \texttt{spelling\_normalisation}\\
+Context window & Whole sentence, at most 256 sub-words; target never truncated. & \texttt{context\_window}\\
+Max.\ usages per period & None for prediction (every usage must be labelled); training cap available but not needed (data capped at 30). & \texttt{max\_usages\_per\_period}\\
+Target marking & \texttt{<t>} \dots\ \texttt{</t>} around the repaired target span. & \texttt{target\_markers}\\
+Synthetic data & At most 20 sentences per sense; lines whose span is not the target are removed. & \texttt{synthetic.max\_per\_sense}\\
+\bottomrule
+\end{tabularx}
+\caption{Preprocessing decisions of the proposed system.}
+\label{tab:preprocessing}
+\end{table}
+
+\subsection{Expected limitations}
+\label{sec:approach-limitations}
+
+\begin{itemize}
+  \item \textbf{Rare senses are merged.} A sense with fewer than $m$ usages
+        (at least 5) cannot form its own cluster. \textit{suga} has 12 gold senses
+        in 129 usages, so most of them will be merged.
+  \item \textbf{Modern training text.} XLM-R was pretrained on modern web text,
+        and the synthetic set is modern English. Historical Swedish, including
+        OCR errors that spelling normalisation does not fix, is far from both.
+  \item \textbf{Few labelled words.} Stage B sees only eight Swedish words per
+        fold, and early stopping and clustering choices rest on a single
+        validation word. These choices are therefore noisy, and results can vary
+        between seeds.
+  \item \textbf{One sense per usage.} The clustering assigns one cluster per usage,
+        although 13.2\% of usages have several gold senses.
+  \item \textbf{Subtask~2 is only indirectly trained.} The definition vector comes
+        from the same encoder, but no training pair contains a definition, so
+        usage--definition similarity improves only to the extent that the
+        usage space improves.
+\end{itemize}

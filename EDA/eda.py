@@ -1,5 +1,5 @@
 """
-EDA figures for SemEval-2027 Task 3 (Swedish dev data). Owner: Person 2.
+EDA figures for SemEval-2027 Task 3 (Swedish dev data).
 
     from eda import add_features, compute_embeddings, make_eda_pdf, eda_numbers
     df = add_features(df)                       # df from data_loader.load_language

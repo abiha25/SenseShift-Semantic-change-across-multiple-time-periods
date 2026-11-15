@@ -1,5 +1,5 @@
 """
-Data splits for SemEval-2027 Task 3 (team SenseShift).   Owner: Person 3.
+Data splits for SemEval-2027 Task 3 (team SenseShift).
 
 WHY THIS FILE EXISTS
     The task releases no training set: the only labelled data are the 10

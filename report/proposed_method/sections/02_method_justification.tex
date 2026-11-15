@@ -1,0 +1,81 @@
+% ============================================================================
+% Section 2 - Method Justification
+% Packages used: booktabs, tabularx
+% ============================================================================
+\section{Method Justification}
+\label{sec:justification}
+
+Each design decision follows from an observation in Assignment~1 (A1). Table~\ref{tab:justification}
+gives the chain observation $\rightarrow$ decision $\rightarrow$ expected effect. The paragraphs
+after it add the interpretation and the supporting literature. ``F1''--``F8'' refer to the
+eight EDA findings of A1.
+
+\begin{table*}[t]
+\centering
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\textwidth}{@{}p{0.03\textwidth}XXX@{}}
+\toprule
+ & \textbf{Evidence from Assignment 1} & \textbf{Design decision} & \textbf{Expected effect}\\
+\midrule
+1 & Frozen XLM-R vectors group usages by inflected form (highest silhouette in 9/10 words), then era, and least by sense; sense silhouette is negative for all modern-only words (F8). & Fine-tune the encoder on same-sense vs.\ different-sense usage pairs with a contrastive loss (Eq.~\ref{eq:loss}). & Distances reflect sense rather than form, so clusters align better with gold senses (1a) and JSD follows real sense change (1b).\\
+2 & The WiC-trained XL-LEXEME beat frozen XLM-R layer 8 on 1a (0.760 vs.\ 0.733) and 1b ($\rho$ 0.492 vs.\ 0.324); \citet{periti2024systematic} report the same ordering on eight benchmarks. & Reproduce WiC-style training ourselves on XLM-R base, with target markers, instead of using XL-LEXEME as a black box. & Frozen and fine-tuned encoders share one backbone, so the ablation measures the effect of our training alone.\\
+3 & Only ten labelled words exist, so each fold trains on eight (A1 Section~3.6). & Stage A on the organisers' synthetic English set (2{,}193 multi-sense words) before Stage B on the eight Swedish words; word-piece embeddings frozen. & The encoder learns a general, word-independent notion of ``same sense'' instead of memorising eight words; the other test languages keep their vocabulary representations.\\
+4 & Era is a near-perfect shortcut: archaic spellings appear in 71.5\% of historical and 0.8\% of modern usages (F4); in A1, the Baseline~B clusters of \textit{herre} followed era (AMI 0.65) rather than sense (AMI 0.17). & Spelling normalisation before encoding, plus era-aware pair sampling: positives across eras, negatives within an era. & Era stops being a cue for ``same sense'', so fewer clusters split one sense at the era boundary.\\
+5 & One cluster per word scores 0.756 and the number of gold senses ranges from 3 to 12 (F6); Baseline~A's selection returned one cluster for 9 of 10 words. & Average-linkage clustering with a per-fold cut chosen where same- and different-sense pairs of the validation word separate best, and a minimum cluster size. & The cut is tied to the trained distance scale (margin $m_c$), so a word gets several clusters only when its senses are actually separated.\\
+6 & The target-sense share ranges from 5.7\% to 94.6\% across words (F7); A1's rank threshold fixed the positive share, and its tuned threshold collapsed to predicting nearly everything positive. & Absolute cosine threshold to the definition, tuned on the new macro F1 over both classes. & The predicted positive rate can follow the word, and the all-positive solution (0.236 under the new metric) is no longer optimal.\\
+\bottomrule
+\end{tabularx}
+\caption{Method justification: evidence from Assignment 1, the resulting design decision, and its expected effect.}
+\label{tab:justification}
+\end{table*}
+
+\paragraph{Why a fine-tuned encoder (rows 1--2).} The EDA showed that a general-purpose
+masked language model is not trained to decide whether two usages share a meaning:
+the frozen representation is organised by surface form and era first (F8). Our interpretation
+is that sense information is present but not dominant in the vector geometry,
+so a clustering on raw distances recovers forms and eras. The implication is to change the
+geometry directly with a pairwise objective, which is what Word-in-Context training does
+\citep{pilehvar2019wic,cassotti2023xllexeme}. A bi-encoder is required rather than a
+cross-encoder, because clustering needs one vector per usage that can be compared with every
+other usage \citep{reimers2019sbert}. We train the encoder ourselves instead of using the
+released XL-LEXEME so that the only difference between the frozen and the fine-tuned system is
+the training. This keeps the comparison controlled, as planned in the ablation study.
+
+\paragraph{Why synthetic pre-training and frozen embeddings (row 3).} Fine-tuning on eight words
+risks learning those words' senses instead of the skill of telling senses apart. The synthetic
+set provides sense-labelled usages for more than two thousand words. It is English, so it
+teaches the pairwise skill rather than Swedish senses, and the Swedish stage then adapts to the
+target data. The test set covers six languages \citep{tahmasebi2026semeval}, so freezing the
+word-piece embeddings protects the vocabulary of languages that appear in neither training stage.
+
+\paragraph{Why era-aware sampling (row 4).} The single historical-to-modern step contains most of
+the gold change (F2, F6), and it is also where spelling and style change most (F3, F4). If
+training pairs from the same era were mostly positive, the encoder could learn ``same era $\Rightarrow$
+same sense'', and Subtask~1b would then reward this shortcut at exactly the pairs that matter. Sampling
+positives across eras and negatives within an era makes the shortcut unhelpful for the loss.
+
+\paragraph{Why this clustering (row 5).} Sense-based change measures depend on the number of
+clusters: K-means with silhouette always returns at least two clusters
+\citep{giulianelli2020analysing,rousseeuw1987silhouettes}, which A1 showed to inflate
+$\rho$ through granularity alone. Agglomerative clustering with a minimum cluster size can
+return one sense, which is correct for near-monosemous words such as \textit{exportera}
+(F6). A contrastive objective with margin $m_c$ gives distances a meaning shared across words
+(same sense $\approx 0$, different sense $\gtrsim m_c$). A cut chosen on one word can therefore
+transfer to another, which percentile-based cuts on frozen vectors cannot do. Clustering all
+periods together avoids aligning separate clusterings across ten periods
+\citep{periti2024towards}.
+
+\paragraph{Why JSD and APD (Section~\ref{sec:approach-pipeline}).} The official 1b score ranks
+JSD between sense distributions \citep{lin1991divergence}, so JSD must be computed from our
+clusters. APD, one of the two strongest simple measures on SemEval-2020 Task~1
+\citep{schlechtweg2020semeval,kutuzov2020uio}, needs no clustering. \citet{periti2024systematic}
+found that form-based measures such as APD rank change better than sense-based ones. Reporting
+both therefore separates errors of the representation (APD also fails) from errors of the
+clustering (APD succeeds but JSD fails).
+
+\paragraph{Why an absolute threshold for Subtask~2 (row 6).} The imbalance is per word, not per
+period (F7). A within-word rank threshold predicts the same share of positives for every word,
+which is wrong by construction for \textit{fröken} (5.7\%) and \textit{exportera} (94.6\%).
+An absolute similarity threshold can only adapt if similarities are comparable across words;
+the contrastive training is meant to make them so.

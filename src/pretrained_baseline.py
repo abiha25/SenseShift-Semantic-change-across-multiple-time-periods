@@ -1,5 +1,5 @@
 """
-Pretrained baseline (Baseline B) for SemEval-2027 Task 3.   Owner: Moteba.
+Pretrained baseline (Baseline B) for SemEval-2027 Task 3.  
 
 NOTHING is fine-tuned. Every encoder is FROZEN; every Subtask 2 model is used
 ZERO-SHOT (the only things fitted are a rank threshold / a 2-feature logistic

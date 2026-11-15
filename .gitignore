@@ -1,0 +1,14 @@
+# Large external data (download from Codabench, see data/external/README.md)
+data/external/**
+!data/external/README.md
+# Model checkpoints and embedding caches
+checkpoints/
+cache/
+__pycache__/
+.pytest_cache/
+# Archives and files waiting to be deleted
+*.zip
+_to_delete/
+Claude outputs/
+# Internal notes (not part of the repository)
+report/*.docx

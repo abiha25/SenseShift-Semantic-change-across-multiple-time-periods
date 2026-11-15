@@ -1,0 +1,8 @@
+run,1a B3 F1,1b rho,1b shuffle,2 macro F1,APD rho (local)
+20261115-111845_proposed_ft_syn_sv_seed42,0.706,0.339,0.309,0.497,0.701
+20261115-115607_proposed_frozen_seed42,0.659,0.185,0.015,0.438,0.614
+20261115-115724_proposed_ft_syn_sv_nine_words_absolute_seed42,0.694,0.355,0.094,0.497,0.701
+20261115-121002_proposed_ft_syn_sv_fixed_absolute_seed42,0.737,0.338,0.288,0.497,0.701
+20261115-121051_proposed_ft_syn_sv_validation_bcubed_absolute_seed42,0.774,0.365,0.348,0.497,0.701
+20261115-121651_proposed_ft_syn_sv_validation_pairs_rank_seed42,0.706,0.339,0.309,0.499,0.701
+20261115-121747_proposed_ft_syn_sv_validation_pairs_cluster_seed42,0.706,0.339,0.309,0.413,0.701

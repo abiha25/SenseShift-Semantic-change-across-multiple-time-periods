@@ -1,0 +1,60 @@
+% ============================================================================
+% Section 8 - Initial Implementation: subsection for the proposed system
+% (Section 8 is shared; paste this as the proposed-system subsection.)
+% ============================================================================
+\subsection{Proposed system}
+\label{sec:impl-proposed}
+
+The proposed system adds two modules to the shared repository and reads every
+setting from \path{configs/default.yaml}. It uses the shared loader, the shared
+split file (\path{data/splits/SV_splits.json}) and the shared evaluation script
+without modifying them.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+\textbf{File} & \textbf{Contents}\\
+\midrule
+\texttt{src/usage\_encoder.py} & \texttt{UsageEncoder} (XLM-R with \texttt{<t>}\,/\,\texttt{</t>} markers, target-span mean pooling, frozen word pieces); loaders for the synthetic set and the Swedish training words; \texttt{PairSampler} (era-aware, soft labels); contrastive loss; training loop with warm-up, mixed precision, gradient clipping and early stopping; \texttt{pair\_auc}.\\
+\texttt{src/proposed.py} & \texttt{extract\_embeddings()}, \texttt{cluster\_senses()}, \texttt{score\_change()}, \texttt{predict()}; the selection rules of Section~\ref{sec:approach-selection}; the fold loop (\texttt{run}) and \texttt{recluster}, which re-uses saved vectors for clustering and Subtask~2 ablations without retraining.\\
+\texttt{tests/test\_proposed.py} & Six tests that need no model download (offsets after marking, pair labels, era-aware sampling, pair AUC, clustering, JSD).\\
+\texttt{notebooks/proposed\_model.ipynb} & Colab notebook: set-up, quick check, full run, frozen ablation, clustering ablations, results table.\\
+\bottomrule
+\end{tabularx}
+\caption{Code of the proposed system.}
+\label{tab:impl-proposed}
+\end{table}
+
+\paragraph{Mapping to the planned functions.}
+\texttt{extract\_embeddings()} returns one vector per usage (rows aligned with the
+loader's data frame) and one per definition. \texttt{cluster\_senses()} clusters
+the usages of one word. \texttt{score\_change()} returns the JSD of consecutive
+periods (APD is computed from the same vectors). \texttt{predict()} writes the
+official files and calls the shared evaluation script. The fine-tuning step is
+\texttt{train\_stage\_a} and \texttt{train\_stage\_b}. Every value in Sections
+\ref{sec:approach-training}--\ref{sec:approach-selection} is a key of the
+\texttt{model}, \texttt{training}, \texttt{clustering} or \texttt{subtask2} block of
+the configuration, and any value can be overridden from the command line:
+\begin{verbatim}
+python -m src.proposed run                                  # full system
+python -m src.proposed run --set training.enabled=false     # frozen encoder
+python -m src.proposed recluster --run results/runs/<dir> \
+       --set clustering.threshold_selection=nine_words      # ablation
+\end{verbatim}
+
+\paragraph{Safeguards.} The code refuses to run if the test or validation word is
+among a fold's training words. It also asserts that no training pair contains a
+held-out word, and that data rows and vector rows are aligned. Each run writes
+its configuration, environment, per-fold training history, selected settings and
+vectors next to its predictions in \path{results/runs/<time>_proposed_<name>_seed<seed>/}.
+
+\paragraph{Verification.} All 37 repository tests pass (31 shared, 6 new). On a
+Colab T4 GPU (PyTorch 2.14.1, Transformers 5.22.1), a complete run took 36
+minutes. Stage~A, including loading 672{,}420 synthetic sentences, took 7.8
+minutes, and the ten folds took 1.9 to 3.9 minutes each. The resulting files
+passed the evaluation script's format check for all 10 words and 1{,}983 usages
+with no missing or extra words. The only warning concerns 5 of the 65 APD pairs,
+which the task does not score (fewer than 10 gold usages); this is expected. The
+scores are reported in Section~9 as a pipeline check.

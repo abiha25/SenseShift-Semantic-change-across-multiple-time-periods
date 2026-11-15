@@ -1,5 +1,5 @@
 """
-Seeds and checkpoints (team SenseShift).   Owner: Person 3.
+Seeds and checkpoints (team SenseShift).
 
     from src.reproducibility import set_seed, seed_worker, torch_generator, CheckpointKeeper
 

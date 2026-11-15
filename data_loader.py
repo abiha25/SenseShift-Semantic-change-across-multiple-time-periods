@@ -1,7 +1,7 @@
 """
 Shared data loader for SemEval-2027 Task 3 (team SenseShift).
 
-Owner: Person 2 (Data and EDA). Everyone imports this file so that all
+Everyone imports this file so that all
 baselines read the data in exactly the same way.
 
 Usage
@@ -301,7 +301,7 @@ def write_subtask2(df, pred_column, out_path):
 
 
 # ===========================================================================
-# ASSIGNMENT 2 ADDITIONS (Person 3: data pipeline)
+# ASSIGNMENT 2 ADDITIONS (data pipeline)
 #
 # Everything above this line is unchanged from Assignment 1, so Baseline A
 # and Baseline B load the data exactly as before. The functions below add:

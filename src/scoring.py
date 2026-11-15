@@ -14,7 +14,7 @@ and only adds three things the official script does not give us:
 For the full report (format checks, secondary metrics, confidence intervals,
 subgroups) use src/evaluate.py, which calls the functions in this file.
 
-Official changes of 8 Nov 2026 (Person 2 updated this file on 15 Nov 2026):
+Official changes of 8 Nov 2026 (this file was updated on 15 Nov 2026):
   * Subtask 2: F1 is now MACRO over the two classes (0 and 1) per word, then
     averaged over words. Old "all 1" reference 0.472 -> now 0.236.
   * Subtask 1a: the BCubed precision/recall argument order was fixed, so the
@@ -84,7 +84,7 @@ def _prepare_gold(gold_file, pred_file, words, only_predicted_words, tmpdir):
     If a subset of words is requested, writes filtered copies of BOTH gold and
     predictions to tmpdir, so the official loaders only see those words.
     (Filtering only gold made the official loader reject the other words'
-    predictions as "unknown usage"; fixed by Person 3, 10 Oct 2026.)
+    predictions as "unknown usage"; fixed 10 Oct 2026.)
     """
     if only_predicted_words:
         words = _words_in(pred_file) if words is None else set(words) & _words_in(pred_file)

@@ -1,5 +1,5 @@
 """
-Shared configuration handling (team SenseShift).   Owner: Person 3.
+Shared configuration handling (team SenseShift).
 
     from src.config import load_config, make_run_dir, save_run_config
     cfg = load_config('configs/default.yaml', overrides=['training.epochs=1'])

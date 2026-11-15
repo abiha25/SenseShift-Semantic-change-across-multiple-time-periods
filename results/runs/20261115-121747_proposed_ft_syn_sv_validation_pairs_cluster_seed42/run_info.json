@@ -1,0 +1,27 @@
+{
+  "started": "2026-11-15T12:17:47",
+  "config_file": "/content/SenseShift/configs/default.yaml",
+  "command": "/content/SenseShift/src/proposed.py recluster --run /content/drive/MyDrive/SenseShift/runs/20261115-111845_proposed_ft_syn_sv_seed42 --set subtask2.mode=cluster --set output.results_dir=/content/drive/MyDrive/SenseShift/runs",
+  "git": null,
+  "data_fingerprint": "ac3c4874234f570e227bb9879c18db3c27da4cd7d40474b7b93dd5bd3eb109c8",
+  "environment": {
+    "python": "3.13.16",
+    "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+    "executable": "/usr/bin/python3",
+    "packages": {
+      "numpy": "2.4.6",
+      "pandas": "2.2.3",
+      "scipy": "1.16.3",
+      "sklearn": "1.6.1",
+      "torch": "2.14.1+cu130",
+      "transformers": "5.22.1",
+      "bcubed": "unknown",
+      "yaml": "6.0.3"
+    },
+    "cuda_available": true,
+    "gpu": "Tesla T4",
+    "cuda_version": "13.0"
+  },
+  "system": "proposed_ft_syn_sv_validation_pairs_cluster",
+  "vectors_from": "/content/drive/MyDrive/SenseShift/runs/20261115-111845_proposed_ft_syn_sv_seed42"
+}

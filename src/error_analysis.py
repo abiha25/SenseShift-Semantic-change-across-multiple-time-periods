@@ -1,5 +1,5 @@
 """
-Error analysis for SemEval-2027 Task 3 (Section 9 of the report). Owner: Moteba.
+Error analysis for SemEval-2027 Task 3 (Section 9 of the report).
 
 Works on ANY system's prediction files (official jsonl format), so Baseline A
 and Baseline B are analysed with exactly the same code.

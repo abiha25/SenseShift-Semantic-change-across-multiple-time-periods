@@ -1,5 +1,5 @@
 """
-Tests for the shared evaluation script (Person 2). Run from the repo root:
+Tests for the shared evaluation script. Run from the repo root:
 
     python -m pytest tests -q
 

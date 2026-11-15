@@ -22,7 +22,7 @@ check_integrity(df)                    # prints all data checks
 3. EDA files are in the `EDA/` folder:
    - `EDA/eda.py`: builds all EDA figures (needs `data_loader.py` importable, see below)
    - `EDA/eda_8_features_groups.pdf`: the final EDA figures (8 plots)
-   - `EDA/person2_data_eda.ipynb`: the notebook that produced every number and figure
+   - `EDA/data_eda.ipynb`: the notebook that produced every number and figure
 
    Key finding for the baselines: frozen XLM-R vectors group usages by word form and era
    more than by sense (Section 4, F8).
@@ -97,7 +97,7 @@ For error analysis: `results/classical/subtask1b_jsd_per_pair.csv` (gold vs pred
 
 `src/scoring.py`: scoring a subset of words (`words=` / `--only-predicted-words`) now filters the predictions as well as gold. Before, the official loader rejected the other words' predictions. Full-file scores are unchanged.
 
-## Pretrained Baseline, Results and Error Analysis (Person 4: Moteba)
+## Pretrained Baseline, Results and Error Analysis
 
 Baseline B: frozen multilingual encoders with the same clustering, LOWO protocol and official scorer as Baseline A.
 Report: Section 6.2 (Baseline B), Section 8 (Results), Section 9 (Error Analysis), Sections 10–11.
@@ -215,7 +215,7 @@ python -m pytest tests -q       # all checks should pass
 python src/sanity_check.py      # one cluster per word = 0.756, all-1 = 0.236 (new official metric)
 ```
 
-### Evaluation script (Person 2) - use it for EVERY result in the report
+### Evaluation script - use it for EVERY result in the report
 
 The official scorer was updated by the organisers on 8 Nov 2026 (commit `0e69238`) and
 `evaluation.py` / `evaluation_utils.py` in this repo are now that version:
@@ -262,10 +262,10 @@ era/period, word frequency, part of speech, amount of gold change and time cover
 - Do not change `src/evaluate.py`, `src/scoring.py` or the official files without telling
   the team.
 
-### Comparison baselines (Person 2)
+### Comparison baselines
 
 `src/baselines.py` runs the three comparison systems on the shared split and scores each with
-`src/evaluate.py`. Colab: `notebooks/person2_step2_baselines.ipynb` (T4 GPU, about 10 minutes).
+`src/evaluate.py`. Colab: `notebooks/baselines.ipynb` (T4 GPU, about 10 minutes).
 
 ```bash
 python -m src.baselines --which simple classical    # majority, random (5 seeds), classical
@@ -286,3 +286,27 @@ python -m src.baselines --table                     # results/baselines/summary.
 - Subtask 2 thresholds are tuned on the new official metric (macro F1), not the A1 metric.
 - XLM-R vectors are cached in `cache/` (not committed).
 
+
+## Proposed System (Assignment 2)
+
+Fine-tuned XLM-R usage encoder (XL-LEXEME style) + agglomerative sense clustering + JSD/APD change scores.
+Report: Sections 1-3. Runs on the shared split and is scored by `src/evaluate.py` like every baseline.
+
+| File | What it does |
+|---|---|
+| `src/usage_encoder.py` | `UsageEncoder` (XLM-R, target marked `<t> ... </t>`, mean of the target's sub-word vectors), synthetic + Swedish training items, era-aware `PairSampler` with soft labels (sense overlap), contrastive loss, training loop with early stopping |
+| `src/proposed.py` | `extract_embeddings()`, `cluster_senses()`, `score_change()`, Subtask 2, `predict()`; the fold loop (`run`) and `recluster` (new clustering settings on saved vectors) |
+| `notebooks/proposed_model.ipynb` | Colab notebook: set-up, quick check, full run, frozen ablation, clustering ablations, results table |
+| `tests/test_proposed.py` | Tests that need no model download |
+| `data/external/README.md` | Where to put the organisers' synthetic English set (training only) |
+
+Training: **Stage A** synthetic English (once per seed, shared by all folds, no Swedish data) ->
+**Stage B** the 8 training words of each fold, early stopping on the validation word (pair AUC).
+The test word is never used for training or for any choice. Settings: `configs/default.yaml`
+(`model`, `training`, `clustering`, `subtask2`).
+
+```bash
+python -m src.proposed run                                     # full system (GPU)
+python -m src.proposed run --set training.enabled=false        # frozen encoder, same pipeline
+python -m src.proposed recluster --run results/runs/<dir> --set clustering.threshold_selection=fixed
+```

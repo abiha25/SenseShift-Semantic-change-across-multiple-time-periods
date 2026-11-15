@@ -1,7 +1,7 @@
 """
-Comparison systems (baselines) for Assignment 2.   Owner: Person 2.
+Comparison systems (baselines) for Assignment 2.
 
-Three baselines, all on Person 3's shared split (data/splits/SV_splits.json),
+Three baselines, all on the shared split (data/splits/SV_splits.json),
 all with settings from configs/default.yaml, all scored by src/evaluate.py:
 
   1. SIMPLE      majority : one cluster per word (= the dominant sense) and
@@ -36,7 +36,7 @@ CHANGES TO THE ASSIGNMENT 1 CODE (method unchanged, objective updated)
     * A constant change prediction now scores rho = 0 in the official code
       (was NaN, which Assignment 1 treated as -1 during selection).
 
-Run (repo root; Colab: see notebooks/person2_step2_baselines.ipynb):
+Run (repo root; Colab: see notebooks/baselines.ipynb):
     python -m src.baselines --which simple classical
     python -m src.baselines --which pretrained        # GPU recommended
 Each system writes results/runs/<time>_<name>_seed<seed>/ with config.yaml,

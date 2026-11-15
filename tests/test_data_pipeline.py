@@ -1,5 +1,5 @@
 """
-Tests for the shared data pipeline (Person 3). Run from the repo root:
+Tests for the shared data pipeline. Run from the repo root:
 
     python -m pytest tests -q
 

@@ -1,5 +1,5 @@
 """
-Shared evaluation script (team SenseShift, Assignment 2).   Owner: Person 2.
+Shared evaluation script (team SenseShift, Assignment 2).
 
 ONE command scores any system (baseline, proposed model, ablation) the same way:
 

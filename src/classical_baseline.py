@@ -1,5 +1,5 @@
 """
-Classical baseline (Baseline A) for SemEval-2027 Task 3.   Owner: Person 3.
+Classical baseline (Baseline A) for SemEval-2027 Task 3.
 
 Subtask 1 (1a + 1b): cluster TF-IDF context vectors of each target word with
     average-linkage agglomerative clustering, then fold clusters smaller than
