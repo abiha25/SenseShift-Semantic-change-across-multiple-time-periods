@@ -2,6 +2,12 @@
 Sanity check for src/scoring.py using "dumb" systems whose scores we can predict.
 If these numbers look as expected, the scoring setup is trustworthy.
 
+Expected on Swedish dev with the official scorer of 8 Nov 2026 (commit 0e69238):
+    one_cluster   B3 P 0.646, R 0.981, F1 0.756, 1b rho 0.000
+    gold_labels   1.000 everywhere
+    Subtask 2     all_1 0.236, all_0 0.361 (macro F1 over both classes per word)
+(Before 8 Nov 2026: all_1 was 0.472 and the one-cluster P/R were shown swapped.)
+
 Run from the repo root:
     python src/sanity_check.py            (uses data/SV)
     python src/sanity_check.py --lang SV --seed 42

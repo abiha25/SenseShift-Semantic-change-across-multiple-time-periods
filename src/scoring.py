@@ -3,12 +3,23 @@ Shared scoring module for the SenseShift team (SemEval-2027 Task 3).
 
 Everyone uses THIS file to score predictions. Do not write your own metric code.
 It reuses the official organiser code (evaluation.py / evaluation_utils.py in the
-repo root) and only adds three things the official script does not give us:
+repo root, version of 8 Nov 2026, commit 0e69238 of ChangeIsKey/semeval2027-task3)
+and only adds three things the official script does not give us:
 
   1. Scoring a single JSONL file (the official script only accepts a ZIP).
   2. Per-word scores (the official script only returns the average).
   3. Scoring a subset of words (needed for leave-one-word-out validation, and
      for the organisers' example submission, which only covers 2 words).
+
+For the full report (format checks, secondary metrics, confidence intervals,
+subgroups) use src/evaluate.py, which calls the functions in this file.
+
+Official changes of 8 Nov 2026 (Person 2 updated this file on 15 Nov 2026):
+  * Subtask 2: F1 is now MACRO over the two classes (0 and 1) per word, then
+    averaged over words. Old "all 1" reference 0.472 -> now 0.236.
+  * Subtask 1a: the BCubed precision/recall argument order was fixed, so the
+    old _fix_names() swap is no longer needed (it would now swap them back).
+  * Subtask 1b: a NaN Spearman (constant prediction) is now reported as 0.
 
 Usage from Python:
     from src.scoring import score_1a, score_1b, score_2, validate_submission
@@ -29,7 +40,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 import sys
 import tempfile
 import zipfile
@@ -123,24 +133,10 @@ def score_1a(pred_file, gold_file, words=None, only_predicted_words=False) -> di
     for word, gold_w in sorted(gold_by_word.items()):
         pred_w = {k: pred[k] for k in gold_w}
         # Official function on a single word = that word's score.
-        per_word[word] = _fix_names(compute_bcubed(gold_w, pred_w, str(pred_file)))
+        per_word[word] = compute_bcubed(gold_w, pred_w, str(pred_file))
 
-    macro = _fix_names(compute_bcubed(gold, pred, str(pred_file)))  # official macro-average
+    macro = compute_bcubed(gold, pred, str(pred_file))  # official macro-average
     return {"per_word": per_word, "macro": macro}
-
-
-def _fix_names(scores: dict) -> dict:
-    """
-    The official code calls bcubed.precision(gold, pred), but the bcubed library
-    expects (pred, gold). So the official "precision" is really BCubed RECALL
-    and vice versa. F1 is symmetric, so F1 (the ranked metric) is unaffected.
-    We return the correctly named values; Codabench will show them swapped.
-    """
-    return {
-        "precision": scores["recall"],
-        "recall": scores["precision"],
-        "fcubed": scores["fcubed"],
-    }
 
 
 # --------------------------------------------------------------------------
@@ -163,10 +159,9 @@ def score_1b(pred_file, gold_file, words=None, only_predicted_words=False) -> di
     result = compute_spearman(gold_jsd, pred_jsd, str(pred_file))
     rho = result["rho"]
     note = None
-    if math.isnan(rho):
-        note = ("Spearman is NaN: the predicted (or gold) JSD values are all identical, "
-                "e.g. every usage in one cluster. Treat this as 'no signal' (≈0). "
-                "Note: the official script would fail on this when writing JSON.")
+    if len({round(float(pred_jsd[k]), 12) for k in gold_jsd}) <= 1:
+        note = ("All predicted JSD values are identical (e.g. one cluster per word), so "
+                "there is no ranking. The official scorer reports rho = 0 in this case.")
     return {
         "rho": rho,
         "pvalue": result["pvalue"],
