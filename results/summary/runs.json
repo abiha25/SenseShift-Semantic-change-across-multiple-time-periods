@@ -1,0 +1,39 @@
+{
+  "baseline_majority": {
+    "42": "20261115-083700_baseline_majority_seed42"
+  },
+  "baseline_random": {
+    "13": "20261115-083717_baseline_random_seed13",
+    "42": "20261115-083738_baseline_random_seed42",
+    "87": "20261115-083801_baseline_random_seed87",
+    "1234": "20261115-083824_baseline_random_seed1234",
+    "2027": "20261115-083847_baseline_random_seed2027"
+  },
+  "baseline_classical": {
+    "42": "20261115-084055_baseline_classical_seed42"
+  },
+  "baseline_pretrained_frozen_xlmr": {
+    "42": "20261115-084216_baseline_pretrained_frozen_xlmr_seed42"
+  },
+  "proposed_ft_syn_sv": {
+    "42": "20261115-111845_proposed_ft_syn_sv_seed42"
+  },
+  "proposed_frozen": {
+    "42": "20261115-115607_proposed_frozen_seed42"
+  },
+  "proposed_ft_syn_sv_nine_words_absolute": {
+    "42": "20261115-115724_proposed_ft_syn_sv_nine_words_absolute_seed42"
+  },
+  "proposed_ft_syn_sv_fixed_absolute": {
+    "42": "20261115-121002_proposed_ft_syn_sv_fixed_absolute_seed42"
+  },
+  "proposed_ft_syn_sv_validation_bcubed_absolute": {
+    "42": "20261115-121051_proposed_ft_syn_sv_validation_bcubed_absolute_seed42"
+  },
+  "proposed_ft_syn_sv_validation_pairs_rank": {
+    "42": "20261115-121651_proposed_ft_syn_sv_validation_pairs_rank_seed42"
+  },
+  "proposed_ft_syn_sv_validation_pairs_cluster": {
+    "42": "20261115-121747_proposed_ft_syn_sv_validation_pairs_cluster_seed42"
+  }
+}
