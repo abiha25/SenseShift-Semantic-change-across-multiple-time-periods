@@ -79,11 +79,15 @@ baselines:
   random_seed: 42
   run: [majority, random, classical, pretrained_frozen]
 
-# --- FIXED: evaluation (src/scoring.py wraps the official scorer) ------------
+# --- FIXED: evaluation (src/evaluate.py -> src/scoring.py -> official scorer) -
+# Official scorer: ChangeIsKey/semeval2027-task3, commit 0e69238 (8 Nov 2026).
 evaluation:
   min_instances_1b: 10                      # official value; do not change
   shuffle_control_draws: 200                # report next to every 1b rho
   report_within_era_rho: true
+  bootstrap_resamples: 10000                # Section 10.2: CI by resampling words
+  bootstrap_seed: 42
+  ci_level: 0.95
 
 # --- Outputs ----------------------------------------------------------------
 output:
