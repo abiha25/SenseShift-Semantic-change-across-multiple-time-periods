@@ -76,7 +76,7 @@ In Colab, set `REPO` in Cell 1 to the repo folder on your Drive.
 |---|---|---|
 | 1a BCubed F1 | 0.697 | 0.756 (one cluster per word) |
 | 1b Spearman ρ | 0.001 | undefined |
-| 2 macro F1 | 0.472 | 0.472 (predict all 1) |
+| 2 F1 (A1: old positive-class metric) | 0.472 | 0.472 (predict all 1) |
 
 Key findings:
 - TF-IDF context vectors carry too little sense information to beat one cluster per word.
@@ -118,7 +118,7 @@ Run everything from the repo root.
 ```bash
 pip install -r requirements.txt            # includes torch and transformers
 
-# 1. Check the scoring setup (trivial baselines: one cluster = 0.756, all-1 = 0.472)
+# 1. Check the scoring setup (trivial baselines: one cluster = 0.756, all-1 = 0.236 with the 8 Nov 2026 official scorer)
 python src/sanity_check.py
 
 # 2. Baseline A: run notebooks/classical_baselineA.ipynb (writes results/classical/)
@@ -159,7 +159,7 @@ Seed 42 everywhere. The embeddings were extracted once on Google Colab (T4 GPU) 
 |---|---|---|---|
 | 1a BCubed F1 | 0.756 (one cluster per word) | 0.697 | 0.760 |
 | 1b Spearman ρ | undefined | 0.001 (K-means 0.242, shuffle control 0.168) | 0.492 (shuffle control 0.387 ± 0.042) |
-| 2 macro F1 | 0.472 (predict all 1) | 0.472 | 0.468 |
+| 2 F1 (A1: old positive-class metric) | 0.472 (predict all 1) | 0.472 | 0.468 |
 
 Key findings:
 - No classical system beats the trivial references. The only result above its control is the Baseline B ranking on Subtask 1b.
@@ -212,5 +212,52 @@ Rules:
 pip install -r requirements.txt
 python -m src.splits            # (re)checks / writes data/splits/SV_splits.json
 python -m pytest tests -q       # all checks should pass
-python src/sanity_check.py      # one cluster per word = 0.756, all-1 = 0.472
+python src/sanity_check.py      # one cluster per word = 0.756, all-1 = 0.236 (new official metric)
 ```
+
+### Evaluation script (Person 2) - use it for EVERY result in the report
+
+The official scorer was updated by the organisers on 8 Nov 2026 (commit `0e69238`) and
+`evaluation.py` / `evaluation_utils.py` in this repo are now that version:
+
+- **Subtask 2 is now macro F1 over both classes per word** (then averaged over words).
+  Predicting all 1 now scores 0.236 (it was 0.472). Assignment 1 Subtask 2 numbers
+  were computed with the old metric; `src/evaluate.py` still prints the old one as
+  "positive-class F1 (A1 metric)" so both can be compared.
+- Subtask 1a: precision and recall are now named correctly by the official code, so the
+  old swap in `src/scoring.py` was removed. F1 is unchanged (one cluster = 0.756).
+- Subtask 1b: a constant prediction (e.g. one cluster per word) now gets rho = 0.
+
+```bash
+# score a run (writes scores.json, per_word.csv [, subgroups.csv] next to the predictions)
+python -m src.evaluate score --name <system> \
+    --s1 results/runs/<run>/SV_subtask1.jsonl \
+    --s2 results/runs/<run>/SV_subtask2.jsonl \
+    [--graded results/runs/<run>/SV_graded_change.jsonl] [--subgroups]
+
+python -m src.evaluate check --s1 FILE --s2 FILE                 # format check only
+python -m src.evaluate compare A/scores.json B/scores.json --metric 1a   # 1a | 1b | 2 | graded
+python -m src.evaluate summarise seed13/scores.json seed42/scores.json ...  # mean +- sd
+```
+
+```python
+from src.evaluate import evaluate_predictions, write_graded
+res = evaluate_predictions(s1=..., s2=..., graded=..., name='proposed', out_dir=run_dir)
+```
+
+It prints and saves: a format check (errors = the official scorer would reject the file;
+warnings for missing or extra words), the three official metrics with 95% bootstrap
+confidence intervals over words, secondary metrics (BCubed P/R, cluster counts, Pearson r,
+within-era rho, cross-era tracking, 1b shuffle control; accuracy, balanced accuracy and
+positive-class F1 for Subtask 2), per-word scores, and with `--subgroups` the scores by
+era/period, word frequency, part of speech, amount of gold change and time coverage.
+
+- **Graded change (APD etc.)**: save one score per scored consecutive period pair with
+  `write_graded(rows, path)` (rows: `word`, `period1`, `period2`, `score`). It is scored
+  against gold JSD on the same 60 pairs. This is a LOCAL score: the official 1b score is
+  always computed from the submitted cluster labels.
+- **compare** implements Section 10.2: exact paired sign-flip test (1a, 2) or per-word swap
+  test (1b, graded) plus a bootstrap CI of the difference. Call a system better only if
+  the CI excludes 0 and p < 0.05.
+- Do not change `src/evaluate.py`, `src/scoring.py` or the official files without telling
+  the team.
