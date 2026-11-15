@@ -1,0 +1,862 @@
+{
+  "name": "classical",
+  "language": "SV",
+  "official_scorer": "ChangeIsKey/semeval2027-task3 commit 0e69238 (8 Nov 2026)",
+  "files": {
+    "s1": "/content/SenseShift/results/runs/20261115-084055_baseline_classical_seed42/SV_subtask1.jsonl",
+    "s2": "/content/SenseShift/results/runs/20261115-084055_baseline_classical_seed42/SV_subtask2.jsonl",
+    "graded": null
+  },
+  "checks": {
+    "subtask1": {
+      "errors": [],
+      "warnings": [],
+      "words_scored": [
+        "dumpa",
+        "exportera",
+        "fru",
+        "fröken",
+        "förort",
+        "herre",
+        "kvinna",
+        "motiv",
+        "skär",
+        "suga"
+      ],
+      "complete": true,
+      "n_rows": 1983
+    },
+    "subtask2": {
+      "errors": [],
+      "warnings": [],
+      "words_scored": [
+        "dumpa",
+        "exportera",
+        "fru",
+        "fröken",
+        "förort",
+        "herre",
+        "kvinna",
+        "motiv",
+        "skär",
+        "suga"
+      ],
+      "complete": true,
+      "n_rows": 1983
+    }
+  },
+  "scores": {
+    "1a_bcubed_f1": 0.697015307749275,
+    "1b_spearman": 0.0012971738666144104,
+    "1a_bcubed_f1_ci": {
+      "low": 0.5603531728443375,
+      "high": 0.8194800074104612,
+      "level": 0.95,
+      "resamples": 10000,
+      "unit": "words"
+    },
+    "1b_spearman_ci": {
+      "low": -0.1577835105029853,
+      "high": 0.21808519028177267,
+      "level": 0.95,
+      "resamples": 10000,
+      "unit": "words"
+    },
+    "2_macro_f1": 0.4301296166985801,
+    "2_macro_f1_ci": {
+      "low": 0.3633287912788681,
+      "high": 0.4843845157991218,
+      "level": 0.95,
+      "resamples": 10000,
+      "unit": "words"
+    }
+  },
+  "words_scored": [
+    "dumpa",
+    "exportera",
+    "fru",
+    "fröken",
+    "förort",
+    "herre",
+    "kvinna",
+    "motiv",
+    "skär",
+    "suga"
+  ],
+  "subgroups": [
+    {
+      "group_type": "overall",
+      "group": "all words",
+      "n_words": 10,
+      "n_usages": 1983,
+      "1a_bcubed_f1": 0.697015307749275,
+      "1a_one_cluster_f1": 0.7563415432223628,
+      "n_pairs": 60,
+      "1b_rho": 0.0012971738666144104,
+      "2_macro_f1": 0.4301296166985801,
+      "1a_bcubed_f1_minus_overall": 0.0,
+      "2_macro_f1_minus_overall": 0.0,
+      "1b_rho_minus_overall": 0.0
+    },
+    {
+      "group_type": "frequency",
+      "group": "high (median 162 usages)",
+      "n_words": 5,
+      "n_usages": 1312,
+      "1a_bcubed_f1": 0.7010527657762402,
+      "1a_one_cluster_f1": 0.8197052367224158,
+      "n_pairs": 40,
+      "1b_rho": 0.13768466337380317,
+      "2_macro_f1": 0.42955675233799206,
+      "1a_bcubed_f1_minus_overall": 0.004037458026965202,
+      "2_macro_f1_minus_overall": -0.0005728643605880102,
+      "1b_rho_minus_overall": 0.13638748950718876
+    },
+    {
+      "group_type": "frequency",
+      "group": "low (median 162 usages)",
+      "n_words": 5,
+      "n_usages": 671,
+      "1a_bcubed_f1": 0.6929778497223098,
+      "1a_one_cluster_f1": 0.6929778497223098,
+      "n_pairs": 20,
+      "1b_rho": null,
+      "2_macro_f1": 0.4307024810591681,
+      "1a_bcubed_f1_minus_overall": -0.004037458026965202,
+      "2_macro_f1_minus_overall": 0.0005728643605880102,
+      "1b_rho_minus_overall": null
+    },
+    {
+      "group_type": "part_of_speech",
+      "group": "JJ",
+      "n_words": 1,
+      "n_usages": 98,
+      "1a_bcubed_f1": 0.545178336190438,
+      "1a_one_cluster_f1": 0.545178336190438,
+      "n_pairs": 4,
+      "1b_rho": null,
+      "2_macro_f1": 0.4492561983471074,
+      "1a_bcubed_f1_minus_overall": -0.15183697155883702,
+      "2_macro_f1_minus_overall": 0.01912658164852732
+    },
+    {
+      "group_type": "part_of_speech",
+      "group": "NN",
+      "n_words": 6,
+      "n_usages": 1462,
+      "1a_bcubed_f1": 0.7182630893254695,
+      "1a_one_cluster_f1": 0.8171401484472826,
+      "n_pairs": 44,
+      "1b_rho": 0.14849684447558198,
+      "2_macro_f1": 0.4408467223949508,
+      "1a_bcubed_f1_minus_overall": 0.021247781576194447,
+      "2_macro_f1_minus_overall": 0.010717105696370743,
+      "1b_rho_minus_overall": 0.14719967060896758
+    },
+    {
+      "group_type": "part_of_speech",
+      "group": "VB",
+      "n_words": 3,
+      "n_usages": 423,
+      "1a_bcubed_f1": 0.7051320684498318,
+      "1a_one_cluster_f1": 0.7051320684498318,
+      "n_pairs": 12,
+      "1b_rho": null,
+      "2_macro_f1": 0.40231987808966285,
+      "1a_bcubed_f1_minus_overall": 0.00811676070055678,
+      "2_macro_f1_minus_overall": -0.027809738608917223,
+      "1b_rho_minus_overall": null
+    },
+    {
+      "group_type": "gold_change",
+      "group": "high (mean gold JSD, median 0.21)",
+      "n_words": 5,
+      "n_usages": 933,
+      "1a_bcubed_f1": 0.5857638611601449,
+      "1a_one_cluster_f1": 0.7044163321063206,
+      "n_pairs": 30,
+      "1b_rho": -0.25174880780335857,
+      "2_macro_f1": 0.37621901681118697,
+      "1a_bcubed_f1_minus_overall": -0.11125144658913011,
+      "2_macro_f1_minus_overall": -0.05391059988739311,
+      "1b_rho_minus_overall": -0.253045981669973
+    },
+    {
+      "group_type": "gold_change",
+      "group": "low (mean gold JSD, median 0.21)",
+      "n_words": 5,
+      "n_usages": 1050,
+      "1a_bcubed_f1": 0.808266754338405,
+      "1a_one_cluster_f1": 0.808266754338405,
+      "n_pairs": 30,
+      "1b_rho": null,
+      "2_macro_f1": 0.4840402165859731,
+      "1a_bcubed_f1_minus_overall": 0.11125144658913,
+      "2_macro_f1_minus_overall": 0.05391059988739305,
+      "1b_rho_minus_overall": null
+    },
+    {
+      "group_type": "time_coverage",
+      "group": "both eras",
+      "n_words": 5,
+      "n_usages": 1312,
+      "1a_bcubed_f1": 0.7010527657762402,
+      "1a_one_cluster_f1": 0.8197052367224158,
+      "n_pairs": 40,
+      "1b_rho": 0.13768466337380317,
+      "2_macro_f1": 0.42955675233799206,
+      "1a_bcubed_f1_minus_overall": 0.004037458026965202,
+      "2_macro_f1_minus_overall": -0.0005728643605880102,
+      "1b_rho_minus_overall": 0.13638748950718876
+    },
+    {
+      "group_type": "time_coverage",
+      "group": "historical only",
+      "n_words": 1,
+      "n_usages": 98,
+      "1a_bcubed_f1": 0.545178336190438,
+      "1a_one_cluster_f1": 0.545178336190438,
+      "n_pairs": 4,
+      "1b_rho": null,
+      "2_macro_f1": 0.4492561983471074,
+      "1a_bcubed_f1_minus_overall": -0.15183697155883702,
+      "2_macro_f1_minus_overall": 0.01912658164852732
+    },
+    {
+      "group_type": "time_coverage",
+      "group": "modern only",
+      "n_words": 4,
+      "n_usages": 573,
+      "1a_bcubed_f1": 0.7299277281052777,
+      "1a_one_cluster_f1": 0.7299277281052777,
+      "n_pairs": 16,
+      "1b_rho": null,
+      "2_macro_f1": 0.4260640517371832,
+      "1a_bcubed_f1_minus_overall": 0.032912420356002725,
+      "2_macro_f1_minus_overall": -0.0040655649613968725,
+      "1b_rho_minus_overall": null
+    },
+    {
+      "group_type": "era",
+      "group": "historical (1880-1915)",
+      "n_words": 6,
+      "n_usages": 768,
+      "1a_bcubed_f1": 0.6353920209122331,
+      "1a_one_cluster_f1": 0.7163928738847233,
+      "n_pairs": 24,
+      "1b_rho": -0.024101979660950495,
+      "2_macro_f1": 0.4621871039611302,
+      "1a_bcubed_f1_minus_overall": -0.06162328683704188,
+      "2_macro_f1_minus_overall": 0.032057487262550144,
+      "1b_rho_minus_overall": -0.025399153527564906
+    },
+    {
+      "group_type": "era",
+      "group": "modern (2006-2023)",
+      "n_words": 9,
+      "n_usages": 1215,
+      "1a_bcubed_f1": 0.7380464808712117,
+      "1a_one_cluster_f1": 0.8123204321425566,
+      "n_pairs": 32,
+      "1b_rho": -0.20184813106116867,
+      "2_macro_f1": 0.39649780678985497,
+      "1a_bcubed_f1_minus_overall": 0.041031173121936715,
+      "2_macro_f1_minus_overall": -0.03363180990872511,
+      "1b_rho_minus_overall": -0.20314530492778307
+    },
+    {
+      "group_type": "period",
+      "group": "1880-1883",
+      "n_words": 6,
+      "n_usages": 163,
+      "1a_bcubed_f1": 0.6408618601722917,
+      "1a_one_cluster_f1": 0.7156048155921023,
+      "n_pairs": 0,
+      "1b_rho": null,
+      "2_macro_f1": 0.47394619309512925,
+      "1a_bcubed_f1_minus_overall": -0.05615344757698326,
+      "2_macro_f1_minus_overall": 0.04381657639654918
+    },
+    {
+      "group_type": "period",
+      "group": "1888-1891",
+      "n_words": 6,
+      "n_usages": 139,
+      "1a_bcubed_f1": 0.6446843457739702,
+      "1a_one_cluster_f1": 0.7251834874410216,
+      "n_pairs": 0,
+      "1b_rho": null,
+      "2_macro_f1": 0.4202913168342817,
+      "1a_bcubed_f1_minus_overall": -0.052330961975304846,
+      "2_macro_f1_minus_overall": -0.00983829986429835
+    },
+    {
+      "group_type": "period",
+      "group": "1896-1899",
+      "n_words": 6,
+      "n_usages": 162,
+      "1a_bcubed_f1": 0.6579634158106473,
+      "1a_one_cluster_f1": 0.742481965785276,
+      "n_pairs": 0,
+      "1b_rho": null,
+      "2_macro_f1": 0.40661752456896094,
+      "1a_bcubed_f1_minus_overall": -0.03905189193862768,
+      "2_macro_f1_minus_overall": -0.023512092129619133
+    },
+    {
+      "group_type": "period",
+      "group": "1904-1907",
+      "n_words": 6,
+      "n_usages": 141,
+      "1a_bcubed_f1": 0.682073198211706,
+      "1a_one_cluster_f1": 0.7450509323818425,
+      "n_pairs": 0,
+      "1b_rho": null,
+      "2_macro_f1": 0.4661501309721124,
+      "1a_bcubed_f1_minus_overall": -0.014942109537569026,
+      "2_macro_f1_minus_overall": 0.03602051427353231
+    },
+    {
+      "group_type": "period",
+      "group": "1912-1915",
+      "n_words": 6,
+      "n_usages": 163,
+      "1a_bcubed_f1": 0.6553350843762384,
+      "1a_one_cluster_f1": 0.7225842119080462,
+      "n_pairs": 0,
+      "1b_rho": null,
+      "2_macro_f1": 0.46924150715322194,
+      "1a_bcubed_f1_minus_overall": -0.04168022337303656,
+      "2_macro_f1_minus_overall": 0.03911189045464186
+    },
+    {
+      "group_type": "period",
+      "group": "2006-2007",
+      "n_words": 9,
+      "n_usages": 239,
+      "1a_bcubed_f1": 0.7574658218863756,
+      "1a_one_cluster_f1": 0.8298409493073745,
+      "n_pairs": 0,
+      "1b_rho": null,
+      "2_macro_f1": 0.41448256533768213,
+      "1a_bcubed_f1_minus_overall": 0.060450514137100564,
+      "2_macro_f1_minus_overall": -0.015647051360897946
+    },
+    {
+      "group_type": "period",
+      "group": "2010-2011",
+      "n_words": 9,
+      "n_usages": 243,
+      "1a_bcubed_f1": 0.749633426057083,
+      "1a_one_cluster_f1": 0.822211396258853,
+      "n_pairs": 0,
+      "1b_rho": null,
+      "2_macro_f1": 0.38581104309099445,
+      "1a_bcubed_f1_minus_overall": 0.05261811830780805,
+      "2_macro_f1_minus_overall": -0.04431857360758562
+    },
+    {
+      "group_type": "period",
+      "group": "2014-2015",
+      "n_words": 9,
+      "n_usages": 252,
+      "1a_bcubed_f1": 0.7500977762732485,
+      "1a_one_cluster_f1": 0.8269565899741674,
+      "n_pairs": 0,
+      "1b_rho": null,
+      "2_macro_f1": 0.3899571011099466,
+      "1a_bcubed_f1_minus_overall": 0.05308246852397347,
+      "2_macro_f1_minus_overall": -0.040172515588633495
+    },
+    {
+      "group_type": "period",
+      "group": "2018-2019",
+      "n_words": 9,
+      "n_usages": 239,
+      "1a_bcubed_f1": 0.7452355454654239,
+      "1a_one_cluster_f1": 0.8122255190997063,
+      "n_pairs": 0,
+      "1b_rho": null,
+      "2_macro_f1": 0.35806820798451594,
+      "1a_bcubed_f1_minus_overall": 0.04822023771614892,
+      "2_macro_f1_minus_overall": -0.07206140871406413
+    },
+    {
+      "group_type": "period",
+      "group": "2022-2023",
+      "n_words": 9,
+      "n_usages": 242,
+      "1a_bcubed_f1": 0.7485838562468765,
+      "1a_one_cluster_f1": 0.8161984286775744,
+      "n_pairs": 0,
+      "1b_rho": null,
+      "2_macro_f1": 0.3930066895518752,
+      "1a_bcubed_f1_minus_overall": 0.05156854849760151,
+      "2_macro_f1_minus_overall": -0.0371229271467049
+    },
+    {
+      "group_type": "era",
+      "group": "cross-era step (1912-1915 -> 2006-2007)",
+      "n_words": 4,
+      "n_pairs": 4,
+      "1b_rho": null,
+      "mean_gold_jsd": 0.396052920415696,
+      "mean_pred_jsd": 0.1328032436421724
+    }
+  ],
+  "subtask1": {
+    "subtask1a": {
+      "macro": {
+        "precision": 0.6471595443689585,
+        "recall": 0.9030723743221134,
+        "fcubed": 0.697015307749275
+      },
+      "per_word": {
+        "dumpa": {
+          "precision": 0.7647562425683708,
+          "recall": 0.9547206629243518,
+          "fcubed": 0.849245005324675,
+          "n_pred_clusters": 1,
+          "n_gold_senses": 6,
+          "one_cluster_f1": 0.849245005324675,
+          "gain_over_one_cluster": 0.0
+        },
+        "exportera": {
+          "precision": 0.8977523534975904,
+          "recall": 1.0,
+          "fcubed": 0.9461217127124277,
+          "n_pred_clusters": 1,
+          "n_gold_senses": 3,
+          "one_cluster_f1": 0.9461217127124277,
+          "gain_over_one_cluster": 0.0
+        },
+        "fru": {
+          "precision": 0.8432068848568736,
+          "recall": 0.18441315426582688,
+          "fcubed": 0.30263800902105814,
+          "n_pred_clusters": 6,
+          "n_gold_senses": 5,
+          "one_cluster_f1": 0.8959003637519367,
+          "gain_over_one_cluster": -0.5932623547308786
+        },
+        "fröken": {
+          "precision": 0.6942792971330428,
+          "recall": 0.9977464298153953,
+          "fcubed": 0.8187992404329972,
+          "n_pred_clusters": 1,
+          "n_gold_senses": 4,
+          "one_cluster_f1": 0.8187992404329972,
+          "gain_over_one_cluster": 0.0
+        },
+        "förort": {
+          "precision": 0.7230222222222221,
+          "recall": 0.9062029901461093,
+          "fcubed": 0.8043147070716155,
+          "n_pred_clusters": 1,
+          "n_gold_senses": 3,
+          "one_cluster_f1": 0.8043147070716155,
+          "gain_over_one_cluster": 0.0
+        },
+        "herre": {
+          "precision": 0.6922923247886726,
+          "recall": 0.990140521212682,
+          "fcubed": 0.814851760564408,
+          "n_pred_clusters": 1,
+          "n_gold_senses": 8,
+          "one_cluster_f1": 0.814851760564408,
+          "gain_over_one_cluster": 0.0
+        },
+        "kvinna": {
+          "precision": 0.6484661117717003,
+          "recall": 0.9998578282678764,
+          "fcubed": 0.7867069117564337,
+          "n_pred_clusters": 1,
+          "n_gold_senses": 5,
+          "one_cluster_f1": 0.7867069117564337,
+          "gain_over_one_cluster": 0.0
+        },
+        "motiv": {
+          "precision": 0.6424227394574934,
+          "recall": 0.9999385568765826,
+          "fcubed": 0.7822679071063037,
+          "n_pred_clusters": 1,
+          "n_gold_senses": 5,
+          "one_cluster_f1": 0.7822679071063037,
+          "gain_over_one_cluster": 0.0
+        },
+        "skär": {
+          "precision": 0.3748438150770513,
+          "recall": 0.9992539873092094,
+          "fcubed": 0.545178336190438,
+          "n_pred_clusters": 1,
+          "n_gold_senses": 6,
+          "one_cluster_f1": 0.545178336190438,
+          "gain_over_one_cluster": 0.0
+        },
+        "suga": {
+          "precision": 0.19055345231656748,
+          "recall": 0.9984496124031008,
+          "fcubed": 0.3200294873123927,
+          "n_pred_clusters": 1,
+          "n_gold_senses": 12,
+          "one_cluster_f1": 0.3200294873123927,
+          "gain_over_one_cluster": 0.0
+        }
+      },
+      "one_cluster_reference": 0.7563415432223629
+    },
+    "subtask1b": {
+      "rho": 0.0012971738666144104,
+      "pvalue": 0.9921517367459582,
+      "n_pairs": 60,
+      "note": null,
+      "pearson_r": 0.13102423808711358,
+      "rho_within_era": -0.060912980828442195,
+      "n_within_era_pairs": 56,
+      "rho_pred_vs_cross_era_flag": 0.09936546600614797,
+      "pairs": {
+        "dumpa_2006-2007_2010-2011": {
+          "gold": 0.16422447493865547,
+          "pred": 0.0
+        },
+        "dumpa_2010-2011_2014-2015": {
+          "gold": 0.17572512319486608,
+          "pred": 0.0
+        },
+        "dumpa_2014-2015_2018-2019": {
+          "gold": 0.2359420115083235,
+          "pred": 0.0
+        },
+        "dumpa_2018-2019_2022-2023": {
+          "gold": 0.2549124179537528,
+          "pred": 0.0
+        },
+        "exportera_2006-2007_2010-2011": {
+          "gold": 0.22781387210026435,
+          "pred": 0.0
+        },
+        "exportera_2010-2011_2014-2015": {
+          "gold": 0.1880726098725325,
+          "pred": 0.0
+        },
+        "exportera_2014-2015_2018-2019": {
+          "gold": 0.1880726098725325,
+          "pred": 0.0
+        },
+        "exportera_2018-2019_2022-2023": {
+          "gold": 0.22781387210026435,
+          "pred": 0.0
+        },
+        "fru_1880-1883_1888-1891": {
+          "gold": 0.300463724853289,
+          "pred": 0.3339442034158266
+        },
+        "fru_1888-1891_1896-1899": {
+          "gold": 0.2701649895446885,
+          "pred": 0.3834028472497399
+        },
+        "fru_1896-1899_1904-1907": {
+          "gold": 0.16293089121225632,
+          "pred": 0.314990061380444
+        },
+        "fru_1904-1907_1912-1915": {
+          "gold": 0.1916209036853033,
+          "pred": 0.3773157546671482
+        },
+        "fru_1912-1915_2006-2007": {
+          "gold": 0.532512781529207,
+          "pred": 0.5312129745686897
+        },
+        "fru_2006-2007_2010-2011": {
+          "gold": 0.15956958650912192,
+          "pred": 0.2295868861662766
+        },
+        "fru_2010-2011_2014-2015": {
+          "gold": 0.15956958650912192,
+          "pred": 0.10810023875653524
+        },
+        "fru_2014-2015_2018-2019": {
+          "gold": 0.12988628453423584,
+          "pred": 0.2704507738880442
+        },
+        "fru_2018-2019_2022-2023": {
+          "gold": 0.18257418583505536,
+          "pred": 0.2691911494407825
+        },
+        "fröken_1880-1883_1888-1891": {
+          "gold": 0.14861909764463632,
+          "pred": 0.0
+        },
+        "fröken_1888-1891_1896-1899": {
+          "gold": 0.16059435723476798,
+          "pred": 0.0
+        },
+        "fröken_1896-1899_1904-1907": {
+          "gold": 0.14864923053852375,
+          "pred": 0.0
+        },
+        "fröken_1904-1907_1912-1915": {
+          "gold": 0.23234288454917656,
+          "pred": 0.0
+        },
+        "förort_2006-2007_2010-2011": {
+          "gold": 0.04158371250214181,
+          "pred": 0.0
+        },
+        "förort_2010-2011_2014-2015": {
+          "gold": 0.08266712313353293,
+          "pred": 0.0
+        },
+        "förort_2014-2015_2018-2019": {
+          "gold": 0.2267437029557477,
+          "pred": 0.0
+        },
+        "förort_2018-2019_2022-2023": {
+          "gold": 0.18333465042377894,
+          "pred": 0.0
+        },
+        "herre_1880-1883_1888-1891": {
+          "gold": 0.31887044078351173,
+          "pred": 0.0
+        },
+        "herre_1888-1891_1896-1899": {
+          "gold": 0.29614431075183195,
+          "pred": 0.0
+        },
+        "herre_1896-1899_1904-1907": {
+          "gold": 0.23332239075959768,
+          "pred": 0.0
+        },
+        "herre_1904-1907_1912-1915": {
+          "gold": 0.2799838344271501,
+          "pred": 0.0
+        },
+        "herre_1912-1915_2006-2007": {
+          "gold": 0.4048234216200031,
+          "pred": 0.0
+        },
+        "herre_2006-2007_2010-2011": {
+          "gold": 0.1848313631606429,
+          "pred": 0.0
+        },
+        "herre_2010-2011_2014-2015": {
+          "gold": 0.18257418583505536,
+          "pred": 0.0
+        },
+        "herre_2014-2015_2018-2019": {
+          "gold": 0.1848313631606429,
+          "pred": 0.0
+        },
+        "herre_2018-2019_2022-2023": {
+          "gold": 0.0,
+          "pred": 0.0
+        },
+        "kvinna_1880-1883_1888-1891": {
+          "gold": 0.16000608169839198,
+          "pred": 0.0
+        },
+        "kvinna_1888-1891_1896-1899": {
+          "gold": 0.1348545760211012,
+          "pred": 0.0
+        },
+        "kvinna_1896-1899_1904-1907": {
+          "gold": 0.11386939959329884,
+          "pred": 0.0
+        },
+        "kvinna_1904-1907_1912-1915": {
+          "gold": 0.18008253566844654,
+          "pred": 0.0
+        },
+        "kvinna_1912-1915_2006-2007": {
+          "gold": 0.3920105906733899,
+          "pred": 0.0
+        },
+        "kvinna_2006-2007_2010-2011": {
+          "gold": 0.1342084504396713,
+          "pred": 0.0
+        },
+        "kvinna_2010-2011_2014-2015": {
+          "gold": 0.0,
+          "pred": 0.0
+        },
+        "kvinna_2014-2015_2018-2019": {
+          "gold": 0.10345276411180071,
+          "pred": 0.0
+        },
+        "kvinna_2018-2019_2022-2023": {
+          "gold": 0.18573347858074235,
+          "pred": 0.0
+        },
+        "motiv_1880-1883_1888-1891": {
+          "gold": 0.22551680076508912,
+          "pred": 0.0
+        },
+        "motiv_1888-1891_1896-1899": {
+          "gold": 0.3591745695988089,
+          "pred": 0.0
+        },
+        "motiv_1896-1899_1904-1907": {
+          "gold": 0.2713034836278303,
+          "pred": 0.0
+        },
+        "motiv_1904-1907_1912-1915": {
+          "gold": 0.22322459795535038,
+          "pred": 0.0
+        },
+        "motiv_1912-1915_2006-2007": {
+          "gold": 0.254864887840184,
+          "pred": 0.0
+        },
+        "motiv_2006-2007_2010-2011": {
+          "gold": 0.052334824885991865,
+          "pred": 0.0
+        },
+        "motiv_2010-2011_2014-2015": {
+          "gold": 0.14433533123943687,
+          "pred": 0.0
+        },
+        "motiv_2014-2015_2018-2019": {
+          "gold": 0.14433533123943687,
+          "pred": 0.0
+        },
+        "motiv_2018-2019_2022-2023": {
+          "gold": 0.1772661062213442,
+          "pred": 0.0
+        },
+        "skär_1880-1883_1888-1891": {
+          "gold": 0.3373469501367712,
+          "pred": 0.0
+        },
+        "skär_1888-1891_1896-1899": {
+          "gold": 0.39276753493332445,
+          "pred": 0.0
+        },
+        "skär_1896-1899_1904-1907": {
+          "gold": 0.5175726037539596,
+          "pred": 0.0
+        },
+        "skär_1904-1907_1912-1915": {
+          "gold": 0.3867729507141424,
+          "pred": 0.0
+        },
+        "suga_2006-2007_2010-2011": {
+          "gold": 0.3349487891232815,
+          "pred": 0.0
+        },
+        "suga_2010-2011_2014-2015": {
+          "gold": 0.3994100708015962,
+          "pred": 0.0
+        },
+        "suga_2014-2015_2018-2019": {
+          "gold": 0.50703447063904,
+          "pred": 0.0
+        },
+        "suga_2018-2019_2022-2023": {
+          "gold": 0.40621550804946155,
+          "pred": 0.0
+        }
+      },
+      "shuffle_control": {
+        "draws": 200,
+        "shuffled_mean": -0.026944985017581195,
+        "shuffled_sd": 0.012311728312582069,
+        "p": 0.005
+      }
+    }
+  },
+  "subtask2": {
+    "macro_f1": 0.4301296166985801,
+    "word_mean": {
+      "positive_f1": 0.3084155976078717,
+      "accuracy": 0.48586073142081904,
+      "balanced_accuracy": 0.5426685482628202
+    },
+    "pooled_over_usages": {
+      "accuracy": 0.4896621280887544,
+      "balanced_accuracy": 0.4539806213165518,
+      "macro_f1": 0.4542692610593093
+    },
+    "per_word": {
+      "dumpa": {
+        "macro_f1": 0.5166666666666666,
+        "positive_f1": 0.43333333333333335,
+        "accuracy": 0.5310344827586206,
+        "balanced_accuracy": 0.5438888888888889,
+        "gold_positive_rate": 0.3103448275862069,
+        "pred_positive_rate": 0.5172413793103449
+      },
+      "exportera": {
+        "macro_f1": 0.19202551834130782,
+        "positive_f1": 0.2787878787878788,
+        "accuracy": 0.20134228187919462,
+        "balanced_accuracy": 0.5190602836879432,
+        "gold_positive_rate": 0.9463087248322147,
+        "pred_positive_rate": 0.1610738255033557
+      },
+      "fru": {
+        "macro_f1": 0.2813428921140059,
+        "positive_f1": 0.3521594684385382,
+        "accuracy": 0.28832116788321166,
+        "balanced_accuracy": 0.5564391273750879,
+        "gold_positive_rate": 0.8941605839416058,
+        "pred_positive_rate": 0.20437956204379562
+      },
+      "fröken": {
+        "macro_f1": 0.44486059092800667,
+        "positive_f1": 0.14814814814814814,
+        "accuracy": 0.603448275862069,
+        "balanced_accuracy": 0.6018292682926829,
+        "gold_positive_rate": 0.05747126436781609,
+        "pred_positive_rate": 0.40804597701149425
+      },
+      "förort": {
+        "macro_f1": 0.4972965726797444,
+        "positive_f1": 0.460431654676259,
+        "accuracy": 0.5,
+        "balanced_accuracy": 0.4991109530583215,
+        "gold_positive_rate": 0.49333333333333335,
+        "pred_positive_rate": 0.43333333333333335
+      },
+      "herre": {
+        "macro_f1": 0.4602030259924997,
+        "positive_f1": 0.20270270270270271,
+        "accuracy": 0.5830388692579506,
+        "balanced_accuracy": 0.660171102661597,
+        "gold_positive_rate": 0.0706713780918728,
+        "pred_positive_rate": 0.45229681978798586
+      },
+      "kvinna": {
+        "macro_f1": 0.5005555555555555,
+        "positive_f1": 0.3111111111111111,
+        "accuracy": 0.5724137931034483,
+        "balanced_accuracy": 0.5201569264069265,
+        "gold_positive_rate": 0.22758620689655173,
+        "pred_positive_rate": 0.3931034482758621
+      },
+      "motiv": {
+        "macro_f1": 0.4608216970998926,
+        "positive_f1": 0.2736842105263158,
+        "accuracy": 0.5257731958762887,
+        "balanced_accuracy": 0.5120897415570002,
+        "gold_positive_rate": 0.18213058419243985,
+        "pred_positive_rate": 0.47079037800687284
+      },
+      "skär": {
+        "macro_f1": 0.4492561983471074,
+        "positive_f1": 0.32,
+        "accuracy": 0.47959183673469385,
+        "balanced_accuracy": 0.46870109546165883,
+        "gold_positive_rate": 0.2755102040816326,
+        "pred_positive_rate": 0.4897959183673469
+      },
+      "suga": {
+        "macro_f1": 0.4982674492610141,
+        "positive_f1": 0.3037974683544304,
+        "accuracy": 0.5736434108527132,
+        "balanced_accuracy": 0.5452380952380953,
+        "gold_positive_rate": 0.18604651162790697,
+        "pred_positive_rate": 0.4263565891472868
+      }
+    }
+  }
+}

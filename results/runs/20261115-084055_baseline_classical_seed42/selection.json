@@ -1,0 +1,147 @@
+{
+  "objective_1": "combined",
+  "n_settings": 420,
+  "features": [
+    "char-pm3",
+    "char-pm5",
+    "char-pm10",
+    "char-all",
+    "word-pm3",
+    "word-pm5",
+    "word-pm10",
+    "word-all",
+    "both-pm3",
+    "both-pm5",
+    "both-pm10",
+    "both-all"
+  ],
+  "thresholds": [
+    0.8,
+    0.85,
+    0.9,
+    0.93,
+    0.95,
+    0.97,
+    0.99
+  ],
+  "min_cluster_sizes": [
+    5,
+    10,
+    15,
+    20,
+    30
+  ],
+  "per_test_word": {
+    "dumpa": {
+      "setting": "both-pm5|t=0.93|m=30",
+      "mean_f1_on_selection_words": 0.7431191100163257,
+      "subtask2_threshold": 0.5,
+      "subtask2_coefficients": {
+        "cos_char_rank": 0.14575696116320505,
+        "cos_word_rank": -0.09982592993307987,
+        "stem_overlap_rank": 0.19698520349985316,
+        "stem_jaccard_rank": -0.13236369343036586
+      }
+    },
+    "exportera": {
+      "setting": "both-pm5|t=0.93|m=30",
+      "mean_f1_on_selection_words": 0.7323550314176865,
+      "subtask2_threshold": 0.55,
+      "subtask2_coefficients": {
+        "cos_char_rank": 0.1950927544971129,
+        "cos_word_rank": -0.11131761676406336,
+        "stem_overlap_rank": 0.19302426151407323,
+        "stem_jaccard_rank": -0.14327819354608912
+      }
+    },
+    "fru": {
+      "setting": "both-pm5|t=0.85|m=10",
+      "mean_f1_on_selection_words": 0.7386865343015915,
+      "subtask2_threshold": 0.55,
+      "subtask2_coefficients": {
+        "cos_char_rank": 0.2077239456375864,
+        "cos_word_rank": -0.12645365623931282,
+        "stem_overlap_rank": 0.20627603539177694,
+        "stem_jaccard_rank": -0.1569606858535235
+      }
+    },
+    "fröken": {
+      "setting": "both-pm5|t=0.93|m=30",
+      "mean_f1_on_selection_words": 0.7465019727820678,
+      "subtask2_threshold": 0.5,
+      "subtask2_coefficients": {
+        "cos_char_rank": 0.1464063450337896,
+        "cos_word_rank": -0.10685077234902791,
+        "stem_overlap_rank": 0.18926571909532255,
+        "stem_jaccard_rank": -0.12755299690187952
+      }
+    },
+    "förort": {
+      "setting": "both-pm5|t=0.93|m=30",
+      "mean_f1_on_selection_words": 0.7481113653777769,
+      "subtask2_threshold": 0.5,
+      "subtask2_coefficients": {
+        "cos_char_rank": 0.1591564820689197,
+        "cos_word_rank": -0.0671826710270117,
+        "stem_overlap_rank": 0.20727162712522135,
+        "stem_jaccard_rank": -0.15713819297078288
+      }
+    },
+    "herre": {
+      "setting": "both-pm5|t=0.93|m=30",
+      "mean_f1_on_selection_words": 0.7469405816563555,
+      "subtask2_threshold": 0.5,
+      "subtask2_coefficients": {
+        "cos_char_rank": 0.15334097013034048,
+        "cos_word_rank": -0.09106326876207298,
+        "stem_overlap_rank": 0.13949647474312862,
+        "stem_jaccard_rank": -0.09903913968196518
+      }
+    },
+    "kvinna": {
+      "setting": "both-pm5|t=0.93|m=30",
+      "mean_f1_on_selection_words": 0.7500677870794638,
+      "subtask2_threshold": 0.5,
+      "subtask2_coefficients": {
+        "cos_char_rank": 0.13595024031360148,
+        "cos_word_rank": -0.13508108460432927,
+        "stem_overlap_rank": 0.1576991910036263,
+        "stem_jaccard_rank": -0.08425354945195514
+      }
+    },
+    "motiv": {
+      "setting": "both-pm5|t=0.93|m=30",
+      "mean_f1_on_selection_words": 0.750561009818367,
+      "subtask2_threshold": 0.5,
+      "subtask2_coefficients": {
+        "cos_char_rank": 0.16384706012522393,
+        "cos_word_rank": -0.045992730532728184,
+        "stem_overlap_rank": 0.19193971972204643,
+        "stem_jaccard_rank": -0.18079795313956837
+      }
+    },
+    "skär": {
+      "setting": "both-pm5|t=0.93|m=30",
+      "mean_f1_on_selection_words": 0.7769042954756854,
+      "subtask2_threshold": 0.5,
+      "subtask2_coefficients": {
+        "cos_char_rank": 0.1911456880668999,
+        "cos_word_rank": -0.11238190525439605,
+        "stem_overlap_rank": 0.006339048811479773,
+        "stem_jaccard_rank": 0.00574765937786712
+      }
+    },
+    "suga": {
+      "setting": "both-pm10|t=0.97|m=10",
+      "mean_f1_on_selection_words": 0.8010365810621026,
+      "subtask2_threshold": 0.5,
+      "subtask2_coefficients": {
+        "cos_char_rank": 0.15576832506629018,
+        "cos_word_rank": -0.10680306565306258,
+        "stem_overlap_rank": 0.21726239465012878,
+        "stem_jaccard_rank": -0.16380411644381815
+      }
+    }
+  },
+  "runtime_seconds": 100.2
+}

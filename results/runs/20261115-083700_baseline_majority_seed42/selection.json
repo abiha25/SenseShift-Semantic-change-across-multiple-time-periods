@@ -1,0 +1,42 @@
+{
+  "dumpa": {
+    "majority_label": 0,
+    "positive_rate_of_selection_words": 0.3590859630032644
+  },
+  "exportera": {
+    "majority_label": 0,
+    "positive_rate_of_selection_words": 0.3075245365321701
+  },
+  "fru": {
+    "majority_label": 0,
+    "positive_rate_of_selection_words": 0.26916325336454067
+  },
+  "fröken": {
+    "majority_label": 0,
+    "positive_rate_of_selection_words": 0.3841901603095633
+  },
+  "förort": {
+    "majority_label": 0,
+    "positive_rate_of_selection_words": 0.3442444080741953
+  },
+  "herre": {
+    "majority_label": 0,
+    "positive_rate_of_selection_words": 0.40294117647058825
+  },
+  "kvinna": {
+    "majority_label": 0,
+    "positive_rate_of_selection_words": 0.377436503248671
+  },
+  "motiv": {
+    "majority_label": 0,
+    "positive_rate_of_selection_words": 0.38534278959810875
+  },
+  "skär": {
+    "majority_label": 0,
+    "positive_rate_of_selection_words": 0.3596816976127321
+  },
+  "suga": {
+    "majority_label": 0,
+    "positive_rate_of_selection_words": 0.3673139158576052
+  }
+}

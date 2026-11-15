@@ -1,0 +1,5 @@
+system,1a_bcubed_f1,1b_spearman,2_macro_f1,1b_shuffle_control,runs,graded_spearman
+majority,"0.756 [0.638, 0.851]","0.000 [0.000, 0.000]","0.361 [0.263, 0.443]",0.000 ± 0.000,20261115-083700_baseline_majority_seed42,—
+"random (5 seeds, mean ± sd)",0.314 ± 0.002,0.104 ± 0.124,0.441 ± 0.005,—,"20261115-083717_baseline_random_seed13, 20261115-083738_baseline_random_seed42, 20261115-083801_baseline_random_seed87, 20261115-083824_baseline_random_seed1234, 20261115-083847_baseline_random_seed2027",0.019 ± 0.107
+classical,"0.697 [0.560, 0.819]","0.001 [-0.158, 0.218]","0.430 [0.363, 0.484]",-0.027 ± 0.012,20261115-084055_baseline_classical_seed42,—
+pretrained_frozen_xlmr,"0.735 [0.616, 0.833]","0.496 [0.145, 0.782]","0.442 [0.384, 0.500]",0.393 ± 0.040,20261115-084216_baseline_pretrained_frozen_xlmr_seed42,"0.614 [0.207, 0.792]"

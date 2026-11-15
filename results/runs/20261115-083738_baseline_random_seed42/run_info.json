@@ -1,0 +1,30 @@
+{
+  "started": "2026-11-15T08:37:38",
+  "config_file": "/content/SenseShift/configs/default.yaml",
+  "command": "/content/SenseShift/src/baselines.py --which simple",
+  "git": {
+    "commit": "158dd25fbbed78d65c2d4ee5baf02eb61739c80a",
+    "uncommitted_changes": true
+  },
+  "data_fingerprint": "ac3c4874234f570e227bb9879c18db3c27da4cd7d40474b7b93dd5bd3eb109c8",
+  "environment": {
+    "python": "3.13.16",
+    "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+    "executable": "/usr/bin/python3",
+    "packages": {
+      "numpy": "2.4.6",
+      "pandas": "2.2.3",
+      "scipy": "1.16.3",
+      "sklearn": "1.6.1",
+      "torch": "2.14.1+cu130",
+      "transformers": "5.22.1",
+      "bcubed": "unknown",
+      "yaml": "6.0.3"
+    },
+    "cuda_available": true,
+    "gpu": "Tesla T4",
+    "cuda_version": "13.0"
+  },
+  "system": "random",
+  "description": "Random clusters (K = median gold senses of the 9 non-test words), random labels at their positive rate, random change scores."
+}

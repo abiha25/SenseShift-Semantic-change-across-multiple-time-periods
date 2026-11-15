@@ -1,0 +1,136 @@
+{
+  "encoder": "xlm-roberta-base",
+  "layer": 8,
+  "pooling": "target_mean",
+  "max_length": 256,
+  "vector_cache": "xlm-roberta-base_L8_target_mean_len256_spell1_lower0_winNone_ac3c487423",
+  "n_targets_truncated": 0,
+  "objective_1": "combined",
+  "distance_thresholds": [
+    0.0581,
+    0.0702,
+    0.0793,
+    0.0874,
+    0.1016,
+    0.114,
+    0.1257,
+    0.1375,
+    0.1506,
+    0.1664,
+    0.189
+  ],
+  "threshold_percentiles": [
+    5,
+    10,
+    15,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90
+  ],
+  "min_cluster_sizes": [
+    5,
+    10,
+    15,
+    20,
+    30
+  ],
+  "per_test_word": {
+    "dumpa": {
+      "setting": {
+        "distance_threshold": 0.1664,
+        "threshold_percentile": 80,
+        "min_cluster_size": 30
+      },
+      "mean_f1_on_selection_words": 0.7325190444234121,
+      "subtask2_rank_threshold": 0.7
+    },
+    "exportera": {
+      "setting": {
+        "distance_threshold": 0.1664,
+        "threshold_percentile": 80,
+        "min_cluster_size": 5
+      },
+      "mean_f1_on_selection_words": 0.7128109222257843,
+      "subtask2_rank_threshold": 0.7
+    },
+    "fru": {
+      "setting": {
+        "distance_threshold": 0.1664,
+        "threshold_percentile": 80,
+        "min_cluster_size": 5
+      },
+      "mean_f1_on_selection_words": 0.7270524507684358,
+      "subtask2_rank_threshold": 0.7
+    },
+    "fröken": {
+      "setting": {
+        "distance_threshold": 0.1664,
+        "threshold_percentile": 80,
+        "min_cluster_size": 30
+      },
+      "mean_f1_on_selection_words": 0.7359019071891542,
+      "subtask2_rank_threshold": 0.65
+    },
+    "förort": {
+      "setting": {
+        "distance_threshold": 0.1664,
+        "threshold_percentile": 80,
+        "min_cluster_size": 30
+      },
+      "mean_f1_on_selection_words": 0.7375112997848633,
+      "subtask2_rank_threshold": 0.7
+    },
+    "herre": {
+      "setting": {
+        "distance_threshold": 0.1664,
+        "threshold_percentile": 80,
+        "min_cluster_size": 30
+      },
+      "mean_f1_on_selection_words": 0.7439957111942449,
+      "subtask2_rank_threshold": 0.65
+    },
+    "kvinna": {
+      "setting": {
+        "distance_threshold": 0.1664,
+        "threshold_percentile": 80,
+        "min_cluster_size": 30
+      },
+      "mean_f1_on_selection_words": 0.7394677214865502,
+      "subtask2_rank_threshold": 0.7
+    },
+    "motiv": {
+      "setting": {
+        "distance_threshold": 0.1664,
+        "threshold_percentile": 80,
+        "min_cluster_size": 30
+      },
+      "mean_f1_on_selection_words": 0.7399609442254534,
+      "subtask2_rank_threshold": 0.65
+    },
+    "skär": {
+      "setting": {
+        "distance_threshold": 0.1664,
+        "threshold_percentile": 80,
+        "min_cluster_size": 5
+      },
+      "mean_f1_on_selection_words": 0.7651573303496977,
+      "subtask2_rank_threshold": 0.55
+    },
+    "suga": {
+      "setting": {
+        "distance_threshold": 0.1664,
+        "threshold_percentile": 80,
+        "min_cluster_size": 30
+      },
+      "mean_f1_on_selection_words": 0.7912651869744216,
+      "subtask2_rank_threshold": 0.7
+    }
+  },
+  "encoding_seconds": 35.2,
+  "runtime_seconds": 55.1
+}
