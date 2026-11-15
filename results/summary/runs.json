@@ -16,7 +16,8 @@
     "42": "20261115-084216_baseline_pretrained_frozen_xlmr_seed42"
   },
   "proposed_ft_syn_sv": {
-    "42": "20261115-111845_proposed_ft_syn_sv_seed42"
+    "42": "20261115-111845_proposed_ft_syn_sv_seed42",
+    "13": "20261115-121844_proposed_ft_syn_sv_seed13"
   },
   "proposed_frozen": {
     "42": "20261115-115607_proposed_frozen_seed42"
