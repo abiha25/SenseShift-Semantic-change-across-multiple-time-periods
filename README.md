@@ -261,3 +261,28 @@ era/period, word frequency, part of speech, amount of gold change and time cover
   the CI excludes 0 and p < 0.05.
 - Do not change `src/evaluate.py`, `src/scoring.py` or the official files without telling
   the team.
+
+### Comparison baselines (Person 2)
+
+`src/baselines.py` runs the three comparison systems on the shared split and scores each with
+`src/evaluate.py`. Colab: `notebooks/person2_step2_baselines.ipynb` (T4 GPU, about 10 minutes).
+
+```bash
+python -m src.baselines --which simple classical    # majority, random (5 seeds), classical
+python -m src.baselines --which pretrained          # frozen XLM-R + APD (GPU recommended)
+python -m src.baselines --table                     # results/baselines/summary.csv and .md
+```
+
+| System | Subtask 1 (1a, 1b) | Graded change | Subtask 2 |
+|---|---|---|---|
+| majority | one cluster per word | (constant: rho = 0) | majority 0/1 label of the 9 non-test words |
+| random (5 seeds) | random clusters, K = median senses of the 9 non-test words | random | random at their positive rate |
+| classical | A1 Baseline A: TF-IDF context + average-linkage clustering | - | LR on usage-definition similarity ranks |
+| pretrained | frozen XLM-R layer 8, target mean, agglomerative clustering | APD | usage-definition cosine rank |
+
+- For each fold the test word is predicted once; every setting, threshold or label is chosen on the
+  other nine words (training + validation word). The baselines have no training loop, so nothing is
+  early-stopped.
+- Subtask 2 thresholds are tuned on the new official metric (macro F1), not the A1 metric.
+- XLM-R vectors are cached in `cache/` (not committed).
+
