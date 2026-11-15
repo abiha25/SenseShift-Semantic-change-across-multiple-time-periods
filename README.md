@@ -187,6 +187,7 @@ systems (baselines and the proposed method) use identical inputs.
 | `configs/default.yaml` + `src/config.py` | Every setting in one file; `--set key=value` overrides; `save_run_config()` writes `config.yaml` + `run_info.json` (versions, GPU, git commit, data hash) next to each result. |
 | `src/reproducibility.py` | `set_seed()` (Python, NumPy, PyTorch, deterministic GPU), DataLoader seeding, `save_checkpoint` / `load_checkpoint`, `CheckpointKeeper` (best-on-validation + last, early stopping). |
 | `tests/test_data_pipeline.py` | 23 checks: counts, A1 compatibility, offsets, splits, config, seeds, checkpoints. |
+| `src/run_pipeline.py` | End-to-end run script: `run`, `verify`, `report` (see the section at the end). |
 
 ```python
 from data_loader import load_and_prepare, group_usages
@@ -310,3 +311,24 @@ python -m src.proposed run                                     # full system (GP
 python -m src.proposed run --set training.enabled=false        # frozen encoder, same pipeline
 python -m src.proposed recluster --run results/runs/<dir> --set clustering.threshold_selection=fixed
 ```
+
+## End-to-end run script (Assignment 2)
+
+`src/run_pipeline.py` runs the whole experiment with one command and collects the results.
+It only calls the modules above (no metric or model code of its own).
+
+```bash
+# load data -> run systems -> save predictions -> evaluate -> save results with the config
+python -m src.run_pipeline run --systems baselines proposed frozen --seeds 42 13 87 1234 2027
+
+python -m src.run_pipeline verify   # re-score every results/runs/ folder from its saved
+                                    # predictions; fails if any number in scores.json differs
+python -m src.run_pipeline report   # results/summary/: summary.csv/.md (mean +- sd over seeds,
+                                    # 95% CI over words, 1b shuffle) and comparisons.csv
+                                    # (paired tests of the main system vs every other system)
+```
+
+- Run `verify` after copying run folders from Colab/Google Drive into `results/runs/`.
+- On Colab, clone the repository with git (do not copy files), so that `run_info.json`
+  records the commit of every run.
+- The report tables (Sections 9 and 10) are taken from `results/summary/`.
