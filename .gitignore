@@ -12,3 +12,5 @@ _to_delete/
 Claude outputs/
 # Internal notes (not part of the repository)
 report/*.docx
+# Saved usage vectors (large; kept on Google Drive)
+results/runs/*/vectors/
