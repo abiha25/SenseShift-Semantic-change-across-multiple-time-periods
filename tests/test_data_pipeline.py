@@ -177,11 +177,11 @@ def test_run_record(tmp_path):
 
 
 # --- seeds and checkpoints (need PyTorch) ----------------------------------
-
-torch = pytest.importorskip('torch')
-
+# importorskip is inside each test, so a computer without PyTorch skips only
+# these three tests, not the whole file.
 
 def test_same_seed_same_numbers():
+    torch = pytest.importorskip('torch')
     from src.reproducibility import set_seed
     set_seed(7)
     a = (np.random.rand(3), torch.rand(3))
@@ -191,6 +191,7 @@ def test_same_seed_same_numbers():
 
 
 def test_checkpoint_round_trip_and_resume(tmp_path):
+    torch = pytest.importorskip('torch')
     from src.reproducibility import load_checkpoint, save_checkpoint, set_seed
     set_seed(0)
     model = torch.nn.Linear(4, 2)
@@ -210,6 +211,7 @@ def test_checkpoint_round_trip_and_resume(tmp_path):
 
 
 def test_keeper_selects_best_and_stops(tmp_path):
+    torch = pytest.importorskip('torch')
     from src.reproducibility import CheckpointKeeper
     model = torch.nn.Linear(2, 1)
     keeper = CheckpointKeeper(tmp_path, metric='val_f1', mode='max', patience=2)
