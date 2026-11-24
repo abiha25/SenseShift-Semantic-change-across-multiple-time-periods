@@ -3,8 +3,11 @@ Fine-tuned usage encoder (XL-LEXEME style) for SenseShift.
 
 What this file contains
     UsageEncoder        XLM-R bi-encoder. The target word is marked with <t> ... </t>
-                        and one vector per usage is the mean of the hidden states of
-                        the target's sub-words.
+                        and one vector per usage is pooled from the hidden states:
+                        target_mean (default; mean of the target's sub-words),
+                        first_subword (the target's first sub-word) or
+                        sentence_mean (mean of all real tokens; ablation E6).
+    pooling_mask()      which token positions each pooling method averages
     load_synthetic()    the organisers' synthetic English set (training only)
     swedish_items()     the Swedish usages of the TRAINING words of one fold
     PairSampler         same-sense / different-sense usage pairs within one word,
@@ -69,6 +72,43 @@ def mark_target(text, start, end, markers=True, max_chars=1000):
     return new, s, s + len(tgt)
 
 
+POOLINGS = ('target_mean', 'first_subword', 'sentence_mean')
+
+
+def pooling_mask(offsets, starts, ends, attention_mask, pooling='target_mean'):
+    """
+    Boolean mask (batch, tokens) of the positions that are averaged into the
+    usage vector. offsets: (batch, tokens, 2) character offsets from the fast
+    tokenizer ((0, 0) for <s>, </s> and padding); starts/ends: (batch, 1)
+    target character span; attention_mask: (batch, tokens).
+
+      target_mean    every sub-word that overlaps the target span (default,
+                     Assignment 2)
+      first_subword  only the first of those sub-words
+      sentence_mean  every real token of the input (special tokens and
+                     padding excluded; the <t> </t> markers are included)
+
+    If no sub-word overlaps the target (it should not happen: long texts are
+    cropped around the target), the whole input is used for that row.
+    """
+    import torch
+    if pooling not in POOLINGS:
+        raise ValueError(f'Unknown pooling {pooling!r}; choose one of {POOLINGS}')
+    real = (offsets[:, :, 1] > offsets[:, :, 0]) & attention_mask.bool()
+    target = (offsets[:, :, 0] < ends) & (offsets[:, :, 1] > starts) & (offsets[:, :, 1] > offsets[:, :, 0])
+    if pooling == 'sentence_mean':
+        mask = real
+    elif pooling == 'first_subword':
+        mask = target & (torch.cumsum(target.int(), dim=1) == 1)
+    else:
+        mask = target
+    empty = ~mask.any(1)
+    if empty.any():
+        mask = mask.clone()
+        mask[empty] = attention_mask[empty].bool()
+    return mask
+
+
 # ===========================================================================
 # Model
 # ===========================================================================
@@ -83,13 +123,16 @@ class UsageEncoder:
     """
 
     def __init__(self, name_or_path, layer=-1, markers=True, max_length=256,
-                 freeze_embeddings=True, dropout=None, device=None):
+                 freeze_embeddings=True, dropout=None, device=None, pooling='target_mean'):
         import torch
         from transformers import AutoModel, AutoTokenizer
         self.name = str(name_or_path)
         self.layer = int(layer)
         self.markers = bool(markers)
         self.max_length = int(max_length)
+        if pooling not in POOLINGS:
+            raise ValueError(f'Unknown pooling {pooling!r}; choose one of {POOLINGS}')
+        self.pooling = pooling
         self.device = device or ('cuda' if torch.cuda.is_available() else 'cpu')
         self.tokenizer = AutoTokenizer.from_pretrained(self.name)
         kw = {} if dropout is None else {'hidden_dropout_prob': float(dropout),
@@ -144,10 +187,7 @@ class UsageEncoder:
         h = h.float()
         starts = torch.tensor([s for _, s, _ in marked]).unsqueeze(1)
         ends = torch.tensor([e for _, _, e in marked]).unsqueeze(1)
-        mask = (offs[:, :, 0] < ends) & (offs[:, :, 1] > starts) & (offs[:, :, 1] > offs[:, :, 0])
-        empty = ~mask.any(1)                          # target lost (should not happen)
-        if empty.any():
-            mask[empty] = enc['attention_mask'][empty].bool().cpu()
+        mask = pooling_mask(offs, starts, ends, enc['attention_mask'].cpu(), self.pooling)
         mask = mask.to(h.device).unsqueeze(-1).float()
         return (h * mask).sum(1) / mask.sum(1).clamp(min=1.0)
 
@@ -174,7 +214,7 @@ class UsageEncoder:
         self.tokenizer.save_pretrained(path)
         (path / 'usage_encoder.json').write_text(json.dumps(
             {'layer': self.layer, 'markers': self.markers, 'max_length': self.max_length,
-             'base': self.name}), encoding='utf-8')
+             'pooling': self.pooling, 'base': self.name}), encoding='utf-8')
         return path
 
 

@@ -22,6 +22,10 @@ Run (repo root):
     python -m src.proposed run --set training.enabled=false     # frozen encoder, same pipeline
     python -m src.proposed recluster --run results/runs/<dir> --set clustering.threshold_selection=fixed
           (re-uses the saved vectors: new clustering / Subtask 2 settings without retraining)
+    python -m src.proposed recluster --run results/runs/<dir> --set clustering.method=kmeans
+          (Assignment 3, E4: K-means, K in clustering.kmeans_k_range chosen by silhouette)
+    python -m src.proposed run --name pool_first --set model.pooling=first_subword
+          (Assignment 3, E6: pooling = target_mean | first_subword | sentence_mean)
 
 Each run writes results/runs/<time>_proposed_<name>_seed<seed>/ with config.yaml,
 run_info.json, SV_subtask1.jsonl, SV_subtask2.jsonl, SV_graded_change.jsonl,
@@ -75,10 +79,12 @@ def build_encoder(cfg, path=None, frozen=False):
     m, tr = cfg['model'], cfg['training']
     if frozen:
         return UsageEncoder(m['frozen_encoder'], layer=m['layer'], markers=False,
-                            max_length=m['max_length'], freeze_embeddings=True)
+                            max_length=m['max_length'], freeze_embeddings=True,
+                            pooling=m['pooling'])
     return UsageEncoder(path or m['base_encoder'], layer=m['finetuned_layer'],
                         markers=m['target_markers'], max_length=m['max_length'],
-                        freeze_embeddings=tr['freeze_embeddings'], dropout=tr.get('dropout'))
+                        freeze_embeddings=tr['freeze_embeddings'], dropout=tr.get('dropout'),
+                        pooling=m['pooling'])
 
 
 def _sampler(cfg, items):
@@ -95,6 +101,10 @@ def stage_a_key(cfg):
             'soft': tr['soft_labels'], 'era': tr['era_aware_sampling'], 'pos': tr['positive_fraction'],
             'p': [tr['p_cross_era_positive'], tr['p_same_era_negative']], 'bs': tr['batch_size'],
             'frz': tr['freeze_embeddings'], 'drop': tr.get('dropout'), 'seed': cfg['seed']}
+    if m.get('pooling', 'target_mean') != 'target_mean':
+        # Added in Assignment 3 (E6). Only a non-default pooling changes the key, so
+        # the Stage A checkpoints of the Assignment 2 settings stay valid.
+        keep['pooling'] = m['pooling']
     return hashlib.sha1(json.dumps(keep, sort_keys=True, default=str).encode()).hexdigest()[:10]
 
 
@@ -208,6 +218,36 @@ def cluster_senses(Vw, threshold, min_size):
     if len(Vw) < 2:
         return np.zeros(len(Vw), dtype=int)
     return agglomerative_labels(DenseWrap(Vw), [float(threshold)], [int(min_size)])[(float(threshold), int(min_size))]
+
+
+def kmeans_senses(Vw, k_range=(2, 10), seed=42):
+    """
+    K-means on unit-length vectors; K is the value in k_range with the highest
+    silhouette (cosine) on this word's own vectors - label-free, so it uses no
+    gold sense of any word (Giulianelli et al. 2020; ablation E4). Unlike the
+    agglomerative rule, K-means always returns at least 2 clusters. Ties go to
+    the smaller K. Labels 0.. by cluster size (largest first), like
+    cluster_senses. Returns (labels, info).
+    """
+    from sklearn.cluster import KMeans
+    from sklearn.metrics import silhouette_score
+    X = _unit(np.asarray(Vw, dtype=np.float64))
+    n = len(X)
+    k_lo, k_hi = int(k_range[0]), int(k_range[1])
+    ks = [k for k in range(max(2, k_lo), min(k_hi, n - 1) + 1)]
+    if not ks:
+        return np.zeros(n, dtype=int), {'k': 1, 'silhouette': None, 'silhouettes': {}}
+    best, sil = None, {}
+    for k in ks:
+        lab = KMeans(n_clusters=k, n_init=10, random_state=int(seed)).fit_predict(X)
+        sil[k] = float(silhouette_score(X, lab, metric='cosine')) if len(set(lab)) > 1 else -1.0
+        if best is None or sil[k] > sil[best[0]] + 1e-12:
+            best = (k, lab)
+    k, lab = best
+    order = np.argsort(-np.bincount(lab, minlength=k), kind='stable')
+    relabel = np.empty(k, dtype=int)
+    relabel[order] = np.arange(k)
+    return relabel[lab], {'k': int(k), 'silhouette': sil[k], 'silhouettes': sil}
 
 
 def score_change(df, labels_by_word):
@@ -340,8 +380,14 @@ def predict(cfg, df, folds, vectors, scorer, run_dir, histories=None, extra=None
         V, D = vectors[fold['fold']]
         test = fold['test'][0]
         idx = df.index[df['word'] == test].values
-        c = choose_clustering(cfg, df, V, fold, scorer)
-        labels[test] = cluster_senses(V[idx], c['threshold'], c['min_size'])
+        if cfg['clustering']['method'] == 'kmeans':
+            labels[test], c = kmeans_senses(V[idx], cfg['clustering']['kmeans_k_range'], cfg['seed'])
+            c = {'mode': 'kmeans_silhouette', 'threshold': None, 'min_size': None, **c}
+        elif cfg['clustering']['method'] == 'agglomerative':
+            c = choose_clustering(cfg, df, V, fold, scorer)
+            labels[test] = cluster_senses(V[idx], c['threshold'], c['min_size'])
+        else:
+            raise ValueError(f"Unknown clustering.method: {cfg['clustering']['method']}")
         c['n_clusters'] = int(labels[test].max()) + 1
         preds, info = subtask2_predict(cfg, df, V, D, fold, labels[test])
         s2_main[idx] = preds[mode2]
@@ -350,7 +396,8 @@ def predict(cfg, df, folds, vectors, scorer, run_dir, histories=None, extra=None
         V_pred[idx] = V[idx]
         chosen[test] = {'fold': fold['fold'], 'validation_word': fold['validation'][0],
                         'clustering': c, 'subtask2': info}
-        log(f"{test}: {c['n_clusters']} cluster(s), t={c['threshold']:.4f}, m={c['min_size']}")
+        log(f"{test}: {c['n_clusters']} cluster(s), " + (f"K-means silhouette {c['silhouette']:.4f}"
+            if c['mode'] == 'kmeans_silhouette' else f"t={c['threshold']:.4f}, m={c['min_size']}"))
 
     lang = cfg['data']['language']
     col = np.zeros(len(df), dtype=int)
@@ -371,7 +418,10 @@ def predict(cfg, df, folds, vectors, scorer, run_dir, histories=None, extra=None
     selection = {'system': name, 'subtask2_mode': mode2,
                  'subtask2_all_modes_macro_f1 (test words; ablation only, not used for choices)':
                      {k: official_macro_f1(y, p, w_all) for k, p in s2_alt.items()},
-                 'clustering_selection': cfg['clustering']['threshold_selection'],
+                 'clustering_method': cfg['clustering']['method'],
+                 'clustering_selection': (cfg['clustering']['threshold_selection']
+                                          if cfg['clustering']['method'] == 'agglomerative'
+                                          else 'kmeans_silhouette'),
                  'per_test_word': chosen, **(extra or {})}
     (run_dir / 'selection.json').write_text(json.dumps(selection, indent=2, ensure_ascii=False,
                                                        default=str), encoding='utf-8')
@@ -436,7 +486,9 @@ def recluster(cfg, df, folds, gold1, src_run):
     for fold in folds:
         z = np.load(src_run / 'vectors' / f"fold{fold['fold']}.npz")
         vectors[fold['fold']] = (z['V'], dict(zip([str(w) for w in z['D_words']], z['D'])))
-    name = f"{src_run.name.split('_proposed_')[-1].rsplit('_seed', 1)[0]}_{cfg['clustering']['threshold_selection']}_{cfg['subtask2']['mode']}"
+    selection = ('kmeans' if cfg['clustering']['method'] == 'kmeans'
+                 else cfg['clustering']['threshold_selection'])
+    name = f"{src_run.name.split('_proposed_')[-1].rsplit('_seed', 1)[0]}_{selection}_{cfg['subtask2']['mode']}"
     run_dir = make_run_dir(cfg, f'proposed_{name}')
     save_run_config(cfg, run_dir, extra={'system': f'proposed_{name}', 'vectors_from': str(src_run)})
     return run_dir, predict(cfg, df, folds, vectors, FastScorer(df, gold1), run_dir,
