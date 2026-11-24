@@ -1,0 +1,196 @@
+{
+  "system": "proposed_ft_syn_sv",
+  "subtask2_mode": "absolute",
+  "subtask2_all_modes_macro_f1 (test words; ablation only, not used for choices)": {
+    "absolute": 0.4551880465725411,
+    "rank": 0.4574174913087089,
+    "cluster": 0.3290441068191162
+  },
+  "clustering_selection": "validation_pairs",
+  "per_test_word": {
+    "dumpa": {
+      "fold": 0,
+      "validation_word": "exportera",
+      "clustering": {
+        "mode": "validation_pairs",
+        "threshold": 0.1941,
+        "min_size": 30,
+        "val_balanced_acc": 0.799743459212019,
+        "val_f1": 0.9461217127124276,
+        "n_clusters": 1
+      },
+      "subtask2": {
+        "absolute_threshold": 0.7474,
+        "rank_threshold": 0.8,
+        "cluster_chosen": 0
+      }
+    },
+    "exportera": {
+      "fold": 1,
+      "validation_word": "fru",
+      "clustering": {
+        "mode": "validation_pairs",
+        "threshold": 0.1487,
+        "min_size": 30,
+        "val_balanced_acc": 0.5921958959933644,
+        "val_f1": 0.5410826350762321,
+        "n_clusters": 2
+      },
+      "subtask2": {
+        "absolute_threshold": 0.7688,
+        "rank_threshold": 0.7,
+        "cluster_chosen": 1
+      }
+    },
+    "fru": {
+      "fold": 2,
+      "validation_word": "fröken",
+      "clustering": {
+        "mode": "validation_pairs",
+        "threshold": 0.1678,
+        "min_size": 30,
+        "val_balanced_acc": 0.5664451605472274,
+        "val_f1": 0.6367328291156725,
+        "n_clusters": 2
+      },
+      "subtask2": {
+        "absolute_threshold": 0.8155,
+        "rank_threshold": 0.75,
+        "cluster_chosen": 1
+      }
+    },
+    "fröken": {
+      "fold": 3,
+      "validation_word": "förort",
+      "clustering": {
+        "mode": "validation_pairs",
+        "threshold": 0.1539,
+        "min_size": 30,
+        "val_balanced_acc": 0.592188092598855,
+        "val_f1": 0.6488592370303224,
+        "n_clusters": 2
+      },
+      "subtask2": {
+        "absolute_threshold": 0.7484,
+        "rank_threshold": 0.7,
+        "cluster_chosen": 0
+      }
+    },
+    "förort": {
+      "fold": 4,
+      "validation_word": "herre",
+      "clustering": {
+        "mode": "validation_pairs",
+        "threshold": 0.224,
+        "min_size": 30,
+        "val_balanced_acc": 0.6540686954841269,
+        "val_f1": 0.5759628650584337,
+        "n_clusters": 1
+      },
+      "subtask2": {
+        "absolute_threshold": 0.7914,
+        "rank_threshold": 0.75,
+        "cluster_chosen": 0
+      }
+    },
+    "herre": {
+      "fold": 5,
+      "validation_word": "kvinna",
+      "clustering": {
+        "mode": "validation_pairs",
+        "threshold": 0.2256,
+        "min_size": 30,
+        "val_balanced_acc": 0.594346433937833,
+        "val_f1": 0.6509794298093432,
+        "n_clusters": 2
+      },
+      "subtask2": {
+        "absolute_threshold": 0.7624,
+        "rank_threshold": 0.6,
+        "cluster_chosen": 1
+      }
+    },
+    "kvinna": {
+      "fold": 6,
+      "validation_word": "motiv",
+      "clustering": {
+        "mode": "validation_pairs",
+        "threshold": 0.242,
+        "min_size": 15,
+        "val_balanced_acc": 0.8444471570339493,
+        "val_f1": 0.8729569586247922,
+        "n_clusters": 1
+      },
+      "subtask2": {
+        "absolute_threshold": 0.8341,
+        "rank_threshold": 0.75,
+        "cluster_chosen": 0
+      }
+    },
+    "motiv": {
+      "fold": 7,
+      "validation_word": "skär",
+      "clustering": {
+        "mode": "validation_pairs",
+        "threshold": 0.3212,
+        "min_size": 10,
+        "val_balanced_acc": 0.6574854342298357,
+        "val_f1": 0.5955806684483002,
+        "n_clusters": 2
+      },
+      "subtask2": {
+        "absolute_threshold": 0.7177,
+        "rank_threshold": 0.75,
+        "cluster_chosen": 0
+      }
+    },
+    "skär": {
+      "fold": 8,
+      "validation_word": "suga",
+      "clustering": {
+        "mode": "validation_pairs",
+        "threshold": 0.2364,
+        "min_size": 5,
+        "val_balanced_acc": 0.7123979213066073,
+        "val_f1": 0.531573807876111,
+        "n_clusters": 4
+      },
+      "subtask2": {
+        "absolute_threshold": 0.801,
+        "rank_threshold": 0.75,
+        "cluster_chosen": 0
+      }
+    },
+    "suga": {
+      "fold": 9,
+      "validation_word": "dumpa",
+      "clustering": {
+        "mode": "validation_pairs",
+        "threshold": 0.1834,
+        "min_size": 10,
+        "val_balanced_acc": 0.8121953827837444,
+        "val_f1": 0.8615920393401252,
+        "n_clusters": 3
+      },
+      "subtask2": {
+        "absolute_threshold": 0.6625,
+        "rank_threshold": 0.8,
+        "cluster_chosen": 0
+      }
+    }
+  },
+  "timing": {
+    "stage_a_seconds": 456.3,
+    "fold0_seconds": 182.5,
+    "fold1_seconds": 181.0,
+    "fold2_seconds": 115.5,
+    "fold3_seconds": 175.7,
+    "fold4_seconds": 180.3,
+    "fold5_seconds": 177.8,
+    "fold6_seconds": 236.0,
+    "fold7_seconds": 223.5,
+    "fold8_seconds": 118.3,
+    "fold9_seconds": 243.9,
+    "total_seconds": 2297.2
+  }
+}

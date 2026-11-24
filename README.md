@@ -354,3 +354,22 @@ Assignment 2 result and every cached Stage A checkpoint stays valid (pinned by
   All graded scores are local; the official 1b score always uses the submitted clusters.
 - Main runs on Kaggle (no Colab GPU was available): `notebooks/a3_person1_main_runs_kaggle.ipynb`
   (E2 frozen encoder at the last layer `--name frozen_last`, and seeds 87, 1234, 2027).
+
+### Five seeds, final configuration and compute (Person 1)
+
+| What | Where |
+|---|---|
+| Main system, seeds 13, 42, 87, 1234, 2027 | `results/runs/*_proposed_ft_syn_sv_seed*` |
+| E2: frozen encoder at the last layer | `results/runs/*_proposed_frozen_last_seed42` |
+| Summary over all runs (mean +- sd, 95% CI, paired tests) | `results/summary/` (`python -m src.run_pipeline report`) |
+| Final configuration for the submission (E8) | `configs/final.yaml` (`python -m src.final_config`) |
+| Compute cost and GPU memory | `results/compute/` |
+| Every change to the Assignment 2 protocol | `DEVIATIONS.md` |
+
+- `configs/final.yaml` = `configs/default.yaml` + `training.stage_a_guard: true` + a `final:` block
+  with the Stage B epochs, t, m and tau fixed to their medians over the 50 folds of the five seeds.
+- `training.stage_a_guard` (default `false`): keep the pre-training weights if Stage A lowers the
+  pair AUC on the held-out synthetic words. Added after the Stage A collapse of seed 87
+  (`DEVIATIONS.md`, D5-D6). No reported run uses it.
+- The vectors of the Kaggle runs (`vectors/`, needed for E3, E4 and recluster) are in the Output
+  of the Kaggle main-runs notebook; the vectors of seeds 42 and 13 are on the Assignment 2 Drive.

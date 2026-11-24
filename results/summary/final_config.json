@@ -1,0 +1,467 @@
+{
+  "values": {
+    "stage_b_epochs": 1,
+    "cluster_threshold": 0.2117,
+    "min_cluster_size": 30,
+    "subtask2_threshold": 0.7855
+  },
+  "runs": [
+    "20261115-121844_proposed_ft_syn_sv_seed13",
+    "20261115-111845_proposed_ft_syn_sv_seed42",
+    "20261124-072059_proposed_ft_syn_sv_seed87",
+    "20261124-080304_proposed_ft_syn_sv_seed1234",
+    "20261124-084211_proposed_ft_syn_sv_seed2027"
+  ],
+  "per_fold": [
+    {
+      "seed": 13,
+      "fold": 0,
+      "test_word": "dumpa",
+      "best_epoch": 1,
+      "t": 0.2131,
+      "m": 5,
+      "tau": 0.7348
+    },
+    {
+      "seed": 13,
+      "fold": 1,
+      "test_word": "exportera",
+      "best_epoch": 0,
+      "t": 0.1754,
+      "m": 30,
+      "tau": 0.7851
+    },
+    {
+      "seed": 13,
+      "fold": 2,
+      "test_word": "fru",
+      "best_epoch": 0,
+      "t": 0.1616,
+      "m": 30,
+      "tau": 0.7872
+    },
+    {
+      "seed": 13,
+      "fold": 3,
+      "test_word": "fr\u00f6ken",
+      "best_epoch": 2,
+      "t": 0.1896,
+      "m": 30,
+      "tau": 0.7444
+    },
+    {
+      "seed": 13,
+      "fold": 4,
+      "test_word": "f\u00f6rort",
+      "best_epoch": 1,
+      "t": 0.2395,
+      "m": 30,
+      "tau": 0.7343
+    },
+    {
+      "seed": 13,
+      "fold": 5,
+      "test_word": "herre",
+      "best_epoch": 0,
+      "t": 0.1938,
+      "m": 30,
+      "tau": 0.7873
+    },
+    {
+      "seed": 13,
+      "fold": 6,
+      "test_word": "kvinna",
+      "best_epoch": 1,
+      "t": 0.2633,
+      "m": 30,
+      "tau": 0.7669
+    },
+    {
+      "seed": 13,
+      "fold": 7,
+      "test_word": "motiv",
+      "best_epoch": 2,
+      "t": 0.2778,
+      "m": 15,
+      "tau": 0.7423
+    },
+    {
+      "seed": 13,
+      "fold": 8,
+      "test_word": "sk\u00e4r",
+      "best_epoch": 0,
+      "t": 0.2415,
+      "m": 5,
+      "tau": 0.786
+    },
+    {
+      "seed": 13,
+      "fold": 9,
+      "test_word": "suga",
+      "best_epoch": 0,
+      "t": 0.2731,
+      "m": 30,
+      "tau": 0.7868
+    },
+    {
+      "seed": 42,
+      "fold": 0,
+      "test_word": "dumpa",
+      "best_epoch": 1,
+      "t": 0.2036,
+      "m": 10,
+      "tau": 0.8156
+    },
+    {
+      "seed": 42,
+      "fold": 1,
+      "test_word": "exportera",
+      "best_epoch": 0,
+      "t": 0.1893,
+      "m": 30,
+      "tau": 0.7951
+    },
+    {
+      "seed": 42,
+      "fold": 2,
+      "test_word": "fru",
+      "best_epoch": 0,
+      "t": 0.1589,
+      "m": 30,
+      "tau": 0.7994
+    },
+    {
+      "seed": 42,
+      "fold": 3,
+      "test_word": "fr\u00f6ken",
+      "best_epoch": 3,
+      "t": 0.1552,
+      "m": 30,
+      "tau": 0.6799
+    },
+    {
+      "seed": 42,
+      "fold": 4,
+      "test_word": "f\u00f6rort",
+      "best_epoch": 1,
+      "t": 0.2122,
+      "m": 30,
+      "tau": 0.8286
+    },
+    {
+      "seed": 42,
+      "fold": 5,
+      "test_word": "herre",
+      "best_epoch": 0,
+      "t": 0.2079,
+      "m": 30,
+      "tau": 0.802
+    },
+    {
+      "seed": 42,
+      "fold": 6,
+      "test_word": "kvinna",
+      "best_epoch": 1,
+      "t": 0.219,
+      "m": 30,
+      "tau": 0.8039
+    },
+    {
+      "seed": 42,
+      "fold": 7,
+      "test_word": "motiv",
+      "best_epoch": 3,
+      "t": 0.2359,
+      "m": 20,
+      "tau": 0.8195
+    },
+    {
+      "seed": 42,
+      "fold": 8,
+      "test_word": "sk\u00e4r",
+      "best_epoch": 1,
+      "t": 0.2111,
+      "m": 5,
+      "tau": 0.771
+    },
+    {
+      "seed": 42,
+      "fold": 9,
+      "test_word": "suga",
+      "best_epoch": 1,
+      "t": 0.2289,
+      "m": 5,
+      "tau": 0.8106
+    },
+    {
+      "seed": 87,
+      "fold": 0,
+      "test_word": "dumpa",
+      "best_epoch": 1,
+      "t": 0.2892,
+      "m": 30,
+      "tau": 1.0
+    },
+    {
+      "seed": 87,
+      "fold": 1,
+      "test_word": "exportera",
+      "best_epoch": 0,
+      "t": 0.1812,
+      "m": 30,
+      "tau": 1.0
+    },
+    {
+      "seed": 87,
+      "fold": 2,
+      "test_word": "fru",
+      "best_epoch": 1,
+      "t": 0.2282,
+      "m": 30,
+      "tau": 0.8746
+    },
+    {
+      "seed": 87,
+      "fold": 3,
+      "test_word": "fr\u00f6ken",
+      "best_epoch": 3,
+      "t": 0.282,
+      "m": 30,
+      "tau": 0.7451
+    },
+    {
+      "seed": 87,
+      "fold": 4,
+      "test_word": "f\u00f6rort",
+      "best_epoch": 1,
+      "t": 0.0,
+      "m": 30,
+      "tau": 1.0
+    },
+    {
+      "seed": 87,
+      "fold": 5,
+      "test_word": "herre",
+      "best_epoch": 4,
+      "t": 0.1694,
+      "m": 30,
+      "tau": 0.7527
+    },
+    {
+      "seed": 87,
+      "fold": 6,
+      "test_word": "kvinna",
+      "best_epoch": 4,
+      "t": 0.2752,
+      "m": 30,
+      "tau": 0.7131
+    },
+    {
+      "seed": 87,
+      "fold": 7,
+      "test_word": "motiv",
+      "best_epoch": 2,
+      "t": 0.0,
+      "m": 30,
+      "tau": 1.0
+    },
+    {
+      "seed": 87,
+      "fold": 8,
+      "test_word": "sk\u00e4r",
+      "best_epoch": 1,
+      "t": 0.2521,
+      "m": 30,
+      "tau": 1.0
+    },
+    {
+      "seed": 87,
+      "fold": 9,
+      "test_word": "suga",
+      "best_epoch": 4,
+      "t": 0.1335,
+      "m": 30,
+      "tau": 0.7739
+    },
+    {
+      "seed": 1234,
+      "fold": 0,
+      "test_word": "dumpa",
+      "best_epoch": 1,
+      "t": 0.1941,
+      "m": 30,
+      "tau": 0.7474
+    },
+    {
+      "seed": 1234,
+      "fold": 1,
+      "test_word": "exportera",
+      "best_epoch": 1,
+      "t": 0.1487,
+      "m": 30,
+      "tau": 0.7688
+    },
+    {
+      "seed": 1234,
+      "fold": 2,
+      "test_word": "fru",
+      "best_epoch": 0,
+      "t": 0.1678,
+      "m": 30,
+      "tau": 0.8155
+    },
+    {
+      "seed": 1234,
+      "fold": 3,
+      "test_word": "fr\u00f6ken",
+      "best_epoch": 1,
+      "t": 0.1539,
+      "m": 30,
+      "tau": 0.7484
+    },
+    {
+      "seed": 1234,
+      "fold": 4,
+      "test_word": "f\u00f6rort",
+      "best_epoch": 1,
+      "t": 0.224,
+      "m": 30,
+      "tau": 0.7914
+    },
+    {
+      "seed": 1234,
+      "fold": 5,
+      "test_word": "herre",
+      "best_epoch": 1,
+      "t": 0.2256,
+      "m": 30,
+      "tau": 0.7624
+    },
+    {
+      "seed": 1234,
+      "fold": 6,
+      "test_word": "kvinna",
+      "best_epoch": 4,
+      "t": 0.242,
+      "m": 15,
+      "tau": 0.8341
+    },
+    {
+      "seed": 1234,
+      "fold": 7,
+      "test_word": "motiv",
+      "best_epoch": 2,
+      "t": 0.3212,
+      "m": 10,
+      "tau": 0.7177
+    },
+    {
+      "seed": 1234,
+      "fold": 8,
+      "test_word": "sk\u00e4r",
+      "best_epoch": 0,
+      "t": 0.2364,
+      "m": 5,
+      "tau": 0.801
+    },
+    {
+      "seed": 1234,
+      "fold": 9,
+      "test_word": "suga",
+      "best_epoch": 3,
+      "t": 0.1834,
+      "m": 10,
+      "tau": 0.6625
+    },
+    {
+      "seed": 2027,
+      "fold": 0,
+      "test_word": "dumpa",
+      "best_epoch": 0,
+      "t": 0.1871,
+      "m": 30,
+      "tau": 0.7937
+    },
+    {
+      "seed": 2027,
+      "fold": 1,
+      "test_word": "exportera",
+      "best_epoch": 0,
+      "t": 0.2103,
+      "m": 30,
+      "tau": 0.792
+    },
+    {
+      "seed": 2027,
+      "fold": 2,
+      "test_word": "fru",
+      "best_epoch": 0,
+      "t": 0.1609,
+      "m": 30,
+      "tau": 0.8193
+    },
+    {
+      "seed": 2027,
+      "fold": 3,
+      "test_word": "fr\u00f6ken",
+      "best_epoch": 4,
+      "t": 0.3069,
+      "m": 30,
+      "tau": 0.714
+    },
+    {
+      "seed": 2027,
+      "fold": 4,
+      "test_word": "f\u00f6rort",
+      "best_epoch": 1,
+      "t": 0.3025,
+      "m": 30,
+      "tau": 0.7257
+    },
+    {
+      "seed": 2027,
+      "fold": 5,
+      "test_word": "herre",
+      "best_epoch": 3,
+      "t": 0.1719,
+      "m": 30,
+      "tau": 0.7097
+    },
+    {
+      "seed": 2027,
+      "fold": 6,
+      "test_word": "kvinna",
+      "best_epoch": 2,
+      "t": 0.2438,
+      "m": 30,
+      "tau": 0.7691
+    },
+    {
+      "seed": 2027,
+      "fold": 7,
+      "test_word": "motiv",
+      "best_epoch": 2,
+      "t": 0.2367,
+      "m": 20,
+      "tau": 0.7777
+    },
+    {
+      "seed": 2027,
+      "fold": 8,
+      "test_word": "sk\u00e4r",
+      "best_epoch": 1,
+      "t": 0.2318,
+      "m": 5,
+      "tau": 0.7023
+    },
+    {
+      "seed": 2027,
+      "fold": 9,
+      "test_word": "suga",
+      "best_epoch": 2,
+      "t": 0.1679,
+      "m": 30,
+      "tau": 0.7449
+    }
+  ]
+}

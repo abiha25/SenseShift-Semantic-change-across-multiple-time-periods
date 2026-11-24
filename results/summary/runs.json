@@ -17,7 +17,10 @@
   },
   "proposed_ft_syn_sv": {
     "42": "20261115-111845_proposed_ft_syn_sv_seed42",
-    "13": "20261115-121844_proposed_ft_syn_sv_seed13"
+    "13": "20261115-121844_proposed_ft_syn_sv_seed13",
+    "87": "20261124-072059_proposed_ft_syn_sv_seed87",
+    "1234": "20261124-080304_proposed_ft_syn_sv_seed1234",
+    "2027": "20261124-084211_proposed_ft_syn_sv_seed2027"
   },
   "proposed_frozen": {
     "42": "20261115-115607_proposed_frozen_seed42"
@@ -36,5 +39,8 @@
   },
   "proposed_ft_syn_sv_validation_pairs_cluster": {
     "42": "20261115-121747_proposed_ft_syn_sv_validation_pairs_cluster_seed42"
+  },
+  "proposed_frozen_last": {
+    "42": "20261124-071944_proposed_frozen_last_seed42"
   }
 }

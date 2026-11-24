@@ -101,6 +101,10 @@ def stage_a_key(cfg):
             'soft': tr['soft_labels'], 'era': tr['era_aware_sampling'], 'pos': tr['positive_fraction'],
             'p': [tr['p_cross_era_positive'], tr['p_same_era_negative']], 'bs': tr['batch_size'],
             'frz': tr['freeze_embeddings'], 'drop': tr.get('dropout'), 'seed': cfg['seed']}
+    if tr.get('stage_a_guard'):
+        # Added in Assignment 3 after the seed-87 collapse. Off by default, so the
+        # key of every existing Stage A checkpoint stays the same.
+        keep['stage_a_guard'] = True
     if m.get('pooling', 'target_mean') != 'target_mean':
         # Added in Assignment 3 (E6). Only a non-default pooling changes the key, so
         # the Stage A checkpoints of the Assignment 2 settings stay valid.
@@ -109,7 +113,13 @@ def stage_a_key(cfg):
 
 
 def train_stage_a(cfg, history):
-    """Synthetic English pre-training (once per seed, cached in checkpoints_dir)."""
+    """
+    Synthetic English pre-training (once per seed, cached in checkpoints_dir).
+    The pair AUC on held-out synthetic words is measured before and after
+    training. With training.stage_a_guard=false (Assignment 2) the final weights
+    are always kept; with true, the pre-training weights are kept if training
+    did not raise that AUC (added after the seed-87 collapse, Assignment 3).
+    """
     from src.usage_encoder import load_synthetic, pair_auc, train_pairs
     tr, syn = cfg['training'], cfg['training']['synthetic']
     ckpt = Path(cfg['output']['checkpoints_dir']) / f'stageA_{stage_a_key(cfg)}'
@@ -145,8 +155,15 @@ def train_stage_a(cfg, history):
                        float(syn['learning_rate']), tr['batch_size'], tr['warmup_ratio'],
                        tr['weight_decay'], tr['max_grad_norm'], tr['margin'], eval_fn=eval_fn,
                        patience=10 ** 6, eval_before=True, seed=cfg['seed'], log=log, tag='Stage A',
-                       keep_best=False)
+                       keep_best=bool(tr.get('stage_a_guard', False)))
     history['stage_a'] = {'data': stats, 'epochs': hist}
+    if tr.get('stage_a_guard'):
+        # keep_best=True restored the best of {before training, after each epoch}
+        # on the held-out SYNTHETIC words (no Swedish data is involved).
+        fired = bool(hist and hist[0].get('best'))
+        history['stage_a']['guard'] = {'enabled': True, 'kept_pretraining_weights': fired}
+        if fired:
+            log('Stage A guard: training lowered the held-out pair AUC; keeping the pre-training weights')
     enc.save(ckpt)
     (ckpt / 'history.json').write_text(json.dumps(history['stage_a'], indent=2), encoding='utf-8')
     log(f'Stage A: saved {ckpt}')

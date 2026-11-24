@@ -1,0 +1,8 @@
+run,platform,gpu,python,torch,transformers,stage_a_minutes,total_minutes,peak_gpu_memory_mib
+20261115-111845_proposed_ft_syn_sv_seed42,Colab,Tesla T4,3.13.16,2.14.1+cu130,5.22.1,7.8,36.4,not logged
+20261115-121844_proposed_ft_syn_sv_seed13,Colab,Tesla T4,3.13.16,2.14.1+cu130,5.22.1,7.6,34.3,not logged
+20261124-072059_proposed_ft_syn_sv_seed87,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.7,41.3,6753
+20261124-080304_proposed_ft_syn_sv_seed1234,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.6,38.3,7471
+20261124-084211_proposed_ft_syn_sv_seed2027,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.6,39.3,8419
+20261115-115607_proposed_frozen_seed42,Colab,Tesla T4,3.13.16,2.14.1+cu130,5.22.1,,0.3,not logged
+20261124-071944_proposed_frozen_last_seed42,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,,0.4,1785

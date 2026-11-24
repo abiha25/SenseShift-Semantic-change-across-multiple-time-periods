@@ -76,6 +76,8 @@ training:
   selection_mode: max                       # (one word's B3 F1 is too coarse to select checkpoints; B3 F1 stays the reported metric)
   exclude_conflicting_duplicates: true      # drop sentences whose copies have conflicting gold labels
   deterministic: true                       # slower but repeatable GPU kernels
+  stage_a_guard: false                      # A3: true = keep the pre-training weights if Stage A lowers the held-out
+                                            # synthetic pair AUC (seed 87 collapsed); false = A2 behaviour. On in final.yaml
   synthetic:                                # Stage A
     enabled: true
     data_dir: data/external/synthetic_en    # see data/external/README.md
