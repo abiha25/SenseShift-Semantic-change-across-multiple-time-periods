@@ -43,7 +43,7 @@ model:
   layer: 8                                  # hidden layer of the FROZEN encoder (A1: middle layers are best frozen)
   finetuned_layer: -1                       # fine-tuned encoder: last layer (the layer the loss is applied to)
   target_markers: true                      # wrap the target in <t> ... </t> (XL-LEXEME); ablation: false
-  pooling: target_mean                      # mean of the sub-word vectors of the target span
+  pooling: target_mean                      # target_mean (mean of the target's sub-words) | first_subword | sentence_mean (A3, E6)
   max_length: 256                           # sub-words; same truncation as A1 (no dev sentence is longer)
   embedding_batch_size: 32
 
@@ -88,7 +88,7 @@ training:
 
 # --- Proposed system: sense clustering and change scoring --------------------
 clustering:
-  method: agglomerative                     # agglomerative | kmeans
+  method: agglomerative                     # agglomerative | kmeans (A3, E4: K in kmeans_k_range by silhouette)
   linkage: average
   distance: cosine
   threshold_selection: validation_pairs     # proposed: cut where same/different-sense pairs of the VALIDATION word separate best
