@@ -332,3 +332,25 @@ python -m src.run_pipeline report   # results/summary/: summary.csv/.md (mean +-
 - On Colab, clone the repository with git (do not copy files), so that `run_info.json`
   records the commit of every run.
 - The report tables (Sections 9 and 10) are taken from `results/summary/`.
+
+## Assignment 3: experiment options (Person 1)
+
+Three options added for the planned ablations. The defaults are unchanged, so every
+Assignment 2 result and every cached Stage A checkpoint stays valid (pinned by
+`tests/test_a3_options.py`).
+
+| Option | Command | Ablation |
+|---|---|---|
+| K-means instead of agglomerative clustering, K = 2-10 chosen by silhouette on the word's own vectors (no labels) | `python -m src.proposed recluster --run <run folder> --set clustering.method=kmeans` | E4 (RQ4) |
+| Pooling: `target_mean` (default), `first_subword`, `sentence_mean` | `python -m src.proposed run --name pool_first --set model.pooling=first_subword` | E6 (RQ4) |
+| JSD + APD combination: mean of the two percentile ranks per period pair | `python -m src.combine_change --run <run folder> --mode both` | E3 (RQ2) |
+
+- `recluster` needs the run's `vectors/` folder (kept on Drive/Kaggle, not in git).
+- A non-default pooling changes the Stage A key, so Stage A is retrained for it.
+- `combine_change` writes a new run folder `<time>_<system>_changeboth_seed<seed>/` with the
+  official files copied (1a, 1b, 2 unchanged) and the combined graded file; its
+  `graded_spearman` is the E3 score. `--mode jsd` writes JSD as a graded file and reproduces
+  the official 1b Spearman exactly. APD alone is the `graded_spearman` of the source run.
+  All graded scores are local; the official 1b score always uses the submitted clusters.
+- Main runs on Kaggle (no Colab GPU was available): `notebooks/a3_person1_main_runs_kaggle.ipynb`
+  (E2 frozen encoder at the last layer `--name frozen_last`, and seeds 87, 1234, 2027).
