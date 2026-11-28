@@ -92,7 +92,51 @@ Everyone adds their own entries; the paper summarises this file in Section 6.6.
 - **JSD + APD combination** (`src/combine_change.py`) for E3: mean of the two percentile ranks per
   period pair, ranks taken over all 65 consecutive pairs (not only the 60 the scorer keeps).
 - **Final configuration** script (`src/final_config.py`) and compute record (`results/compute/`).
+- **Comparisons and subgroups over seeds** (`src/seed_stats.py`, Person 2): `results/summary/seed_comparisons.csv` (see D11) and `subgroups_seed_mean.csv` (mean, min and max over seeds of each run's `subgroups.csv`). **Figures** (`src/make_figures.py`, reads only `results/summary/`) in `results/figures/`.
 
 ## Further entries
 
 <!-- Person 2, 3, 4: add your deviations below in the same format (D9, D10, ...). -->
+
+### D9. Training ablations (E5-E7) on seeds 1234 and 2027 instead of 42 and 13 (Person 2, 28 Nov 2026)
+- **What:** the ten training ablations run with seeds 1234 and 2027
+  (`notebooks/Ablations_seed1234_kaggle.ipynb`, `notebooks/Ablations_seed2027_kaggle.ipynb`).
+  The work plan named seeds 42 and 13.
+- **Why:** an ablation is compared with the main run of the same seed. Seeds 42 and 13 ran on
+  Colab (PyTorch 2.14.1, Transformers 5.22.1); the ablations can only run on Kaggle (no Colab GPU,
+  see D1). Seeds 1234 and 2027 ran on Kaggle (PyTorch 2.11.0, Transformers 5.20.2), so with them
+  the ablation and its reference differ only in the ablated setting, not in the platform. The
+  choice was made before any ablation was run, from the platform alone; seed 87 was not
+  considered because the plan uses two of the healthy reference runs.
+- **Effect:** seeds 42 and 13 have no training ablations. Cell 7 of each notebook checks that
+  Kaggle reproduces the reference run's Stage A (the `abl_nospell` run has the same Stage A key).
+- **Result of the check:** not bit-identical on either seed. Held-out synthetic pair AUC before
+  Stage A 0.6036 in all runs; after Stage A, seed 1234: 0.7469 (main run) vs 0.7487
+  (`abl_nospell`), difference 0.0018; seed 2027: 0.7358 vs 0.7350, difference 0.0007. All runs
+  used the same environment (Python 3.13.16, PyTorch 2.11.0+cu130,
+  Transformers 5.20.2, Tesla T4), and the code between commit `6278e43` (main runs) and
+  `30965fb` (ablations) leaves the default settings unchanged (the new options are off by
+  default; the default pooling mask is the same code moved into `pooling_mask`). The
+  difference is therefore GPU run-to-run non-determinism that `training.deterministic: true`
+  does not remove. It is about a tenth of the spread of this AUC over seeds (0.735-0.759);
+  ablation differences of this size are not attributed to the ablated setting.
+
+### D10. Two seeds for the training ablations, five for the others (Person 2, 28 Nov 2026)
+- **What:** E5-E7 use two seeds; E3 and E4 (no training: they reuse saved predictions or
+  vectors) use all five seeds. The Assignment 2 protocol planned five seeds for every ablation.
+- **Why:** five seeds for E5-E7 would be 50 runs of about 40 minutes; the time before the
+  deadline allowed 20 (decided in the work plan of 21 Nov 2026).
+- **Effect:** the training ablations are compared on two seeds only; Section 8.1 treats
+  them as indicative, and a difference counts only under the decision rule.
+
+### D11. Decision rule over several seeds (Person 2, 28 Nov 2026)
+- **What:** `src/seed_stats.py` applies the rule of Assignment 2 Section 10.2 ("applied to the
+  scores averaged over seeds"). For 1a and Subtask 2 the per-word scores are averaged over the
+  paired seeds and the exact sign-flip test is run on the 10 per-word differences. For 1b and
+  APD, rho is one number over 60 period pairs and has no per-word score to average, so each seed
+  is tested on its own (exact per-word swap test) and a difference counts only if every seed
+  meets the rule. Systems without any random choice (majority, classical, pretrained, the
+  frozen-encoder runs) are compared with every seed of the main system.
+- **Why:** Assignment 2 did not say how to average rho over seeds.
+- **Effect:** `results/summary/seed_comparisons.csv`; the single-seed tests in
+  `comparisons.csv` are unchanged.
