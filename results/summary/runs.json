@@ -42,5 +42,59 @@
   },
   "proposed_frozen_last": {
     "42": "20261124-071944_proposed_frozen_last_seed42"
+  },
+  "proposed_abl_nospell": {
+    "1234": "20261128-072620_proposed_abl_nospell_seed1234",
+    "2027": "20261128-113631_proposed_abl_nospell_seed2027"
+  },
+  "proposed_abl_nostagea": {
+    "1234": "20261128-072620_proposed_abl_nostagea_seed1234",
+    "2027": "20261128-113631_proposed_abl_nostagea_seed2027"
+  },
+  "proposed_abl_nomarkers": {
+    "1234": "20261128-080146_proposed_abl_nomarkers_seed1234",
+    "2027": "20261128-121103_proposed_abl_nomarkers_seed2027"
+  },
+  "proposed_abl_nostageb": {
+    "1234": "20261128-080447_proposed_abl_nostageb_seed1234",
+    "2027": "20261128-121639_proposed_abl_nostageb_seed2027"
+  },
+  "proposed_abl_noera": {
+    "1234": "20261128-080554_proposed_abl_noera_seed1234",
+    "2027": "20261128-121743_proposed_abl_noera_seed2027"
+  },
+  "proposed_abl_layer8": {
+    "1234": "20261128-083405_proposed_abl_layer8_seed1234",
+    "2027": "20261128-124828_proposed_abl_layer8_seed2027"
+  },
+  "proposed_abl_hardlabels": {
+    "1234": "20261128-084247_proposed_abl_hardlabels_seed1234",
+    "2027": "20261128-130032_proposed_abl_hardlabels_seed2027"
+  },
+  "proposed_abl_poolfirst": {
+    "1234": "20261128-090134_proposed_abl_poolfirst_seed1234",
+    "2027": "20261128-131706_proposed_abl_poolfirst_seed2027"
+  },
+  "proposed_abl_layer4": {
+    "1234": "20261128-092246_proposed_abl_layer4_seed1234",
+    "2027": "20261128-133620_proposed_abl_layer4_seed2027"
+  },
+  "proposed_abl_poolsent": {
+    "1234": "20261128-093527_proposed_abl_poolsent_seed1234",
+    "2027": "20261128-135952_proposed_abl_poolsent_seed2027"
+  },
+  "proposed_ft_syn_sv_changeboth": {
+    "42": "20261128-112704_proposed_ft_syn_sv_changeboth_seed42",
+    "13": "20261128-112805_proposed_ft_syn_sv_changeboth_seed13",
+    "87": "20261128-112918_proposed_ft_syn_sv_changeboth_seed87",
+    "1234": "20261128-112952_proposed_ft_syn_sv_changeboth_seed1234",
+    "2027": "20261128-113058_proposed_ft_syn_sv_changeboth_seed2027"
+  },
+  "proposed_ft_syn_sv_changejsd": {
+    "42": "20261128-112730_proposed_ft_syn_sv_changejsd_seed42",
+    "13": "20261128-112842_proposed_ft_syn_sv_changejsd_seed13",
+    "87": "20261128-112943_proposed_ft_syn_sv_changejsd_seed87",
+    "1234": "20261128-113025_proposed_ft_syn_sv_changejsd_seed1234",
+    "2027": "20261128-113132_proposed_ft_syn_sv_changejsd_seed2027"
   }
 }
