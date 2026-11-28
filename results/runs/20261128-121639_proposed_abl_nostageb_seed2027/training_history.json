@@ -1,0 +1,28 @@
+{
+  "stage_a": {
+    "data": {
+      "lines": 672420,
+      "span_filtered": 35692,
+      "words_used": 2193,
+      "words_holdout": 68,
+      "items_train": 172249,
+      "items_holdout": 4967
+    },
+    "epochs": [
+      {
+        "epoch": 0,
+        "val": 0.6036443194518133,
+        "loss": null,
+        "best": true
+      },
+      {
+        "epoch": 1,
+        "loss": 0.06089459107041359,
+        "pairs": 50000,
+        "seconds": 431.1,
+        "val": 0.7350219072439411,
+        "best": false
+      }
+    ]
+  }
+}
