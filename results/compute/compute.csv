@@ -6,3 +6,23 @@ run,platform,gpu,python,torch,transformers,stage_a_minutes,total_minutes,peak_gp
 20261124-084211_proposed_ft_syn_sv_seed2027,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.6,39.3,8419
 20261115-115607_proposed_frozen_seed42,Colab,Tesla T4,3.13.16,2.14.1+cu130,5.22.1,,0.3,not logged
 20261124-071944_proposed_frozen_last_seed42,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,,0.4,1785
+20261128-072620_proposed_abl_nospell_seed1234,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.6,37.6,7471
+20261128-072620_proposed_abl_nostagea_seed1234,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,0.3,34.6,5449
+20261128-080146_proposed_abl_nomarkers_seed1234,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.3,31.4,7407
+20261128-080447_proposed_abl_nostageb_seed1234,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,0.1,0.2,1673
+20261128-080554_proposed_abl_noera_seed1234,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.5,36.0,7067
+20261128-083405_proposed_abl_layer8_seed1234,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,5.9,26.6,6657
+20261128-084247_proposed_abl_hardlabels_seed1234,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.5,39.1,7471
+20261128-090134_proposed_abl_poolfirst_seed1234,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.5,33.0,7471
+20261128-092246_proposed_abl_layer4_seed1234,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,4.4,19.5,6357
+20261128-093527_proposed_abl_poolsent_seed1234,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.5,38.0,7471
+20261128-113631_proposed_abl_nospell_seed2027,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.8,39.3,8419
+20261128-113631_proposed_abl_nostagea_seed2027,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,0.3,33.7,5755
+20261128-121103_proposed_abl_nomarkers_seed2027,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.3,36.6,7291
+20261128-121639_proposed_abl_nostageb_seed2027,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,0.1,0.2,1673
+20261128-121743_proposed_abl_noera_seed2027,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.5,42.0,6243
+20261128-124828_proposed_abl_layer8_seed2027,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,5.8,27.8,7829
+20261128-130032_proposed_abl_hardlabels_seed2027,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.5,35.0,8419
+20261128-131706_proposed_abl_poolfirst_seed2027,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.5,42.0,8419
+20261128-133620_proposed_abl_layer4_seed2027,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,4.3,20.9,7445
+20261128-135952_proposed_abl_poolsent_seed2027,Kaggle,Tesla T4,3.13.16,2.11.0+cu130,5.20.2,7.4,37.8,8419
