@@ -1,0 +1,32 @@
+{
+  "started": "2026-11-24T07:20:59",
+  "config_file": "/tmp/kg/SenseShift/configs/default.yaml",
+  "command": "D:\\SenseShift_A3\\clone\\src\\combine_change.py --run results/runs/20261115-111845_proposed_ft_syn_sv_seed42 results/runs/20261115-121844_proposed_ft_syn_sv_seed13 results/runs/20261124-072059_proposed_ft_syn_sv_seed87 results/runs/20261124-080304_proposed_ft_syn_sv_seed1234 results/runs/20261124-084211_proposed_ft_syn_sv_seed2027 --mode both jsd",
+  "git": {
+    "commit": "6278e43a83eb123158b3587323d724cc3b280486",
+    "uncommitted_changes": false
+  },
+  "data_fingerprint": "ac3c4874234f570e227bb9879c18db3c27da4cd7d40474b7b93dd5bd3eb109c8",
+  "environment": {
+    "python": "3.13.16",
+    "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "executable": "/usr/bin/python3",
+    "packages": {
+      "numpy": "2.1.3",
+      "pandas": "2.3.3",
+      "scipy": "1.16.3",
+      "sklearn": "1.6.1",
+      "torch": "2.11.0+cu130",
+      "transformers": "5.20.2",
+      "bcubed": "unknown",
+      "yaml": "6.0.3"
+    },
+    "cuda_available": true,
+    "gpu": "Tesla T4",
+    "cuda_version": "13.0"
+  },
+  "system": "proposed_ft_syn_sv_changejsd",
+  "derived_from": "20261124-072059_proposed_ft_syn_sv_seed87",
+  "derived_at": "2026-11-28T11:29:43",
+  "derivation": "graded change = JSD from the predicted clusters"
+}
