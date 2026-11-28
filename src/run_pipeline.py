@@ -37,6 +37,10 @@ Commands (repo root; on Colab prefix with !):
                                      every other system, per metric (exact
                                      permutation test + bootstrap CI over words,
                                      the decision rule of Section 10)
+          seed_comparisons.csv       the same tests over several seeds
+                                     (src/seed_stats.py, Assignment 3)
+          subgroups_seed_mean.csv    each run's subgroups.csv, mean/min/max
+                                     over seeds (src/seed_stats.py)
           runs.json                  which run folder fed which row
 
 Settings: configs/default.yaml (evaluation.bootstrap_resamples, bootstrap_seed,
@@ -245,8 +249,12 @@ def report(cfg, main_system, out_dir=None):
     runs = collect_runs(runs_dir)
     rows = summary_rows(runs)
     comps = comparison_rows(runs, main_system, cfg['evaluation'])
+    from src.seed_stats import seed_comparison_rows, subgroup_seed_means   # Assignment 3: several seeds
+    seed_comps = seed_comparison_rows(runs, main_system, cfg['evaluation'])
     _write_csv(out_dir / 'summary.csv', rows)
     _write_csv(out_dir / 'comparisons.csv', comps)
+    _write_csv(out_dir / 'seed_comparisons.csv', seed_comps)
+    _write_csv(out_dir / 'subgroups_seed_mean.csv', subgroup_seed_means(runs))
     md = _markdown(rows)
     (out_dir / 'summary.md').write_text(md, encoding='utf-8')
     (out_dir / 'runs.json').write_text(json.dumps(
