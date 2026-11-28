@@ -1,0 +1,128 @@
+[09:01:38] Run folder: /kaggle/working/runs_a3_ablations/20261128-090134_proposed_abl_poolfirst_seed1234
+[09:01:38] Stage A: loading synthetic English data
+[09:01:43] Stage A: {'lines': 672420, 'span_filtered': 35692, 'words_used': 2193, 'words_holdout': 68, 'items_train': 172258, 'items_holdout': 4958}
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 2677.42it/s]
+[transformers] [1mXLMRobertaModel LOAD REPORT[0m from: xlm-roberta-base
+Key                       | Status     |  | 
+--------------------------+------------+--+-
+lm_head.dense.weight      | UNEXPECTED |  | 
+lm_head.layer_norm.weight | UNEXPECTED |  | 
+lm_head.dense.bias        | UNEXPECTED |  | 
+lm_head.bias              | UNEXPECTED |  | 
+lm_head.layer_norm.bias   | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+[09:02:00] Stage A epoch 0 (before training) val=0.5863
+[09:09:07] Stage A epoch 1 loss=0.0605 val=0.7415 (421.1s)
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:01<00:00,  1.25s/it]Writing model shards: 100%|██████████| 1/1 [00:01<00:00,  1.25s/it]
+[09:09:08] Stage A: saved /tmp/kg/checkpoints_gpu1/stageA_b0b4616d74
+[09:09:11] Fold 0 (dumpa) epoch 0 (before training) val=0.8320
+[09:10:06] Fold 0 (dumpa) epoch 1 loss=0.0516 val=0.8626 (55.7s)
+[09:11:03] Fold 0 (dumpa) epoch 2 loss=0.0377 val=0.8712 (54.9s)
+[09:11:58] Fold 0 (dumpa) epoch 3 loss=0.0303 val=0.8603 (54.3s)
+[09:12:55] Fold 0 (dumpa) epoch 4 loss=0.0263 val=0.8609 (55.6s)
+[09:12:55] Fold 0 (dumpa) early stop (no improvement for 2 epochs)
+[09:13:01] Fold 1 (exportera) epoch 0 (before training) val=0.6004
+[09:13:56] Fold 1 (exportera) epoch 1 loss=0.0510 val=0.5972 (54.9s)
+[09:14:52] Fold 1 (exportera) epoch 2 loss=0.0362 val=0.5935 (54.6s)
+[09:14:52] Fold 1 (exportera) early stop (no improvement for 2 epochs)
+[09:14:58] Fold 2 (fru) epoch 0 (before training) val=0.5709
+[09:15:49] Fold 2 (fru) epoch 1 loss=0.0471 val=0.5964 (51.3s)
+[09:16:42] Fold 2 (fru) epoch 2 loss=0.0323 val=0.6336 (51.4s)
+[09:17:35] Fold 2 (fru) epoch 3 loss=0.0250 val=0.6413 (51.1s)
+[09:18:28] Fold 2 (fru) epoch 4 loss=0.0225 val=0.6637 (51.4s)
+[09:18:34] Fold 3 (fröken) epoch 0 (before training) val=0.5970
+[09:19:28] Fold 3 (fröken) epoch 1 loss=0.0474 val=0.6627 (53.6s)
+[09:20:22] Fold 3 (fröken) epoch 2 loss=0.0314 val=0.6674 (52.8s)
+[09:21:16] Fold 3 (fröken) epoch 3 loss=0.0254 val=0.6747 (53.0s)
+[09:22:10] Fold 3 (fröken) epoch 4 loss=0.0223 val=0.6783 (52.6s)
+[09:22:17] Fold 4 (förort) epoch 0 (before training) val=0.7103
+[09:23:12] Fold 4 (förort) epoch 1 loss=0.0476 val=0.7669 (53.9s)
+[09:24:07] Fold 4 (förort) epoch 2 loss=0.0322 val=0.7427 (54.0s)
+[09:25:03] Fold 4 (förort) epoch 3 loss=0.0257 val=0.7426 (54.3s)
+[09:25:03] Fold 4 (förort) early stop (no improvement for 2 epochs)
+[09:25:09] Fold 5 (herre) epoch 0 (before training) val=0.6229
+[09:26:02] Fold 5 (herre) epoch 1 loss=0.0474 val=0.5715 (53.0s)
+[09:26:56] Fold 5 (herre) epoch 2 loss=0.0313 val=0.5806 (53.4s)
+[09:26:56] Fold 5 (herre) early stop (no improvement for 2 epochs)
+[09:27:03] Fold 6 (kvinna) epoch 0 (before training) val=0.9134
+[09:27:58] Fold 6 (kvinna) epoch 1 loss=0.0489 val=0.8936 (54.5s)
+[09:28:52] Fold 6 (kvinna) epoch 2 loss=0.0328 val=0.8946 (52.9s)
+[09:28:52] Fold 6 (kvinna) early stop (no improvement for 2 epochs)
+[09:28:57] Fold 7 (motiv) epoch 0 (before training) val=0.7339
+[09:29:48] Fold 7 (motiv) epoch 1 loss=0.0514 val=0.7202 (51.0s)
+[09:30:40] Fold 7 (motiv) epoch 2 loss=0.0359 val=0.7121 (51.1s)
+[09:30:40] Fold 7 (motiv) early stop (no improvement for 2 epochs)
+[09:30:46] Fold 8 (skär) epoch 0 (before training) val=0.7821
+[09:31:38] Fold 8 (skär) epoch 1 loss=0.0490 val=0.7574 (52.3s)
+[09:32:33] Fold 8 (skär) epoch 2 loss=0.0347 val=0.7594 (53.8s)
+[09:32:33] Fold 8 (skär) early stop (no improvement for 2 epochs)
+[09:32:38] Fold 9 (suga) epoch 0 (before training) val=0.7697
+[09:33:35] Fold 9 (suga) epoch 1 loss=0.0497 val=0.7600 (55.9s)
+[09:34:30] Fold 9 (suga) epoch 2 loss=0.0317 val=0.7519 (54.8s)
+[09:34:30] Fold 9 (suga) early stop (no improvement for 2 epochs)
+[09:34:34] Training + encoding done in 1979.6s
+[09:34:36] dumpa: 1 cluster(s), t=0.1765, m=30
+[09:34:38] exportera: 1 cluster(s), t=0.1917, m=30
+[09:34:40] fru: 2 cluster(s), t=0.1647, m=30
+[09:34:42] fröken: 1 cluster(s), t=0.1166, m=30
+[09:34:44] förort: 1 cluster(s), t=0.2966, m=30
+[09:34:47] herre: 2 cluster(s), t=0.1819, m=30
+[09:34:50] kvinna: 1 cluster(s), t=0.2552, m=30
+[09:34:52] motiv: 5 cluster(s), t=0.2316, m=5
+[09:34:53] skär: 3 cluster(s), t=0.2284, m=5
+[09:34:55] suga: 1 cluster(s), t=0.2262, m=30
+========================================================================
+Evaluation: proposed_abl_poolfirst   (SV, 10 words)
+========================================================================
+Format check subtask1: OK
+Format check subtask2: OK
+   WARNING graded: 5 pairs are not scored by the task (fewer than 10 gold usages or not consecutive) and are ignored, e.g. fröken_1912-1915_2006-2007.
+
+OFFICIAL METRICS (95% CI over words)
+  1a  BCubed F1        0.736  [0.626, 0.828]   (P 0.695, R 0.864; one cluster = 0.756)
+  1b  Spearman rho     0.272  [-0.053, 0.543]   (60 pairs)
+  2   macro F1         0.519  [0.456, 0.583]
+  graded change rho    0.597  [0.274, 0.790]   (LOCAL only, not an official score)
+
+SECONDARY METRICS
+  1b  Pearson r 0.398 | rho within-era 0.206 (56 pairs) | rho vs cross-era flag 0.287
+      shuffle control: 0.195 +- 0.045 (200 draws), p = 0.055
+  2   accuracy 0.680 | balanced accuracy 0.554 | positive-class F1 (A1 metric) 0.423   (means over words)
+      pooled over usages: accuracy 0.717, balanced accuracy 0.713, macro F1 0.703
+  graded: Pearson r 0.632 | rho within-era 0.553 | rho vs cross-era flag 0.255
+
+PER WORD
+  word         1a F1  1clust  #pred  #gold   2 mF1  gold+  pred+
+  dumpa        0.849   0.849      1      6   0.394   0.31   0.10
+  exportera    0.946   0.946      1      3   0.645   0.95   0.93
+  fru          0.670   0.896      2      5   0.505   0.89   0.91
+  fröken       0.819   0.819      1      4   0.447   0.06   0.26
+  förort       0.804   0.804      1      3   0.464   0.49   0.68
+  herre        0.658   0.815      2      8   0.549   0.07   0.32
+  kvinna       0.787   0.787      1      5   0.663   0.23   0.15
+  motiv        0.853   0.782      5      5   0.653   0.18   0.16
+  skär         0.652   0.545      3      6   0.363   0.28   0.49
+  suga         0.320   0.320      1     12   0.506   0.19   0.49
+
+SUBGROUPS (difference to the overall score in brackets)
+  group                                                         1a F1          1b rho           2 mF1
+  overall: all words                                            0.736           0.272           0.519
+  frequency: high (median 162 usages)                  0.757 (+0.021)  0.438 (+0.166)  0.563 (+0.045)
+  frequency: low (median 162 usages)                   0.714 (-0.021)  0.477 (+0.205)  0.474 (-0.045)
+  part_of_speech: JJ                                   0.652 (-0.083)                  0.363 (-0.156)
+  part_of_speech: NN                                   0.765 (+0.029)  0.437 (+0.165)  0.547 (+0.028)
+  part_of_speech: VB                                   0.705 (-0.031)                  0.515 (-0.004)
+  gold_change: high (mean gold JSD, median 0.21)       0.649 (-0.087)  0.107 (-0.165)  0.513 (-0.005)
+  gold_change: low (mean gold JSD, median 0.21)        0.822 (+0.087)  0.297 (+0.025)  0.524 (+0.005)
+  time_coverage: both eras                             0.757 (+0.021)  0.438 (+0.166)  0.563 (+0.045)
+  time_coverage: historical only                       0.652 (-0.083)                  0.363 (-0.156)
+  time_coverage: modern only                           0.730 (-0.006)                  0.502 (-0.017)
+  era: historical (1880-1915)                          0.734 (-0.002)  0.699 (+0.427)  0.508 (-0.011)
+  era: modern (2006-2023)                              0.796 (+0.061) -0.384 (-0.655)  0.525 (+0.006)
+  era: cross-era step (1912-1915 -> 2006-2007)                       JSD gold 0.40/pred 0.49                
+  (per-period rows are in subgroups.csv)
+
+Saved: /kaggle/working/runs_a3_ablations/20261128-090134_proposed_abl_poolfirst_seed1234/scores.json, per_word.csv, subgroups.csv
+========================================================================

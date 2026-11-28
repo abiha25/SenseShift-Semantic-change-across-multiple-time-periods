@@ -1,0 +1,67 @@
+[08:04:50] Run folder: /kaggle/working/runs_a3_ablations/20261128-080447_proposed_abl_nostageb_seed1234
+[08:04:50] Stage A: loading cached checkpoint /tmp/kg/checkpoints_gpu0/stageA_6a0bf687b7
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 2529.37it/s]
+[08:05:01] Training + encoding done in 14.5s
+[08:05:03] dumpa: 1 cluster(s), t=0.1977, m=30
+[08:05:05] exportera: 2 cluster(s), t=0.1613, m=30
+[08:05:07] fru: 2 cluster(s), t=0.1824, m=30
+[08:05:09] fröken: 2 cluster(s), t=0.1889, m=30
+[08:05:12] förort: 1 cluster(s), t=0.2276, m=30
+[08:05:15] herre: 1 cluster(s), t=0.1792, m=30
+[08:05:17] kvinna: 1 cluster(s), t=0.2527, m=30
+[08:05:19] motiv: 3 cluster(s), t=0.2581, m=15
+[08:05:21] skär: 4 cluster(s), t=0.2291, m=5
+[08:05:22] suga: 1 cluster(s), t=0.2813, m=30
+========================================================================
+Evaluation: proposed_abl_nostageb   (SV, 10 words)
+========================================================================
+Format check subtask1: OK
+Format check subtask2: OK
+   WARNING graded: 5 pairs are not scored by the task (fewer than 10 gold usages or not consecutive) and are ignored, e.g. fröken_1912-1915_2006-2007.
+
+OFFICIAL METRICS (95% CI over words)
+  1a  BCubed F1        0.694  [0.587, 0.787]   (P 0.687, R 0.791; one cluster = 0.756)
+  1b  Spearman rho     0.162  [-0.228, 0.519]   (60 pairs)
+  2   macro F1         0.526  [0.461, 0.594]
+  graded change rho    0.592  [0.280, 0.793]   (LOCAL only, not an official score)
+
+SECONDARY METRICS
+  1b  Pearson r 0.320 | rho within-era 0.153 (56 pairs) | rho vs cross-era flag 0.113
+      shuffle control: 0.121 +- 0.046 (200 draws), p = 0.205
+  2   accuracy 0.653 | balanced accuracy 0.601 | positive-class F1 (A1 metric) 0.444   (means over words)
+      pooled over usages: accuracy 0.689, balanced accuracy 0.668, macro F1 0.665
+  graded: Pearson r 0.631 | rho within-era 0.564 | rho vs cross-era flag 0.243
+
+PER WORD
+  word         1a F1  1clust  #pred  #gold   2 mF1  gold+  pred+
+  dumpa        0.849   0.849      1      6   0.500   0.31   0.10
+  exportera    0.667   0.946      2      3   0.642   0.95   0.83
+  fru          0.638   0.896      2      5   0.480   0.89   0.59
+  fröken       0.673   0.819      2      4   0.357   0.06   0.60
+  förort       0.804   0.804      1      3   0.397   0.49   0.79
+  herre        0.815   0.815      1      8   0.597   0.07   0.13
+  kvinna       0.787   0.787      1      5   0.585   0.23   0.11
+  motiv        0.868   0.782      3      5   0.725   0.18   0.14
+  skär         0.518   0.545      4      6   0.441   0.28   0.60
+  suga         0.320   0.320      1     12   0.541   0.19   0.47
+
+SUBGROUPS (difference to the overall score in brackets)
+  group                                                         1a F1          1b rho           2 mF1
+  overall: all words                                            0.694           0.162           0.526
+  frequency: high (median 162 usages)                  0.756 (+0.062)  0.138 (-0.024)  0.549 (+0.022)
+  frequency: low (median 162 usages)                   0.632 (-0.062)  0.318 (+0.156)  0.504 (-0.022)
+  part_of_speech: JJ                                   0.518 (-0.176)                  0.441 (-0.086)
+  part_of_speech: NN                                   0.764 (+0.070)  0.162 (+0.001)  0.523 (-0.003)
+  part_of_speech: VB                                   0.612 (-0.082) -0.384 (-0.546)  0.561 (+0.035)
+  gold_change: high (mean gold JSD, median 0.21)       0.592 (-0.102)  0.099 (-0.062)  0.540 (+0.014)
+  gold_change: low (mean gold JSD, median 0.21)        0.796 (+0.102)  0.170 (+0.008)  0.513 (-0.014)
+  time_coverage: both eras                             0.756 (+0.062)  0.138 (-0.024)  0.549 (+0.022)
+  time_coverage: historical only                       0.518 (-0.176)                  0.441 (-0.086)
+  time_coverage: modern only                           0.660 (-0.034) -0.050 (-0.212)  0.520 (-0.006)
+  era: historical (1880-1915)                          0.678 (-0.016)  0.464 (+0.303)  0.501 (-0.025)
+  era: modern (2006-2023)                              0.760 (+0.066) -0.102 (-0.263)  0.524 (-0.002)
+  era: cross-era step (1912-1915 -> 2006-2007)                       JSD gold 0.40/pred 0.23                
+  (per-period rows are in subgroups.csv)
+
+Saved: /kaggle/working/runs_a3_ablations/20261128-080447_proposed_abl_nostageb_seed1234/scores.json, per_word.csv, subgroups.csv
+========================================================================
